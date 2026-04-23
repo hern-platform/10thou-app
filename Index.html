@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>10THOU — Hardware Reference</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4A80B0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="10THOU">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="description" content="Hardware reference tool for mechanical engineers and product designers. Fasteners, bearings, O-rings, GD&T, calculators, and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
@@ -230,25 +237,26 @@ select:focus{border-color:var(--accent)}
 .ref-body{display:none;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r-sm) var(--r-sm);overflow:hidden;background:var(--border)}
 .ref-body.open{display:block}
 .rt{width:100%;border-collapse:collapse;font-size:11px}
-.rt th{background:var(--surface3);font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);padding:7px 10px;text-align:left;border-bottom:1px solid var(--border2);font-weight:500}
-.rt td{padding:8px 10px;background:var(--surface2);border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;line-height:1.45;font-size:11px}
+.rt th{background:var(--surface3);font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);padding:7px 10px;text-align:left;border-bottom:1px solid var(--border2);font-weight:600}
+.rt td{padding:8px 10px;background:var(--surface2);border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.45;font-size:12px}
 .rt tr:last-child td{border-bottom:none}
 .rt td:first-child{font-family:var(--mono);font-weight:500;color:var(--text);white-space:nowrap}
 .rt td.ac{color:var(--accent);font-family:var(--mono);font-weight:500}
 .rt td.wm{color:var(--warm);font-family:var(--mono);font-weight:500}
+.rt td.sym{font-size:24px;color:var(--text);text-align:center}
 .subtabs{display:flex;gap:4px;margin-bottom:0;padding:8px 9px;background:var(--surface3);border-bottom:1px solid var(--border)}
 .stab{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:100px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .14s;letter-spacing:.04em}
 .stab.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 /* CALCULATORS */
-.calc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;margin-bottom:11px;box-shadow:var(--shadow-sm)}
-.calc-title{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);font-weight:500;background:var(--surface3);margin:-14px -14px 14px -14px;padding:12px 14px;}
+.calc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;margin-bottom:11px;box-shadow:var(--shadow-sm)}
+.calc-title{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);font-weight:500;background:var(--surface3);margin:-10px -10px 10px -10px;padding:10px 10px;}
 .calc-inputs{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
 .calc-row{display:flex;align-items:center;gap:8px}
 .calc-lbl{font-family:var(--mono);font-size:10px;color:var(--text2);width:115px;flex-shrink:0;letter-spacing:.03em}
 .calc-inp{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-xs);padding:8px 10px;font-family:var(--mono);font-size:13px;color:var(--text);outline:none;transition:border-color .15s}
 .calc-inp:focus{border-color:var(--accent)}
-.calc-unit{font-family:var(--mono);font-size:10px;color:var(--text3);width:32px;flex-shrink:0;text-align:right}
+.calc-unit{font-family:var(--mono);font-size:6px;color:var(--text2);width:24px;flex-shrink:0;text-align:right}
 .calc-sel-w{flex:1;position:relative}
 .calc-sel-w::after{content:'';position:absolute;right:9px;top:50%;transform:translateY(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--text3);pointer-events:none}
 .calc-sel{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-xs);padding:8px 26px 8px 10px;font-family:var(--sans);font-size:12px;color:var(--text);outline:none;-webkit-appearance:none;cursor:pointer}
@@ -260,13 +268,13 @@ select:focus{border-color:var(--accent)}
 .calc-card{cursor:default}
 .calc-title{cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
 .calc-title::after{content:"▾";font-size:10px;color:var(--text3);transition:transform .2s;display:inline-block}
-.calc-title.open{background:var(--accent-dim);color:var(--accent);margin:-14px -14px 14px -14px;}
+.calc-title.open{background:var(--surface3);color:var(--accent);margin:-10px -10px 10px -10px;}
 .calc-title.open::after{transform:rotate(180deg);color:var(--accent);}
 .calc-body{display:none}
 .calc-body.open{display:block}
-.calc-section > .calc-title{margin:-14px -14px 0 -14px;border-radius:var(--r-sm)}
-.calc-section > .calc-title.open{margin:-14px -14px 14px -14px;border-radius:var(--r-sm) var(--r-sm) 0 0}
-.calc-section > .calc-body{margin:-14px -14px -14px -14px;padding:14px;border-top:1px solid var(--border)}
+.calc-section > .calc-title{margin:-10px -10px 0 -10px;border-radius:var(--r-sm)}
+.calc-section > .calc-title.open{margin:-10px -10px 10px -10px;border-radius:var(--r-sm) var(--r-sm) 0 0}
+.calc-section > .calc-body{margin:-10px -10px -10px -10px;padding:10px;border-top:1px solid var(--border)}
 .calc-result.show{display:block}
 .cr-label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
 .cr-val{font-family:var(--mono);font-size:26px;font-weight:400;color:var(--accent);line-height:1;cursor:pointer}
@@ -387,6 +395,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;heigh
 ::-webkit-scrollbar{width:0;height:0}
 @media(max-width:380px){.header{padding-top:env(safe-area-inset-top,10px)}.sh-val{font-size:24px}.nb{padding:3px 4px}.fast-imgs{flex-direction:column}.ctrl-lbl{font-size:9px}.card-body{padding:10px}.mat-row{gap:4px}.mat-p{font-size:10px;padding:6px 3px}}
 input,select,textarea{font-size:max(16px,1em)!important}
+input,textarea{caret-color:var(--accent)}
 .list-hd-open{background:var(--accent-dim) !important;}
 .cal-txt-warn{color:#e53535;}
 [data-theme="dark"] .cal-bar{background:rgba(229,53,53,.12);border-color:#e53535;}
@@ -1791,20 +1800,20 @@ input,select,textarea{font-size:max(16px,1em)!important}
     <div class="calc-body">
   <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8" stroke-linecap="round"/></svg></div><div><div class="ref-title">GD&amp;T Symbols</div><div class="ref-sub">ASME Y14.5 · ISO 1101</div></div></div><div class="ref-chev">▾</div></div>
   <div class="ref-body"><table class="rt"><thead><tr><th>Symbol</th><th>Char</th><th>Type</th><th>Controls</th></tr></thead><tbody>
-    <tr><td class="ac">Flatness</td><td>⏥</td><td>Form</td><td>How flat a surface is. No datum needed.</td></tr>
-    <tr><td class="ac">Straightness</td><td>⏤</td><td>Form</td><td>How straight a line element or axis is.</td></tr>
-    <tr><td class="ac">Circularity</td><td>○</td><td>Form</td><td>Roundness of a cross-section. No datum.</td></tr>
-    <tr><td class="ac">Cylindricity</td><td>⌭</td><td>Form</td><td>Combines roundness, straightness &amp; taper.</td></tr>
-    <tr><td class="ac">Parallelism</td><td>∥</td><td>Orientation</td><td>Surface or axis parallel to datum.</td></tr>
-    <tr><td class="ac">Perpendicularity</td><td>⊥</td><td>Orientation</td><td>Surface or axis 90° to datum.</td></tr>
-    <tr><td class="ac">Angularity</td><td>∠</td><td>Orientation</td><td>Surface or axis at specified angle to datum.</td></tr>
-    <tr><td class="ac">Position</td><td>⊕</td><td>Location</td><td>True position of a feature. Most common GD&amp;T callout.</td></tr>
-    <tr><td class="ac">Concentricity</td><td>◎</td><td>Location</td><td>Axis of feature coincident with datum axis.</td></tr>
-    <tr><td class="ac">Symmetry</td><td>⌯</td><td>Location</td><td>Feature symmetric about datum plane.</td></tr>
-    <tr><td class="ac">Circular Runout</td><td>↗</td><td>Runout</td><td>Surface variation per revolution about datum axis.</td></tr>
-    <tr><td class="ac">Total Runout</td><td>⌰</td><td>Runout</td><td>All surface elements across full part length.</td></tr>
-    <tr><td class="ac">Profile of Line</td><td>⌒</td><td>Profile</td><td>2D curve tolerance. With datum = location.</td></tr>
-    <tr><td class="ac">Profile of Surface</td><td>⌓</td><td>Profile</td><td>3D surface tolerance. Most powerful callout.</td></tr>
+    <tr><td class="ac">Flatness</td><td class="sym">⏥</td><td>Form</td><td>How flat a surface is. No datum needed.</td></tr>
+    <tr><td class="ac">Straightness</td><td class="sym">⏤</td><td>Form</td><td>How straight a line element or axis is.</td></tr>
+    <tr><td class="ac">Circularity</td><td class="sym">○</td><td>Form</td><td>Roundness of a cross-section. No datum.</td></tr>
+    <tr><td class="ac">Cylindricity</td><td class="sym">⌭</td><td>Form</td><td>Combines roundness, straightness &amp; taper.</td></tr>
+    <tr><td class="ac">Parallelism</td><td class="sym">∥</td><td>Orientation</td><td>Surface or axis parallel to datum.</td></tr>
+    <tr><td class="ac">Perpendicularity</td><td class="sym">⊥</td><td>Orientation</td><td>Surface or axis 90° to datum.</td></tr>
+    <tr><td class="ac">Angularity</td><td class="sym">∠</td><td>Orientation</td><td>Surface or axis at specified angle to datum.</td></tr>
+    <tr><td class="ac">Position</td><td class="sym">⊕</td><td>Location</td><td>True position of a feature. Most common GD&amp;T callout.</td></tr>
+    <tr><td class="ac">Concentricity</td><td class="sym">◎</td><td>Location</td><td>Axis of feature coincident with datum axis.</td></tr>
+    <tr><td class="ac">Symmetry</td><td class="sym">⌯</td><td>Location</td><td>Feature symmetric about datum plane.</td></tr>
+    <tr><td class="ac">Circular Runout</td><td class="sym"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="10,5 19,5 19,14"/></svg></td><td>Runout</td><td>Surface variation per revolution about datum axis.</td></tr>
+    <tr><td class="ac">Total Runout</td><td class="sym"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="21" x2="17" y2="7"/><polyline points="9,7 17,7 17,15"/><line x1="7" y1="21" x2="21" y2="7"/></svg></td><td>Runout</td><td>All surface elements across full part length.</td></tr>
+    <tr><td class="ac">Profile of Line</td><td class="sym">⌒</td><td>Profile</td><td>2D curve tolerance. With datum = location.</td></tr>
+    <tr><td class="ac">Profile of Surface</td><td class="sym">⌓</td><td>Profile</td><td>3D surface tolerance. Most powerful callout.</td></tr>
   </tbody></table>
   <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>Feature Control Frame order:</strong> Symbol | Tolerance | Material Condition (M/L/S) | Datum(s)<br><strong>MMC ⓜ</strong> = maximum material condition · <strong>LMC ⓛ</strong> = least material · <strong>RFS</strong> = regardless of size (default)</div>
   </div></div>
@@ -2528,7 +2537,7 @@ function replaySearch(q){document.getElementById('searchInput').value=q;handleSe
 function addHistory(q){recentQ=recentQ.filter(r=>r!==q);recentQ.unshift(q);recentQ=recentQ.slice(0,10);localStorage.setItem('tt_recent',JSON.stringify(recentQ));}
 
 // ─── THEME ───────────────────────────────────────────────────────────────────
-function applyTheme(){document.documentElement.setAttribute('data-theme',theme);const ico=document.getElementById('themeIco');if(theme==='dark')ico.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round" stroke-linejoin="round"/>';else ico.innerHTML='<circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"/>';}
+function applyTheme(){document.documentElement.setAttribute('data-theme',theme);const ico=document.getElementById('themeIco');if(theme==='dark')ico.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>';else ico.innerHTML='<circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"/>';}
 function toggleTheme(){theme=theme==='dark'?'light':'dark';localStorage.setItem('tt_theme',theme);applyTheme();drawRulers();}
 
 // ─── UNIT ────────────────────────────────────────────────────────────────────
@@ -4861,5 +4870,15 @@ document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement.t
     <button onclick="sendContact()" class="send-btn" style="width:100%;margin-top:10px;padding:11px;background:var(--accent-lt);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s,background .2s">Send Message</button>
   </div>
 </div>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js')
+      .then(r=>console.log('SW registered'))
+      .catch(e=>console.log('SW failed:',e));
+  });
+}
+</script>
 </body>
 </html>
