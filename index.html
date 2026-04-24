@@ -2359,7 +2359,7 @@ input,textarea{caret-color:var(--accent)}
       Sign in with LinkedIn
     </button>
     <button class="cmt-cancel" onclick="closeAuthSheet()">Maybe later</button>
-    <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:10px;line-height:1.5">We only store your name, title, email and profile photo from LinkedIn. See privacy policy.</div>
+    <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:10px;line-height:1.5">We only store your name, title, email and profile photo from LinkedIn. <a href="/privacy" target="_blank" style="color:var(--text3);text-decoration:underline">Privacy policy</a>.</div>
   </div>
 </div>
 
@@ -2445,6 +2445,23 @@ input,textarea{caret-color:var(--accent)}
 
     <button class="cmt-submit" id="ftSubmit" onclick="submitThread()">Post thread</button>
     <button class="cmt-cancel" onclick="closeForumCompose()">Cancel</button>
+  </div>
+</div>
+
+<!-- ══ PROFILE EDIT SHEET ══ -->
+<div class="cmt-sheet-ov" id="profileEditOv" onclick="if(event.target===this)closeProfileEdit()">
+  <div class="cmt-sheet">
+    <div class="cmt-handle"></div>
+    <div class="cmt-title">Edit profile</div>
+    <div class="cmt-sub">LinkedIn doesn't share job titles, so add yours here. Shown on your posts and profile.</div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Job title</div>
+      <input class="cmt-input" id="peTitle" placeholder="e.g. Mechanical Engineer, Product Designer" maxlength="80">
+    </div>
+
+    <button class="cmt-submit" id="peSubmit" onclick="saveProfileEdit()">Save</button>
+    <button class="cmt-cancel" onclick="closeProfileEdit()">Cancel</button>
   </div>
 </div>
 
@@ -3264,13 +3281,18 @@ async function renderProfile(slug){
   const liBadge = user.linkedin_sub ? `<div class="profile-linkedin">
     <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
     LinkedIn</div>` : '';
+  const isOwn = currentUser && currentUser.id === user.id;
+  const editBtn = isOwn
+    ? `<button class="feed-actbtn" style="align-self:flex-start;margin-left:auto;padding:6px 12px" onclick="openProfileEdit()">Edit</button>`
+    : '';
   headEl.innerHTML = `<div class="profile-head">
     ${avatar}
     <div class="profile-who">
       <div class="profile-name">${escText(user.name || 'Engineer')}</div>
-      ${user.title ? `<div class="profile-title">${escText(user.title)}</div>` : ''}
+      ${user.title ? `<div class="profile-title">${escText(user.title)}</div>` : (isOwn ? '<div class="profile-title" style="color:var(--accent);cursor:pointer" onclick="openProfileEdit()">+ Add your title</div>' : '')}
       ${liBadge}
     </div>
+    ${editBtn}
   </div>`;
 
   currentProfileSlug = slug;
@@ -3278,6 +3300,42 @@ async function renderProfile(slug){
   tabsEl.style.display = 'flex';
   tabsEl.querySelectorAll('.feed-filter').forEach(b => b.classList.toggle('on', b.dataset.tab === profileTab));
   await renderProfileContent();
+}
+
+function openProfileEdit(){
+  if (!currentUser) { openAuthSheet(); return; }
+  document.getElementById('peTitle').value = currentUser.title || '';
+  document.getElementById('profileEditOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeProfileEdit(){
+  document.getElementById('profileEditOv').classList.remove('open');
+  document.body.style.overflow = '';
+}
+async function saveProfileEdit(){
+  if (!currentUser) return;
+  const sb = await getSb();
+  if (!sb) return;
+  const btn = document.getElementById('peSubmit');
+  const title = document.getElementById('peTitle').value.trim().slice(0, 80);
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try {
+    const { error } = await sb.from('users').update({ title }).eq('id', currentUser.id);
+    if (error) throw error;
+    currentUser.title = title;
+    closeProfileEdit();
+    toast('Saved');
+    // Re-render profile if we're on it; refresh Feed/Forum/Thread so author
+    // rows pick up the new title.
+    if (currentProfileSlug) await renderProfile(currentProfileSlug);
+    if (currentThreadId && document.getElementById('page-thread')?.classList.contains('on')) await renderThread(currentThreadId);
+  } catch (e) {
+    alert('Could not save: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save';
+  }
 }
 
 let _profileUserId = null;
@@ -3367,13 +3425,16 @@ window.addEventListener('popstate', () => {
   }
 });
 
-// Re-render reply composer when auth state changes while viewing a thread.
+// Re-render auth-sensitive surfaces when auth state changes.
 (function(){
   const origUpdate = updateAuthUI;
   updateAuthUI = function(){
     origUpdate();
     if (currentThreadId && document.getElementById('page-thread')?.classList.contains('on')) {
       renderReplyComposer();
+    }
+    if (currentProfileSlug && document.getElementById('page-profile')?.classList.contains('on')) {
+      renderProfile(currentProfileSlug);
     }
   };
 })();
