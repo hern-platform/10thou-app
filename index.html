@@ -374,7 +374,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;heigh
 /* BOTTOM NAV */
 .bot-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--surface);border-top:1px solid var(--border);padding:7px 2px calc(7px + env(safe-area-inset-bottom,0));z-index:50;box-shadow:0 -3px 14px rgba(0,0,0,.06);backdrop-filter:blur(12px)}
 .bn-inner{display:flex;justify-content:space-around}
-.nb{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:3px 8px;border-radius:var(--r-sm);border:none;background:transparent;transition:background .13s;min-width:0}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:3px 4px;border-radius:var(--r-sm);border:none;background:transparent;transition:background .13s;min-width:0;flex:1}
 .nb svg{width:18px;height:18px;color:var(--text3);transition:color .13s;stroke-width:1.7;flex-shrink:0}
 .nb span{font-family:var(--mono);font-size:9px;letter-spacing:.03em;color:var(--text3);transition:color .13s;white-space:nowrap;font-weight:700}
 .nb.on{background:var(--accent-dim)}
@@ -2157,6 +2157,38 @@ input,textarea{caret-color:var(--accent)}
   </div>
 </div>
 
+<!-- ══ FEED (community prototype — not in prod) ══ -->
+<div class="page" id="page-feed">
+  <div class="sec-hd"><div class="sec-t">Feed</div><div class="sec-tag">Community · Prototype</div></div>
+  <div class="card">
+    <div class="card-hd"><div class="card-lbl">Coming soon</div></div>
+    <div class="card-body" style="padding:16px 14px">
+      <div style="font-size:13px;color:var(--text2);line-height:1.5">
+        Hardware projects from verified engineers. Photo, caption, tagged specs, real name and title.
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-top:14px">
+        Free to read · LinkedIn sign-in to post
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FORUM (community prototype — not in prod) ══ -->
+<div class="page" id="page-forum">
+  <div class="sec-hd"><div class="sec-t">Forum</div><div class="sec-tag">Community · Prototype</div></div>
+  <div class="card">
+    <div class="card-hd"><div class="card-lbl">Coming soon</div></div>
+    <div class="card-body" style="padding:16px 14px">
+      <div style="font-size:13px;color:var(--text2);line-height:1.5">
+        Threaded Q&amp;A tagged to specs from the 10THOU database.
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-top:14px">
+        Free to read · LinkedIn sign-in to post or reply
+      </div>
+    </div>
+  </div>
+</div>
+
 </div><!-- /main -->
 
 <!-- BOTTOM NAV -->
@@ -2171,6 +2203,10 @@ input,textarea{caret-color:var(--accent)}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Supply</span></button>
   <button class="nb" id="nb-favorites" onclick="goPage('favorites',null,this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Saved</span></button>
+  <button class="nb" id="nb-feed" onclick="goPage('feed',null,this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Feed</span></button>
+  <button class="nb" id="nb-forum" onclick="goPage('forum',null,this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Forum</span></button>
 </div></nav>
 
 <!-- Quick Calc FAB -->
