@@ -1,1 +1,7 @@
-{"rewrites":[{"source":"/(.*)","destination":"/index.html"}]}
+{
+  "rewrites": [
+    { "source": "/post/:id", "destination": "/api/post/:id" },
+    { "source": "/u/:slug", "destination": "/api/u/:slug" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}
