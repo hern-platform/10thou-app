@@ -412,6 +412,47 @@ input,textarea{caret-color:var(--accent)}
 .calc-card-closed .calc-title{border-radius:var(--r-sm) !important;margin:0 !important;border:1px solid var(--border);}
 [data-theme="dark"] .calc-key-gray{background:#3A3733 !important;color:var(--text2) !important;border-color:#4A4744 !important;}
 #fImgRow,#oRingSvgCard,#bImgCard,#insImgCell,#wImgCard,#nImgCard{display:none !important;}
+
+/* ── PRO TIER ── */
+.pro-modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(14px);z-index:500;align-items:flex-end;justify-content:center;padding:0}
+.pro-modal-ov.open{display:flex}
+.pro-sheet{background:var(--surface);border-radius:20px 20px 0 0;padding:28px 24px calc(36px + env(safe-area-inset-bottom,0));width:100%;max-width:480px;animation:slideUp .32s var(--ease);position:relative;overflow:hidden}
+.pro-sheet::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);pointer-events:none}
+.pro-handle{width:36px;height:4px;background:var(--surface3);border-radius:2px;margin:0 auto 22px}
+.pro-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+.pro-badge svg{width:12px;height:12px;fill:rgba(255,255,255,.8)}
+.pro-title{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:8px;line-height:1.1}
+.pro-price{font-family:var(--mono);font-size:13px;color:var(--text3);margin-bottom:20px}
+.pro-price strong{color:var(--accent);font-size:20px;font-weight:700}
+.pro-feats{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
+.pro-feat{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2)}
+.pro-feat-ico{width:22px;height:22px;border-radius:6px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pro-feat-ico svg{width:12px;height:12px;stroke:var(--accent);stroke-width:2.2;fill:none}
+.pro-feat-locked{color:var(--text3);font-style:italic;font-size:12px}
+.pro-cta{width:100%;padding:15px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:opacity .15s,transform .1s;margin-bottom:10px}
+.pro-cta:active{transform:scale(.98)}
+.pro-dismiss{width:100%;padding:11px;background:transparent;color:var(--text3);border:1px solid var(--border);border-radius:var(--r);font-family:var(--sans);font-size:13px;cursor:pointer;transition:background .13s}
+.pro-dismiss:hover{background:var(--surface2)}
+.pro-note{font-size:10px;color:var(--text3);text-align:center;margin-top:10px;line-height:1.5}
+.pro-divider{height:1px;background:var(--border);margin:16px 0}
+.pro-pay-step{display:none}
+.pro-pay-step.active{display:block}
+.pro-pill{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:100px;background:var(--accent);color:#fff;vertical-align:middle;margin-left:5px}
+/* Theme btn gate */
+#themeBtn.pro-gate-btn{position:relative}
+#themeBtn.pro-gate-btn::after{content:'PRO';position:absolute;top:-3px;right:-3px;font-family:var(--mono);font-size:7px;font-weight:700;background:var(--accent);color:#fff;padding:1px 3px;border-radius:3px;letter-spacing:.04em}
+/* Sizer pro gate overlay */
+.sizer-pro-gate{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:330px;background:rgba(250,250,248,0.85);border:1.5px solid var(--accent-border);border-radius:18px;box-shadow:var(--shadow-lg);z-index:11;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:48px 28px;pointer-events:auto}
+[data-theme="dark"] .sizer-pro-gate{background:rgba(30,29,26,0.85)}
+.sizer-pro-gate.show{display:flex}
+#sizerLeftCol:has(.sizer-pro-gate.show) #pinGaugeSec,#sizerLeftCol:has(.sizer-pro-gate.show) #sizerMain{filter:blur(8px);transition:filter .2s}
+.sizer-gate-ico{width:52px;height:52px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;margin-bottom:2px}
+.sizer-gate-ico svg{width:24px;height:24px;stroke:var(--accent);stroke-width:2;fill:none;stroke-linecap:round}
+.sizer-gate-title{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);letter-spacing:.04em;text-transform:uppercase}
+.sizer-gate-sub{font-size:12px;color:var(--text3);line-height:1.6;max-width:240px}
+.sizer-gate-btn{padding:13px 24px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em;margin-top:4px;transition:opacity .15s;width:100%}
+.sizer-gate-btn:active{opacity:.8}
+
 </style>
 </head>
 <body>
@@ -504,7 +545,7 @@ input,textarea{caret-color:var(--accent)}
 <div class="header" style="position:relative;z-index:auto;overflow:visible">
 
   <div class="header-row">
-    <div class="wm-name" style="flex-shrink:0">10THOU</div>
+    <div class="wm-name" id="wmName" onclick="devTapPro()" style="flex-shrink:0">10THOU</div>
     <div class="srch-w" style="flex:1;margin:0 8px;position:relative">
       <svg class="srch-ico" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M14 14l3.5 3.5"/></svg>
       <input class="srch-inp" id="searchInput" placeholder="M4 tap · 608 bearing · IP67…" oninput="handleSearch(this.value)" onfocus="openSearch()" onblur="setTimeout(closeSearch,180)">
@@ -1409,10 +1450,10 @@ input,textarea{caret-color:var(--accent)}
   </div>
 
   <!-- Two-column: left=controls+canvas, right=vertical ruler card -->
-  <div style="display:flex;gap:10px;align-items:flex-start">
+  <div id="sizerTwoCol" style="display:flex;gap:10px;align-items:flex-start">
 
     <!-- LEFT: controls + canvas -->
-    <div id="sizerLeftCol" style="flex:1;min-width:0">
+    <div id="sizerLeftCol" style="flex:1;min-width:0;position:relative">
       <!-- Type + Size dropdowns; screw gets MM+IN -->
       <div class="ctrl-row" style="margin-bottom:8px;align-items:flex-end">
         <div class="ctrl-grp" style="flex:1.2">
@@ -1426,13 +1467,13 @@ input,textarea{caret-color:var(--accent)}
           <div class="sel-w">
           <select id="sType" style="background:var(--accent-dim);color:var(--accent);font-weight:600;border-color:var(--accent-border)" onchange="populateSizerSizes();updateSizer()">
             <option value="screw">Screw</option>
-            <option value="insert">Heat Insert</option>
             <option value="nut">Hex Nut</option>
             <option value="washer">Washer</option>
+            <option value="oring">O-Ring</option>
+            <option value="insert">Heat Insert</option>
             <option value="bearing">Bearing</option>
             <option value="pin_gauge">Pin Gauge</option>
             <option value="wire_gauge">Wire Gauge</option>
-            <option value="oring">O-Ring</option>
             <option value="drill">Drill Bit</option>
             <option value="radius">Fillet Radius</option>
           </select>
@@ -1477,10 +1518,18 @@ input,textarea{caret-color:var(--accent)}
       <div id="washerSizeDDs" style="display:none;margin-bottom:8px">
         <div class="ctrl-row">
           <div class="ctrl-grp" style="flex:0.8"><div class="ctrl-lbl">Metric</div><div class="sel-w"><select id="sWashMM" onchange="updateSizerWasher('mm')">
-            <option selected>M1.6</option><option>M2</option><option>M2.5</option><option>M3</option><option>M4</option><option>M5</option><option>M6</option><option>M8</option><option>M10</option><option>M12</option><option>M14</option><option>M16</option><option>M20</option>
+            <option value="M1.6" selected>M1.6</option><option value="M2">M2</option><option value="M2.5">M2.5</option><option value="M3">M3</option><option value="M4">M4</option><option value="M5">M5</option><option value="M6">M6</option><option value="M8">M8</option><option value="M10">M10</option><option value="M12">M12</option><option value="M14">M14</option><option value="M16">M16</option><option value="M20">M20</option>
           </select></div></div>
           <div class="ctrl-grp" style="flex:0.8"><div class="ctrl-lbl">Imperial</div><div class="sel-w"><select id="sWashIN" onchange="updateSizerWasher('in')">
-            <option value="" selected>—</option><option>#0</option><option>#1</option><option>#2</option><option>#3</option><option>#4</option><option>#5</option><option>#6</option><option>#8</option><option>#10</option><option>#12</option><option>1/4"</option><option>5/16"</option><option>3/8"</option><option>7/16"</option><option>1/2"</option><option>9/16"</option><option>5/8"</option><option>3/4"</option><option>7/8"</option><option>1"</option>
+            <option value="" selected>—</option><option value="#0">#0</option><option value="#1">#1</option><option value="#2">#2</option><option value="#3">#3</option><option value="#4">#4</option><option value="#5">#5</option><option value="#6">#6</option><option value="#8">#8</option><option value="#10">#10</option><option value="#12">#12</option><option value='1/4"'>1/4"</option><option value='5/16"'>5/16"</option><option value='3/8"'>3/8"</option><option value='7/16"'>7/16"</option><option value='1/2"'>1/2"</option><option value='9/16"'>9/16"</option><option value='5/8"'>5/8"</option><option value='3/4"'>3/4"</option><option value='7/8"'>7/8"</option><option value='1"'>1"</option>
+          </select></div></div>
+        </div>
+      </div>
+      <!-- Wire Gauge: AWG size dropdown -->
+      <div id="wireGaugeDDs" style="display:none;margin-bottom:8px">
+        <div class="ctrl-row">
+          <div class="ctrl-grp" style="flex:1"><div class="ctrl-lbl">AWG Size</div><div class="sel-w"><select id="sWireAWG" onchange="updateSizer()">
+            <option value="30" selected>AWG 30</option><option value="28">AWG 28</option><option value="26">AWG 26</option><option value="24">AWG 24</option><option value="22">AWG 22</option><option value="20">AWG 20</option><option value="18">AWG 18</option><option value="16">AWG 16</option><option value="14">AWG 14</option><option value="12">AWG 12</option><option value="10">AWG 10</option><option value="8">AWG 8</option><option value="6">AWG 6</option><option value="4">AWG 4</option><option value="2">AWG 2</option><option value="1">AWG 1</option><option value="1/0">AWG 1/0</option><option value="2/0">AWG 2/0</option><option value="3/0">AWG 3/0</option>
           </select></div></div>
         </div>
       </div>
@@ -1591,7 +1640,15 @@ input,textarea{caret-color:var(--accent)}
 
       <!-- Drill note -->
       <div id="drillNote" style="display:none;font-family:var(--mono);font-size:10px;color:var(--text2);padding:0 0 10px 0;text-align:center;letter-spacing:.02em">Gently place blunt end of drill bit, not the point.</div>
-      <!-- Main sizer canvas (no embedded ruler) -->
+      <div id="sizerProGate" class="sizer-pro-gate">
+        <div class="sizer-gate-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="sizer-gate-title">Pro Feature</div>
+        <div class="sizer-gate-sub">This part type requires Pro. Screws, nuts &amp; washers are always free.</div>
+        <button class="sizer-gate-btn" onclick="openProModal('sizer_gate')">Unlock Pro — $9.99</button>
+      </div>
+<!-- Main sizer canvas (no embedded ruler) -->
       <div style="background:var(--surface2);border:1px solid var(--accent-border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:8px" id="sizerMain">
         <svg id="sizerSVG" viewBox="0 0 260 320" style="width:100%;display:block">
           <defs><pattern id="dotpat" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="7" cy="7" r="0.6" fill="var(--border2)" opacity="0.7"/></pattern></defs>
@@ -1613,6 +1670,7 @@ input,textarea{caret-color:var(--accent)}
     </div>
 
   </div><!-- end two-column -->
+
 </div>
 
 <!-- ══ REFERENCE ══ -->
@@ -1799,7 +1857,7 @@ input,textarea{caret-color:var(--accent)}
     </div>
   </div>
   <div class="calc-card calc-section">
-    <div class="calc-title" onclick="toggleTopSection(this)">Standards &amp; Reference</div>
+    <div class="calc-title" onclick="toggleTopSection(this)"><span>Standards &amp; Reference<span class="pro-pill" style="pointer-events:none;margin-left:4px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="9" height="9" style="display:inline-block;vertical-align:middle;margin-right:2px;margin-bottom:1px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>PRO</span></span></div>
     <div class="calc-body">
   <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8" stroke-linecap="round"/></svg></div><div><div class="ref-title">GD&amp;T Symbols</div><div class="ref-sub">ASME Y14.5 · ISO 1101</div></div></div><div class="ref-chev">▾</div></div>
   <div class="ref-body"><table class="rt"><thead><tr><th>Symbol</th><th>Char</th><th>Type</th><th>Controls</th></tr></thead><tbody>
@@ -2189,6 +2247,91 @@ input,textarea{caret-color:var(--accent)}
 <script>
 'use strict';
 
+
+// DEV UNLOCK — triple-tap logo to toggle Pro (remove in production)
+let _devTaps=0,_devTimer=null;
+function devTapPro(){
+  _devTaps++;clearTimeout(_devTimer);
+  _devTimer=setTimeout(()=>{_devTaps=0;},600);
+  if(_devTaps>=3){_devTaps=0;
+    if(isPro){isPro=false;localStorage.removeItem('tt_pro');toast('Dev: Pro OFF');}
+    else{isPro=true;localStorage.setItem('tt_pro','1');toast('Dev: Pro ON 🎉');}
+    applyProState();
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  PRO TIER SYSTEM
+// ══════════════════════════════════════════════════════
+let isPro = localStorage.getItem('tt_pro') === '1';
+let _proJustActivated = false;
+(function(){
+  const p = new URLSearchParams(location.search);
+  if(p.get('pro_success')==='1'){
+    localStorage.setItem('tt_pro','1');
+    isPro = true;
+    _proJustActivated = true;
+    history.replaceState({},'',location.pathname+location.hash);
+  }
+})();
+
+// Paste your Stripe Payment Link URL here.
+// In Stripe dashboard → Payment Links → After payment → set Confirmation page
+// to "Don't show confirmation page" and redirect to: https://YOUR_APP_URL?pro_success=1
+const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/6oU00dcOQg6TgDTfW45Rm00';
+
+function openProModal(src) {
+  showProPitchStep();
+  document.getElementById('proModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeProModal() {
+  document.getElementById('proModal').classList.remove('open');
+  document.body.style.overflow = '';
+  applyProState();
+}
+function showProPitchStep() {
+  document.getElementById('proStep1').style.display = 'block';
+  document.getElementById('proStep2').classList.remove('active');
+  document.getElementById('proStep3').classList.remove('active');
+}
+function showProPayStep() {
+  window.location.href = STRIPE_PAYMENT_LINK;
+}
+function activatePro() {
+  isPro = true;
+  localStorage.setItem('tt_pro', '1');
+  applyProState();
+}
+function applyProState() {
+  // Theme button: show PRO badge if not pro, hide if pro
+  const themeBtn = document.getElementById('themeBtn');
+  if (isPro) {
+    themeBtn.classList.remove('pro-gate-btn');
+    themeBtn.onclick = () => toggleTheme();
+    themeBtn.title = '';
+  } else {
+    // Keep current theme forced to light
+    if (theme === 'dark') { theme = 'light'; localStorage.setItem('tt_theme','light'); applyTheme(); drawRulers(); }
+    themeBtn.classList.add('pro-gate-btn');
+    themeBtn.onclick = () => openProModal('dark_mode');
+    themeBtn.title = 'Dark mode is a Pro feature';
+  }
+  // Update sizer gate if sizer is visible
+  updateSizerProGate();
+}
+function updateSizerProGate() {
+  const sType = document.getElementById('sType');
+  if (!sType) return;
+  const type = sType.value;
+  const gate = document.getElementById('sizerProGate');
+  if (!gate) return;
+  const freeParts = ['screw','nut','washer'];
+  gate.classList.toggle('show', !freeParts.includes(type) && !isPro);
+}
+
+
+
 // ─── STANDOFFS ───────────────────────────────────────────────────────────────
 const SO_MM={'M2':{d:2,af:4.0,drill:2.2,stud:3},'M2.5':{d:2.5,af:5.0,drill:2.7,stud:3},'M3':{d:3,af:5.5,drill:3.2,stud:4},'M4':{d:4,af:7.0,drill:4.3,stud:5},'M5':{d:5,af:8.0,drill:5.3,stud:6},'M6':{d:6,af:10.0,drill:6.4,stud:7},'M8':{d:8,af:13.0,drill:8.4,stud:9}};
 const SO_IN={'#2-56':{d:0.086,af:0.187,drill:0.096,stud:0.125},'#4-40':{d:0.112,af:0.250,drill:0.125,stud:0.156},'#6-32':{d:0.138,af:0.312,drill:0.150,stud:0.187},'#8-32':{d:0.164,af:0.375,drill:0.177,stud:0.218},'#10-32':{d:0.190,af:0.438,drill:0.204,stud:0.250},'1/4-20':{d:0.250,af:0.500,drill:0.266,stud:0.375}};
@@ -2541,7 +2684,7 @@ function addHistory(q){recentQ=recentQ.filter(r=>r!==q);recentQ.unshift(q);recen
 
 // ─── THEME ───────────────────────────────────────────────────────────────────
 function applyTheme(){document.documentElement.setAttribute('data-theme',theme);const ico=document.getElementById('themeIco');if(theme==='dark')ico.innerHTML='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>';else ico.innerHTML='<circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"/>';}
-function toggleTheme(){theme=theme==='dark'?'light':'dark';localStorage.setItem('tt_theme',theme);applyTheme();drawRulers();}
+function toggleTheme(){if(!isPro&&theme==='light'){openProModal('dark_mode');return;}theme=theme==='dark'?'light':'dark';localStorage.setItem('tt_theme',theme);applyTheme();drawRulers();}
 
 // ─── UNIT ────────────────────────────────────────────────────────────────────
 function setUnit(u){unit=u;document.getElementById('unitMM').classList.toggle('on',u==='mm');document.getElementById('unitIN').classList.toggle('on',u==='in');updateFastener();updateORing();drawRulers();}
@@ -2580,7 +2723,7 @@ function goPage(pg,chipEl,navEl,sizerBtn){
   if(navEl)navEl.classList.add('on');else{const nb=document.getElementById('nb-'+pg);if(nb)nb.classList.add('on');}
   // Also highlight nb-parts if going to any part page directly
   if(PART_PAGES.includes(pg)){const nb=document.getElementById('nb-parts');if(nb)nb.classList.add('on');partsNav.style.display='flex';}
-  if(pg==='sizer'){drawRulers();updateSizer();}
+  if(pg==='sizer'){drawRulers();populateSizerSizes();}
   if(pg==='favorites')renderFav();
 }
 
@@ -3272,18 +3415,21 @@ function nTogglePin(){
 // ║  6. Test at default calPPMM=3.78 AND a calibrated value                    ║
 // ╚══════════════════════════════════════════════════════════════════════════════╝
 function populateSizerSizes(){
+  // Pro gate check — non-screw types need Pro
+  setTimeout(updateSizerProGate, 0);
   const type=document.getElementById('sType').value;
   const isPG=type==='pin_gauge',isOR=type==='oring',isWire=type==='wire_gauge',isDrill=type==='drill';
   const isScrew=type==='screw',isInsert=type==='insert',isNut=type==='nut',isWasher=type==='washer',isBearing=type==='bearing';
   // Hide all special sections first
-  ['pinGaugeSec','oRingSizerControls','wireGaugeSec','drillBitSec','sizerMain','screwSizeDDs','insertSizeDDs','nutSizeDDs','washerSizeDDs','bearingSizeDDs','drillSizeDDs','drillNote','radiusSizeDDs'].forEach(id=>{
+  ['pinGaugeSec','oRingSizerControls','wireGaugeSec','drillBitSec','sizerMain','screwSizeDDs','insertSizeDDs','nutSizeDDs','washerSizeDDs','wireGaugeDDs','bearingSizeDDs','drillSizeDDs','drillNote','radiusSizeDDs'].forEach(id=>{
     const el=document.getElementById(id);if(el)el.style.display='none';
   });
-  document.getElementById('sSizeGrp').style.display=(isPG||isOR||isScrew||isDrill||type==='radius'||isInsert||isNut||isWasher||isBearing)?'none':'flex';
+  document.getElementById('sSizeGrp').style.display=(isPG||isOR||isScrew||isDrill||type==='radius'||isInsert||isNut||isWasher||isBearing||isWire)?'none':'flex';
+  if(isWire){document.getElementById('wireGaugeDDs').style.display='block';document.getElementById('sWireAWG').selectedIndex=0;}
   if(isScrew){document.getElementById('screwSizeDDs').style.display='block';}
   if(isInsert){document.getElementById('insertSizeDDs').style.display='block';}
   if(isNut){document.getElementById('nutSizeDDs').style.display='block';}
-  if(isWasher){document.getElementById('washerSizeDDs').style.display='block';}
+  if(isWasher){document.getElementById('washerSizeDDs').style.display='block';document.getElementById('sWashMM').selectedIndex=0;document.getElementById('sWashIN').value='';}
   if(isBearing){
     document.getElementById('bearingSizeDDs').style.display='block';
     const selMM=document.getElementById('sBearNumMM');
@@ -3299,14 +3445,14 @@ function populateSizerSizes(){
   if(type==='drill'){document.getElementById('drillSizeDDs').style.display='block';document.getElementById('drillNote').style.display='block';}
   if(type==='radius'){document.getElementById('radiusSizeDDs').style.display='block';}
   if(isOR){document.getElementById('oRingSizerControls').style.display='block';document.getElementById('sizerMain').style.display='block';populateSizerORings();document.getElementById('sOringImp').selectedIndex=0;document.getElementById('sOringMet').selectedIndex=1;updateSizerOring('met');return;}
-  if(isPG){document.getElementById('pinGaugeSec').style.display='block';buildPGGrid();return;}
+  if(isPG){document.getElementById('pinGaugeSec').style.display='block';requestAnimationFrame(()=>buildPGGrid());return;}
   document.getElementById('sizerMain').style.display='block';
   const sel=document.getElementById('sSize');sel.innerHTML='';
   let items=[];
   if(isScrew)items=Object.entries(FM).map(([k,v])=>({label:k,val:v.s.d+'|'+parseFloat(k.replace('M',''))}));
   else if(isDrill)items=DRILL_MM.map(d=>({label:`${d}mm`,val:d}));
   else if(type==='radius')items=RADIUS_MM.map(r=>({label:`R${r}mm`,val:r}));
-  else if(type==='wire_gauge')items=Object.entries(AWG_MM).map(([k,v])=>({label:`AWG ${k}`,val:v}));
+  // wire_gauge uses wireGaugeDDs/sWireAWG — not sSize
   items.forEach(it=>{const o=document.createElement('option');o.value=it.val;o.textContent=it.label;sel.appendChild(o);});
   if(items.length)sel.value=items[0].val;
   updateSizer();
@@ -3419,6 +3565,7 @@ function buildPGGrid(){
 
   buildUnit('pgSVGMM3','pgSVGMM2', PIN_MM, d=>d,     'var(--accent)','var(--accent-dim)', d=>d+'mm');
   buildUnit('pgSVGIN3','pgSVGIN2', PIN_IN, d=>d*25.4, 'var(--warm)',  'var(--warm-dim)',   d=>fracs[d]||d+'"');
+
 }
 function setPGUnit(u){
   document.getElementById('pgGridMM').style.display=u==='mm'?'block':'none';
@@ -3502,6 +3649,7 @@ function updateSizerBearing(src){
 }
 function updateSizer(){
   const type=document.getElementById('sType').value;
+  updateSizerProGate();
   if(type==='oring'){updateSizerOring('met');return;}
   if(type==='pin_gauge'){buildPGGrid();return;}
   if(type==='wire_gauge'){updateWireGauge();return;}
@@ -3535,9 +3683,7 @@ function clearSizerG(){
 }
 function updateWireGauge(){
   clearSizerG();
-  const sel=document.getElementById('sSize');
-  const key=sel.options[sel.selectedIndex]?.text||'';
-  const awgKey=key.replace('AWG ','');
+  const awgKey=document.getElementById('sWireAWG')?.value||'30';
   const dMM=AWG_MM[awgKey]||1;
   const scl=calPPMM;
   const g=document.getElementById('sizerG');g.innerHTML='';
@@ -3700,7 +3846,6 @@ function drawSizerInsert(odMM,idMM,lenMM,label){
   for(let x=-sW/2+ksp;x<sW/2-1;x+=ksp){g.appendChild(mk('line',{x1:x,y1:sy+2,x2:x,y2:sy+sH-2,stroke:'var(--warm)','stroke-width':.7,opacity:.45}));}
   // Threaded bore dashes
   g.appendChild(mk('line',{x1:0,y1:sy,x2:0,y2:sy+sH,stroke:'var(--warm)','stroke-width':.8,'stroke-dasharray':'2 2',opacity:.55}));
-  const isScaled=odR_nat>maxOdR;
   const d1=document.getElementById('sizerDimTxt'),d2=document.getElementById('sizerDimTxt2');
   if(d1)d1.textContent=label+' heat insert';
   if(d2)d2.textContent=`OD ${odMM}mm · Bore ${idMM}mm · L ${lenMM}mm`;
@@ -4263,6 +4408,7 @@ function toggleTopSection(titleEl){
   }
 }
 function toggleRef(hd){
+  if(!isPro){openProModal('ref_gate');return;}
   var page=hd.closest('.page');
   var wasOpen=hd.classList.contains('open');
   if(page){page.querySelectorAll('.ref-hd').forEach(function(h){h.classList.remove('open');h.nextElementSibling.classList.remove('open');});}
@@ -4440,8 +4586,8 @@ function renderFav(){
     }
     const actionsHTML=`<div style="display:flex;gap:6px;padding:10px 14px;flex-wrap:wrap;border-top:1px solid var(--border)">
       <button class="fav-btn" onclick="promptRenameList(${l.id})">Edit Name</button>
-      <button class="fav-btn" onclick="exportList(${l.id},'copy')">Copy</button>
-      <button class="fav-btn" onclick="showExportOptions(${l.id})">Export</button>
+      <button class="fav-btn" onclick="proGateAction('copy',${l.id})">Copy <span class="pro-pill">PRO</span></button>
+      <button class="fav-btn" onclick="proGateAction('export',${l.id})">Export <span class="pro-pill">PRO</span></button>
       <button class="fav-btn danger" onclick="askDeleteList(${l.id})" style="margin-left:auto">Delete</button>
     </div>`;
     return`<div class="list-card">${headerHTML}${itemsHTML}${actionsHTML}</div>`;
@@ -4464,6 +4610,16 @@ function promptRenameList(id){
   document.getElementById('newListModal')._renameId=id;
   openModal('newListModal');
 }
+function proGateAction(action, id) {
+  if (isPro) {
+    if (action === 'copy') exportList(id, 'copy');
+    else showExportOptions(id);
+    return;
+  }
+  // Show pro gate popup anchored near the button
+  openProModal('export_gate');
+}
+
 function showExportOptions(id){
   // Reuse export row — show a small inline options via toast sequence
   const l=lists.find(l=>l.id===id);if(!l||!l.items.length){toast('List is empty');return;}
@@ -4829,6 +4985,14 @@ function toast(msg){}
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 applyTheme();
+applyProState();
+if(_proJustActivated){
+  setTimeout(function(){
+    openProModal('payment_success');
+    document.getElementById('proStep1').style.display='none';
+    document.getElementById('proStep3').classList.add('active');
+  },300);
+}
 document.getElementById('calSlider').value=calPPMM;
 document.getElementById('calSliderVal').textContent=calPPMM.toFixed(2);
 if(localStorage.getItem('tt_cal')){const bar=document.getElementById('calBar');bar.classList.add('ok');bar.querySelector('.cal-txt').innerHTML='<strong>Screen calibrated</strong><br>Recalibrate if device changes';bar.querySelector('.cal-btn').textContent='Recalibrate';}
@@ -4871,6 +5035,45 @@ document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement.t
     <div style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.5">Feature suggestions, data corrections, or anything else — we read every message.</div>
     <textarea id="contactMsg" placeholder="Your message…" style="width:100%;min-height:110px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;font-family:var(--sans);font-size:13px;color:var(--text);outline:none;resize:vertical;box-sizing:border-box;transition:border-color .15s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"></textarea>
     <button onclick="sendContact()" class="send-btn" style="width:100%;margin-top:10px;padding:11px;background:var(--accent-lt);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s,background .2s">Send Message</button>
+  </div>
+</div>
+
+
+<!-- PRO UPGRADE MODAL -->
+<div class="pro-modal-ov" id="proModal" onclick="if(event.target===this)closeProModal()">
+  <div class="pro-sheet">
+    <div class="pro-handle"></div>
+
+    <!-- Step 1: Pitch -->
+    <div id="proStep1">
+      <div class="pro-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        PRO
+      </div>
+      <div class="pro-title">Upgrade to<br>10THOU Pro</div>
+      <div class="pro-price">One-time purchase &nbsp;·&nbsp; <strong>$9.99</strong></div>
+      <div class="pro-feats">
+        <div class="pro-feat"><div class="pro-feat-ico"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div><div>Dark mode</div></div>
+        <div class="pro-feat"><div class="pro-feat-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="7.05" y2="7.05"/><line x1="16.95" y1="16.95" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="7.05" y2="16.95"/><line x1="16.95" y1="7.05" x2="19.78" y2="4.22"/></svg></div><div>Visual Sizer — O-rings, bearings, pin gauges, drill bits &amp; radii</div></div>
+        <div class="pro-feat"><div class="pro-feat-ico"><svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg></div><div>Parts list export (CSV / PDF)</div></div>
+        <div class="pro-feat"><div class="pro-feat-ico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div>Post to community forum &amp; project feed</div></div>
+        <div class="pro-feat"><div class="pro-feat-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div>LinkedIn-verified identity · Real names only</div></div>
+      </div>
+      <button class="pro-cta" onclick="showProPayStep()">Unlock Pro — $9.99</button>
+      <button class="pro-dismiss" onclick="closeProModal()">Maybe later</button>
+      <div class="pro-note">One-time purchase · No subscription · Works on all your devices<br>Apple App Store IAP coming soon</div>
+    </div>
+
+    <!-- Step 2: placeholder (redirect happens in showProPayStep) -->
+    <div id="proStep2" class="pro-pay-step"></div>
+
+    <!-- Step 3: Success -->
+    <div id="proStep3" class="pro-pay-step" style="text-align:center;padding:10px 0">
+      <div style="font-size:42px;margin-bottom:12px">🎉</div>
+      <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px">You're Pro!</div>
+      <div style="font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:24px">All Pro features are now unlocked.<br>Welcome to 10THOU Pro.</div>
+      <button class="pro-cta" onclick="closeProModal()">Start using Pro features</button>
+    </div>
   </div>
 </div>
 
