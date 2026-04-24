@@ -2419,17 +2419,36 @@ function updateSizerProGate() {
 // ══════════════════════════════════════════════════════
 //  COMMUNITY (Feed + Forum) — read-only for now.
 //  Supabase REST via anon key. No auth yet.
+//  Config is fetched lazily from /api/config so rotation is
+//  a Vercel env-var change, no redeploy or code edit needed.
 // ══════════════════════════════════════════════════════
-const SUPABASE_URL = window.SUPABASE_URL || '';
-const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || '';
+let _configReady = null;
+function ensureConfig(){
+  if (_configReady) return _configReady;
+  if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+    _configReady = Promise.resolve();
+    return _configReady;
+  }
+  _configReady = fetch('/api/config', { cache: 'force-cache' })
+    .then(r => r.ok ? r.json() : {})
+    .then(c => {
+      if (c.supabaseUrl && !window.SUPABASE_URL) window.SUPABASE_URL = c.supabaseUrl;
+      if (c.supabaseAnonKey && !window.SUPABASE_ANON_KEY) window.SUPABASE_ANON_KEY = c.supabaseAnonKey;
+    })
+    .catch(() => {});
+  return _configReady;
+}
 
 async function sbSelect(table, params) {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
-  const u = new URL('/rest/v1/' + table, SUPABASE_URL);
+  await ensureConfig();
+  const url = window.SUPABASE_URL;
+  const key = window.SUPABASE_ANON_KEY;
+  if (!url || !key) return [];
+  const u = new URL('/rest/v1/' + table, url);
   Object.entries(params || {}).forEach(([k, v]) => u.searchParams.set(k, v));
   try {
     const res = await fetch(u.toString(), {
-      headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY }
+      headers: { apikey: key, Authorization: 'Bearer ' + key }
     });
     if (!res.ok) return [];
     return await res.json();
@@ -2519,7 +2538,7 @@ async function renderFeed(){
   };
   if (feedDomain) params.domain = 'eq.' + feedDomain;
   const posts = await sbSelect('posts', params);
-  if (!SUPABASE_URL) {
+  if (!window.SUPABASE_URL) {
     container.innerHTML = '<div class="feed-empty">Feed not configured yet. Set SUPABASE_URL + SUPABASE_ANON_KEY in Vercel env.</div>';
     return;
   }
@@ -2541,7 +2560,7 @@ async function renderForum(){
   };
   if (forumDomain) params.domain = 'eq.' + forumDomain;
   const threads = await sbSelect('threads', params);
-  if (!SUPABASE_URL) {
+  if (!window.SUPABASE_URL) {
     container.innerHTML = '<div class="feed-empty">Forum not configured yet. Set SUPABASE_URL + SUPABASE_ANON_KEY in Vercel env.</div>';
     return;
   }
