@@ -2575,6 +2575,11 @@ function devTapPro(){
 // ══════════════════════════════════════════════════════
 //  PRO TIER SYSTEM
 // ══════════════════════════════════════════════════════
+// isPro is the union of two sources:
+//   - localStorage.tt_pro (legacy anonymous Pro; works without an account)
+//   - users.pro_active (Stripe webhook → Supabase; syncs across devices)
+// loadUserProfile mirrors users.pro_active into localStorage when true so
+// the rest of the app can read a single flag.
 let isPro = localStorage.getItem('tt_pro') === '1';
 let _proJustActivated = false;
 (function(){
@@ -2584,6 +2589,9 @@ let _proJustActivated = false;
     isPro = true;
     _proJustActivated = true;
     history.replaceState({},'',location.pathname+location.hash);
+    // If signed in, re-fetch the user row once Supabase has processed the
+    // webhook, so pro_active (and stripe_customer_id) land in currentUser.
+    setTimeout(() => { if (typeof refreshCurrentUser === 'function') refreshCurrentUser(); }, 1500);
   }
 })();
 
@@ -2608,7 +2616,16 @@ function showProPitchStep() {
   document.getElementById('proStep3').classList.remove('active');
 }
 function showProPayStep() {
-  window.location.href = STRIPE_PAYMENT_LINK;
+  let url = STRIPE_PAYMENT_LINK;
+  // Bind the Stripe Checkout to the LinkedIn-signed-in account so the
+  // webhook can flip users.pro_active for this specific user.
+  if (currentUser) {
+    const params = new URLSearchParams();
+    params.set('client_reference_id', currentUser.id);
+    if (currentUser.email) params.set('prefilled_email', currentUser.email);
+    url += (url.includes('?') ? '&' : '?') + params.toString();
+  }
+  window.location.href = url;
 }
 function activatePro() {
   isPro = true;
@@ -2845,6 +2862,25 @@ async function loadUserProfile(authUser){
   if (!sb || !authUser) return;
   const { data } = await sb.from('users').select('*').eq('id', authUser.id).maybeSingle();
   currentUser = data || null;
+  // Reconcile Pro state: server truth (users.pro_active) wins over localStorage
+  // once a user signs in. If the server says Pro, mirror it into localStorage
+  // so the existing isPro-based gates light up immediately.
+  if (currentUser && currentUser.pro_active) {
+    if (!isPro) {
+      isPro = true;
+      localStorage.setItem('tt_pro', '1');
+      applyProState();
+    }
+  }
+}
+
+// Re-fetch currentUser from Supabase (used after Stripe redirect to pick up
+// pro_active once the webhook has processed).
+async function refreshCurrentUser(){
+  const sb = await getSb();
+  if (!sb) return;
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) await loadUserProfile(session.user);
 }
 
 function updateAuthUI(){
