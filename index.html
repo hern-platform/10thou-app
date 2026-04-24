@@ -382,6 +382,41 @@ input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:var(--sur
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 0 4px var(--accent-dim)}
 .cal-val-display{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:28px;text-align:center}
 
+/* FEED (community) */
+.feed-filters{display:flex;gap:6px;padding:6px 0 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:-4px -18px 8px;padding-left:18px;padding-right:18px;scrollbar-width:none}
+.feed-filters::-webkit-scrollbar{display:none}
+.feed-filter{flex-shrink:0;padding:4px 11px;border-radius:100px;border:1px solid var(--border2);background:var(--surface);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .13s}
+.feed-filter.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.feed-list{display:flex;flex-direction:column;gap:11px}
+.feed-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm)}
+.feed-img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--surface2);display:block;cursor:pointer}
+.feed-body{padding:10px 14px 12px}
+.feed-author{display:flex;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer}
+.feed-avatar{width:30px;height:30px;border-radius:50%;background:var(--surface3);flex-shrink:0;object-fit:cover}
+.feed-who{display:flex;flex-direction:column;min-width:0}
+.feed-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed-title{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--text3);line-height:1.2;text-transform:uppercase;margin-top:2px}
+.feed-caption{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:9px;white-space:pre-wrap;word-break:break-word}
+.feed-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.feed-domain{padding:2px 8px;border-radius:100px;background:var(--warm-dim);color:var(--warm);border:1px solid var(--warm-border);font-family:var(--mono);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:9px}
+.feed-chip{padding:2px 8px;border-radius:100px;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border);font-family:var(--mono);font-weight:600;letter-spacing:.04em;font-size:10px}
+.feed-actions{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.feed-actbtn{flex:1;padding:7px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);cursor:pointer;transition:background .13s}
+.feed-actbtn:hover{background:var(--surface3)}
+.feed-actbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.feed-empty,.feed-loading{text-align:center;padding:40px 20px;color:var(--text3);font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.feed-compose-hint{padding:12px 14px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--r-sm);font-size:12px;color:var(--text2);text-align:center;margin-bottom:11px;line-height:1.4}
+
+/* FORUM (community) */
+.forum-list{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm)}
+.forum-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.forum-item:last-child{border-bottom:none}
+.forum-item:hover{background:var(--surface2)}
+.forum-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:5px}
+.forum-who{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:6px;letter-spacing:.02em}
+.forum-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.forum-replies{font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.06em}
+
 /* BOTTOM NAV */
 .bot-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--surface);border-top:1px solid var(--border);padding:7px 2px calc(7px + env(safe-area-inset-bottom,0));z-index:50;box-shadow:0 -3px 14px rgba(0,0,0,.06);backdrop-filter:blur(12px)}
 .bn-inner{display:flex;justify-content:space-around}
@@ -2170,33 +2205,37 @@ input,textarea{caret-color:var(--accent)}
 
 <!-- ══ FEED (community prototype — not in prod) ══ -->
 <div class="page" id="page-feed">
-  <div class="sec-hd"><div class="sec-t">Feed</div><div class="sec-tag">Community · Prototype</div></div>
-  <div class="card">
-    <div class="card-hd"><div class="card-lbl">Coming soon</div></div>
-    <div class="card-body" style="padding:16px 14px">
-      <div style="font-size:13px;color:var(--text2);line-height:1.5">
-        Hardware projects from verified engineers. Photo, caption, tagged specs, real name and title.
-      </div>
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-top:14px">
-        Free to read · LinkedIn sign-in to post
-      </div>
-    </div>
+  <div class="sec-hd"><div class="sec-t">Feed</div><div class="sec-tag">Community</div></div>
+  <div class="feed-filters" id="feedFilters">
+    <button class="feed-filter on" data-domain="" onclick="setFeedFilter(this,'')">All</button>
+    <button class="feed-filter" data-domain="3D Printing" onclick="setFeedFilter(this,'3D Printing')">3D Printing</button>
+    <button class="feed-filter" data-domain="Machining" onclick="setFeedFilter(this,'Machining')">Machining</button>
+    <button class="feed-filter" data-domain="Sealing" onclick="setFeedFilter(this,'Sealing')">Sealing</button>
+    <button class="feed-filter" data-domain="Electronics" onclick="setFeedFilter(this,'Electronics')">Electronics</button>
+    <button class="feed-filter" data-domain="Injection Molding" onclick="setFeedFilter(this,'Injection Molding')">Injection Molding</button>
+    <button class="feed-filter" data-domain="Fastening" onclick="setFeedFilter(this,'Fastening')">Fastening</button>
+  </div>
+  <div class="feed-compose-hint">Free to read. <b>Sign in with LinkedIn to post.</b> <span style="color:var(--text3)">(coming soon)</span></div>
+  <div class="feed-list" id="feedList">
+    <div class="feed-loading">Loading…</div>
   </div>
 </div>
 
 <!-- ══ FORUM (community prototype — not in prod) ══ -->
 <div class="page" id="page-forum">
-  <div class="sec-hd"><div class="sec-t">Forum</div><div class="sec-tag">Community · Prototype</div></div>
-  <div class="card">
-    <div class="card-hd"><div class="card-lbl">Coming soon</div></div>
-    <div class="card-body" style="padding:16px 14px">
-      <div style="font-size:13px;color:var(--text2);line-height:1.5">
-        Threaded Q&amp;A tagged to specs from the 10THOU database.
-      </div>
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-top:14px">
-        Free to read · LinkedIn sign-in to post or reply
-      </div>
-    </div>
+  <div class="sec-hd"><div class="sec-t">Forum</div><div class="sec-tag">Community</div></div>
+  <div class="feed-filters" id="forumFilters">
+    <button class="feed-filter on" data-domain="" onclick="setForumFilter(this,'')">All</button>
+    <button class="feed-filter" data-domain="3D Printing" onclick="setForumFilter(this,'3D Printing')">3D Printing</button>
+    <button class="feed-filter" data-domain="Machining" onclick="setForumFilter(this,'Machining')">Machining</button>
+    <button class="feed-filter" data-domain="Sealing" onclick="setForumFilter(this,'Sealing')">Sealing</button>
+    <button class="feed-filter" data-domain="Electronics" onclick="setForumFilter(this,'Electronics')">Electronics</button>
+    <button class="feed-filter" data-domain="Injection Molding" onclick="setForumFilter(this,'Injection Molding')">Injection Molding</button>
+    <button class="feed-filter" data-domain="Fastening" onclick="setForumFilter(this,'Fastening')">Fastening</button>
+  </div>
+  <div class="feed-compose-hint">Free to read. <b>Sign in with LinkedIn to post or reply.</b> <span style="color:var(--text3)">(coming soon)</span></div>
+  <div class="forum-list" id="forumList">
+    <div class="feed-loading">Loading…</div>
   </div>
 </div>
 
@@ -2377,6 +2416,153 @@ function updateSizerProGate() {
   gate.classList.toggle('show', !freeParts.includes(type) && !isPro);
 }
 
+// ══════════════════════════════════════════════════════
+//  COMMUNITY (Feed + Forum) — read-only for now.
+//  Supabase REST via anon key. No auth yet.
+// ══════════════════════════════════════════════════════
+const SUPABASE_URL = window.SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || '';
+
+async function sbSelect(table, params) {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return [];
+  const u = new URL('/rest/v1/' + table, SUPABASE_URL);
+  Object.entries(params || {}).forEach(([k, v]) => u.searchParams.set(k, v));
+  try {
+    const res = await fetch(u.toString(), {
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY }
+    });
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (e) { return []; }
+}
+
+function escAttr(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function escText(s){return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function timeAgo(iso){if(!iso)return'';const s=(Date.now()-new Date(iso).getTime())/1000;if(s<60)return'now';if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';if(s<2592000)return Math.floor(s/86400)+'d';return new Date(iso).toLocaleDateString();}
+
+let feedDomain = '';
+let forumDomain = '';
+
+function setFeedFilter(btn, domain){
+  feedDomain = domain;
+  document.querySelectorAll('#feedFilters .feed-filter').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderFeed();
+}
+function setForumFilter(btn, domain){
+  forumDomain = domain;
+  document.querySelectorAll('#forumFilters .feed-filter').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderForum();
+}
+
+function feedCardHTML(p){
+  const a = p.author || {};
+  const name = a.name || 'A 10THOU engineer';
+  const title = a.title ? ' · ' + a.title : '';
+  const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
+  const img = p.image_url ? `<img class="feed-img" src="${escAttr(p.image_url)}" alt="" loading="lazy">` : '';
+  const tags = Array.isArray(p.spec_tags) ? p.spec_tags : [];
+  const chips = tags.slice(0,6).map(t=>{
+    const label = typeof t === 'string' ? t : (t && (t.label || t.id)) || '';
+    return label ? `<span class="feed-chip">${escText(label)}</span>` : '';
+  }).join('');
+  const postUrl = location.origin + '/post/' + encodeURIComponent(p.id);
+  const profileUrl = a.slug ? location.origin + '/u/' + encodeURIComponent(a.slug) : '';
+  const authorClick = profileUrl ? `onclick="location.href='${escAttr(profileUrl)}'"` : '';
+  return `<article class="feed-card">
+    ${img}
+    <div class="feed-body">
+      <div class="feed-author" ${authorClick}>
+        ${avatar}
+        <div class="feed-who">
+          <div class="feed-name">${escText(name)}${escText(title)}</div>
+          <div class="feed-title">${escText(p.domain || '')} · ${timeAgo(p.created_at)}</div>
+        </div>
+      </div>
+      ${p.caption ? `<div class="feed-caption">${escText(p.caption)}</div>` : ''}
+      <div class="feed-meta">
+        ${p.domain ? `<span class="feed-domain">${escText(p.domain)}</span>` : ''}
+        ${chips}
+      </div>
+      <div class="feed-actions">
+        <button class="feed-actbtn" onclick="shareToLinkedIn('${escAttr(postUrl)}')">Share to LinkedIn</button>
+        <button class="feed-actbtn" onclick="copyPostLink('${escAttr(postUrl)}')">Copy link</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function forumItemHTML(t){
+  const a = t.author || {};
+  const name = a.name || 'A 10THOU engineer';
+  const title = a.title ? ' · ' + a.title : '';
+  const replyCount = t.reply_count != null ? t.reply_count : 0;
+  return `<div class="forum-item" onclick="location.href='${escAttr(location.origin + '/thread/' + encodeURIComponent(t.id))}'">
+    <div class="forum-title">${escText(t.title || '(untitled)')}</div>
+    <div class="forum-who">${escText(name)}${escText(title)} · ${timeAgo(t.created_at)}</div>
+    <div class="forum-meta">
+      ${t.domain ? `<span class="feed-domain">${escText(t.domain)}</span>` : ''}
+      <span class="forum-replies">${replyCount} ${replyCount === 1 ? 'reply' : 'replies'}</span>
+    </div>
+  </div>`;
+}
+
+async function renderFeed(){
+  const container = document.getElementById('feedList');
+  if (!container) return;
+  container.innerHTML = '<div class="feed-loading">Loading…</div>';
+  const params = {
+    select: 'id,type,domain,caption,image_url,spec_tags,created_at,author:author_id(name,title,slug,photo_url)',
+    order: 'created_at.desc',
+    limit: '50'
+  };
+  if (feedDomain) params.domain = 'eq.' + feedDomain;
+  const posts = await sbSelect('posts', params);
+  if (!SUPABASE_URL) {
+    container.innerHTML = '<div class="feed-empty">Feed not configured yet. Set SUPABASE_URL + SUPABASE_ANON_KEY in Vercel env.</div>';
+    return;
+  }
+  if (!posts.length) {
+    container.innerHTML = '<div class="feed-empty">No posts yet. Be the first when posting opens.</div>';
+    return;
+  }
+  container.innerHTML = posts.map(feedCardHTML).join('');
+}
+
+async function renderForum(){
+  const container = document.getElementById('forumList');
+  if (!container) return;
+  container.innerHTML = '<div class="feed-loading">Loading…</div>';
+  const params = {
+    select: 'id,title,domain,created_at,author:author_id(name,title,slug)',
+    order: 'created_at.desc',
+    limit: '100'
+  };
+  if (forumDomain) params.domain = 'eq.' + forumDomain;
+  const threads = await sbSelect('threads', params);
+  if (!SUPABASE_URL) {
+    container.innerHTML = '<div class="feed-empty">Forum not configured yet. Set SUPABASE_URL + SUPABASE_ANON_KEY in Vercel env.</div>';
+    return;
+  }
+  if (!threads.length) {
+    container.innerHTML = '<div class="feed-empty">No threads yet. Be the first when posting opens.</div>';
+    return;
+  }
+  container.innerHTML = threads.map(forumItemHTML).join('');
+}
+
+function shareToLinkedIn(url){
+  const u = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
+  window.open(u, '_blank', 'noopener,noreferrer,width=600,height=640');
+}
+function copyPostLink(url){
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(()=>toast('Link copied'));
+  } else {
+    toast(url);
+  }
+}
 
 
 // ─── STANDOFFS ───────────────────────────────────────────────────────────────
@@ -2772,6 +2958,8 @@ function goPage(pg,chipEl,navEl,sizerBtn){
   if(PART_PAGES.includes(pg)){const nb=document.getElementById('nb-parts');if(nb)nb.classList.add('on');partsNav.style.display='flex';}
   if(pg==='sizer'){drawRulers();populateSizerSizes();}
   if(pg==='favorites')renderFav();
+  if(pg==='feed')renderFeed();
+  if(pg==='forum')renderForum();
 }
 
 // ─── FASTENERS ───────────────────────────────────────────────────────────────
