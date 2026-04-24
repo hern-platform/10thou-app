@@ -2462,6 +2462,12 @@ input,textarea{caret-color:var(--accent)}
 
     <button class="cmt-submit" id="peSubmit" onclick="saveProfileEdit()">Save</button>
     <button class="cmt-cancel" onclick="closeProfileEdit()">Cancel</button>
+
+    <div style="margin-top:26px;padding-top:18px;border-top:1px solid var(--border)">
+      <div class="cmt-label" style="color:#B23A3A">Danger zone</div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.5;margin-bottom:10px">Permanently delete your profile, posts, threads, and replies. Cannot be undone.</div>
+      <button onclick="deleteAccount()" style="width:100%;padding:10px;background:transparent;color:#B23A3A;border:1px solid #B23A3A;border-radius:var(--r-sm);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer">Delete account</button>
+    </div>
   </div>
 </div>
 
@@ -3371,6 +3377,38 @@ async function saveProfileEdit(){
   } finally {
     btn.disabled = false;
     btn.textContent = 'Save';
+  }
+}
+
+async function deleteAccount(){
+  if (!currentUser) return;
+  const confirmText = prompt('This permanently deletes your profile, posts, threads, and replies. Cannot be undone.\n\nType DELETE to confirm:');
+  if (confirmText !== 'DELETE') return;
+
+  const sb = await getSb();
+  if (!sb) { alert('Community not configured.'); return; }
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { alert('Your session expired. Please sign in again.'); return; }
+
+  try {
+    const res = await fetch('/api/account/delete', {
+      method: 'DELETE',
+      headers: { Authorization: 'Bearer ' + session.access_token }
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error || ('HTTP ' + res.status));
+    }
+    // Local cleanup — wipe session + Pro flag on this device.
+    await sb.auth.signOut();
+    currentUser = null;
+    localStorage.removeItem('tt_pro');
+    isPro = false;
+    closeProfileEdit();
+    alert('Account deleted.');
+    location.href = '/';
+  } catch (e) {
+    alert('Could not delete: ' + (e.message || e));
   }
 }
 
