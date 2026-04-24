@@ -11,6 +11,17 @@
 <meta name="apple-mobile-web-app-title" content="10THOU">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="description" content="Hardware reference tool for mechanical engineers and product designers. Fasteners, bearings, O-rings, GD&T, calculators, and more.">
+<link rel="canonical" href="https://10thou.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://10thou.com/">
+<meta property="og:site_name" content="10THOU">
+<meta property="og:title" content="10THOU — Hardware Reference">
+<meta property="og:description" content="Hardware reference for mechanical engineers. Fasteners, bearings, O-rings, GD&T, calculators, and more.">
+<meta property="og:image" content="https://10thou.com/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="10THOU — Hardware Reference">
+<meta name="twitter:description" content="Hardware reference for mechanical engineers. Fasteners, bearings, O-rings, GD&T, calculators, and more.">
+<meta name="twitter:image" content="https://10thou.com/icon-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
@@ -371,10 +382,115 @@ input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:var(--sur
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 0 4px var(--accent-dim)}
 .cal-val-display{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:28px;text-align:center}
 
+/* FEED (community) */
+.feed-filters{display:flex;gap:6px;padding:6px 0 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:-4px -18px 8px;padding-left:18px;padding-right:18px;scrollbar-width:none}
+.feed-filters::-webkit-scrollbar{display:none}
+.feed-filter{flex-shrink:0;padding:4px 11px;border-radius:100px;border:1px solid var(--border2);background:var(--surface);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .13s}
+.feed-filter.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.feed-list{display:flex;flex-direction:column;gap:11px}
+.feed-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm)}
+.feed-img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--surface2);display:block;cursor:pointer}
+.feed-body{padding:10px 14px 12px}
+.feed-author{display:flex;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer}
+.feed-avatar{width:30px;height:30px;border-radius:50%;background:var(--surface3);flex-shrink:0;object-fit:cover}
+.feed-who{display:flex;flex-direction:column;min-width:0}
+.feed-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed-title{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--text3);line-height:1.2;text-transform:uppercase;margin-top:2px}
+.feed-caption{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:9px;white-space:pre-wrap;word-break:break-word}
+.feed-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.feed-domain{padding:2px 8px;border-radius:100px;background:var(--warm-dim);color:var(--warm);border:1px solid var(--warm-border);font-family:var(--mono);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:9px}
+.feed-chip{padding:2px 8px;border-radius:100px;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border);font-family:var(--mono);font-weight:600;letter-spacing:.04em;font-size:10px}
+.feed-actions{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.feed-actbtn{flex:1;padding:7px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);cursor:pointer;transition:background .13s}
+.feed-actbtn:hover{background:var(--surface3)}
+.feed-actbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.feed-empty,.feed-loading{text-align:center;padding:40px 20px;color:var(--text3);font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.feed-compose-hint{padding:12px 14px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--r-sm);font-size:12px;color:var(--text2);text-align:center;margin-bottom:11px;line-height:1.4}
+
+/* FORUM (community) */
+.forum-list{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm)}
+.forum-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.forum-item:last-child{border-bottom:none}
+.forum-item:hover{background:var(--surface2)}
+.forum-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:5px}
+.forum-who{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:6px;letter-spacing:.02em}
+.forum-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.forum-replies{font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.06em}
+
+/* THREAD DETAIL */
+.thread-back{display:flex;align-items:center;margin-bottom:10px}
+.thread-back-btn{background:transparent;border:none;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--accent);cursor:pointer;padding:4px 0;display:inline-flex;align-items:center;gap:4px}
+.thread-head{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;box-shadow:var(--shadow-sm);margin-bottom:12px}
+.thread-head-title{font-size:16px;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:8px}
+.thread-head-author{display:flex;align-items:center;gap:9px;margin-bottom:10px;cursor:pointer}
+.thread-head-body{font-size:13px;color:var(--text2);line-height:1.6;margin-top:10px;margin-bottom:10px;white-space:pre-wrap;word-break:break-word}
+.thread-head-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:10px}
+.reply-count-hdr{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin:14px 4px 8px;font-weight:700}
+.reply-list{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.reply-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;box-shadow:var(--shadow-sm)}
+.reply-author{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.reply-body{font-size:13px;color:var(--text2);line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.reply-compose{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;box-shadow:var(--shadow-sm);margin-bottom:16px}
+.reply-compose textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;font-family:var(--sans);font-size:13px;color:var(--text);outline:none;box-sizing:border-box;min-height:70px;resize:vertical;line-height:1.5}
+.reply-compose textarea:focus{border-color:var(--accent-border);background:var(--surface)}
+.reply-compose-row{display:flex;justify-content:flex-end;margin-top:8px}
+.reply-compose-btn{padding:8px 18px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.reply-compose-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* PROFILE */
+.profile-head{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 14px;box-shadow:var(--shadow-sm);margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--surface3);flex-shrink:0;object-fit:cover}
+.profile-who{min-width:0;flex:1}
+.profile-name{font-size:16px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:4px}
+.profile-title{font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--text3);text-transform:uppercase;line-height:1.3}
+.profile-linkedin{display:inline-flex;align-items:center;gap:4px;background:#0A66C2;color:#fff;font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:2px 8px;border-radius:100px;margin-top:6px;font-weight:700;text-transform:uppercase}
+.profile-linkedin svg{width:10px;height:10px;fill:#fff}
+.profile-tabs{display:flex;gap:6px;margin-bottom:12px}
+.profile-tabs .feed-filter{flex:1}
+
+/* AUTH + COMPOSE SHEETS (reuses .pro-modal-ov pattern) */
+.cmt-sheet-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(12px);z-index:500;align-items:flex-end;justify-content:center;padding:0}
+.cmt-sheet-ov.open{display:flex}
+.cmt-sheet{background:var(--surface);border-radius:20px 20px 0 0;padding:20px 20px calc(28px + env(safe-area-inset-bottom,0));width:100%;max-width:480px;animation:slideUp .32s var(--ease);position:relative;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.cmt-handle{width:36px;height:4px;background:var(--surface3);border-radius:2px;margin:0 auto 18px}
+.cmt-title{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--text);letter-spacing:-.01em;margin-bottom:6px}
+.cmt-sub{font-size:12px;color:var(--text3);margin-bottom:18px;line-height:1.5}
+.cmt-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;font-weight:700}
+.cmt-field{margin-bottom:14px}
+.cmt-input,.cmt-textarea,.cmt-select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;font-family:var(--sans);font-size:13px;color:var(--text);outline:none;box-sizing:border-box}
+.cmt-input:focus,.cmt-textarea:focus,.cmt-select:focus{border-color:var(--accent-border);background:var(--surface)}
+.cmt-textarea{resize:vertical;min-height:80px;font-family:var(--sans);line-height:1.5}
+.cmt-select{-webkit-appearance:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--text3) 50%),linear-gradient(135deg,var(--text3) 50%,transparent 50%);background-position:calc(100% - 14px) 14px,calc(100% - 9px) 14px;background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:32px}
+.cmt-imgpick{display:flex;flex-direction:column;gap:8px;align-items:center;padding:20px;background:var(--surface2);border:1.5px dashed var(--border2);border-radius:var(--r-sm);cursor:pointer;transition:border-color .13s}
+.cmt-imgpick:hover{border-color:var(--accent-border)}
+.cmt-imgpick-lbl{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--text3)}
+.cmt-imgpick-preview{width:100%;max-height:300px;object-fit:contain;border-radius:var(--r-sm);display:block}
+.cmt-submit{width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:opacity .15s,transform .1s;margin-top:6px}
+.cmt-submit:disabled{opacity:.5;cursor:not-allowed}
+.cmt-submit:active:not(:disabled){transform:scale(.98)}
+.cmt-cancel{width:100%;padding:11px;background:transparent;color:var(--text3);border:1px solid var(--border);border-radius:var(--r-sm);font-family:var(--sans);font-size:13px;cursor:pointer;margin-top:8px}
+
+/* LinkedIn button — inline replica; swap for official asset before Phase 2 API submission */
+.li-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;background:#0A66C2;color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;transition:background .13s,transform .1s}
+.li-btn:hover{background:#0a5ab0}
+.li-btn:active{transform:scale(.98)}
+.li-btn svg{width:18px;height:18px;flex-shrink:0}
+
+/* Share button on Feed — primary action */
+.feed-compose-row{display:flex;gap:8px;margin-bottom:11px}
+.feed-compose-btn{flex:1;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:opacity .13s}
+.feed-compose-btn:hover{opacity:.9}
+
+/* Header auth button (avatar or sign-in) */
+.auth-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border-radius:50%;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);cursor:pointer;overflow:hidden;flex-shrink:0;transition:background .13s}
+.auth-btn:hover{background:var(--surface3)}
+.auth-btn img{width:100%;height:100%;object-fit:cover}
+.auth-btn svg{width:16px;height:16px}
+
 /* BOTTOM NAV */
 .bot-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--surface);border-top:1px solid var(--border);padding:7px 2px calc(7px + env(safe-area-inset-bottom,0));z-index:50;box-shadow:0 -3px 14px rgba(0,0,0,.06);backdrop-filter:blur(12px)}
 .bn-inner{display:flex;justify-content:space-around}
-.nb{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:3px 8px;border-radius:var(--r-sm);border:none;background:transparent;transition:background .13s;min-width:0}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:3px 4px;border-radius:var(--r-sm);border:none;background:transparent;transition:background .13s;min-width:0;flex:1}
 .nb svg{width:18px;height:18px;color:var(--text3);transition:color .13s;stroke-width:1.7;flex-shrink:0}
 .nb span{font-family:var(--mono);font-size:9px;letter-spacing:.03em;color:var(--text3);transition:color .13s;white-space:nowrap;font-weight:700}
 .nb.on{background:var(--accent-dim)}
@@ -557,6 +673,9 @@ input,textarea{caret-color:var(--accent)}
       </button>
       <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" id="themeIco"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"/></svg>
+      </button>
+      <button class="auth-btn" id="authBtn" onclick="handleAuthBtn()" title="Sign in" style="margin-left:6px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
       </button>
     </div>
   </div>
@@ -2157,6 +2276,201 @@ input,textarea{caret-color:var(--accent)}
   </div>
 </div>
 
+<!-- ══ FEED (community prototype — not in prod) ══ -->
+<div class="page" id="page-feed">
+  <div class="sec-hd"><div class="sec-t">Feed</div><div class="sec-tag">Community</div></div>
+  <div class="feed-filters" id="feedFilters">
+    <button class="feed-filter on" data-domain="" onclick="setFeedFilter(this,'')">All</button>
+    <button class="feed-filter" data-domain="3D Printing" onclick="setFeedFilter(this,'3D Printing')">3D Printing</button>
+    <button class="feed-filter" data-domain="Machining" onclick="setFeedFilter(this,'Machining')">Machining</button>
+    <button class="feed-filter" data-domain="Sealing" onclick="setFeedFilter(this,'Sealing')">Sealing</button>
+    <button class="feed-filter" data-domain="Electronics" onclick="setFeedFilter(this,'Electronics')">Electronics</button>
+    <button class="feed-filter" data-domain="Injection Molding" onclick="setFeedFilter(this,'Injection Molding')">Injection Molding</button>
+    <button class="feed-filter" data-domain="Fastening" onclick="setFeedFilter(this,'Fastening')">Fastening</button>
+  </div>
+  <div class="feed-compose-row">
+    <button class="feed-compose-btn" onclick="openFeedCompose()">+ Share a project</button>
+  </div>
+  <div class="feed-list" id="feedList">
+    <div class="feed-loading">Loading…</div>
+  </div>
+</div>
+
+<!-- ══ FORUM (community prototype — not in prod) ══ -->
+<div class="page" id="page-forum">
+  <div class="sec-hd"><div class="sec-t">Forum</div><div class="sec-tag">Community</div></div>
+  <div class="feed-filters" id="forumFilters">
+    <button class="feed-filter on" data-domain="" onclick="setForumFilter(this,'')">All</button>
+    <button class="feed-filter" data-domain="3D Printing" onclick="setForumFilter(this,'3D Printing')">3D Printing</button>
+    <button class="feed-filter" data-domain="Machining" onclick="setForumFilter(this,'Machining')">Machining</button>
+    <button class="feed-filter" data-domain="Sealing" onclick="setForumFilter(this,'Sealing')">Sealing</button>
+    <button class="feed-filter" data-domain="Electronics" onclick="setForumFilter(this,'Electronics')">Electronics</button>
+    <button class="feed-filter" data-domain="Injection Molding" onclick="setForumFilter(this,'Injection Molding')">Injection Molding</button>
+    <button class="feed-filter" data-domain="Fastening" onclick="setForumFilter(this,'Fastening')">Fastening</button>
+  </div>
+  <div class="feed-compose-row">
+    <button class="feed-compose-btn" onclick="openForumCompose()">+ New thread</button>
+  </div>
+  <div class="forum-list" id="forumList">
+    <div class="feed-loading">Loading…</div>
+  </div>
+</div>
+
+<!-- ══ THREAD DETAIL ══ -->
+<div class="page" id="page-thread">
+  <div class="thread-back">
+    <button class="thread-back-btn" onclick="backFromThread()">← Forum</button>
+  </div>
+  <div id="threadHead"><div class="feed-loading">Loading…</div></div>
+  <div id="threadReplyCount" class="reply-count-hdr" style="display:none"></div>
+  <div id="threadReplyList" class="reply-list"></div>
+  <div id="threadReplyCompose"></div>
+</div>
+
+<!-- ══ POST DETAIL ══ -->
+<div class="page" id="page-post">
+  <div class="thread-back">
+    <button class="thread-back-btn" onclick="backFromDetail()">← Back</button>
+  </div>
+  <div id="postDetail"><div class="feed-loading">Loading…</div></div>
+</div>
+
+<!-- ══ PROFILE ══ -->
+<div class="page" id="page-profile">
+  <div class="thread-back">
+    <button class="thread-back-btn" onclick="backFromDetail()">← Back</button>
+  </div>
+  <div id="profileHead"><div class="feed-loading">Loading…</div></div>
+  <div class="profile-tabs" id="profileTabs" style="display:none">
+    <button class="feed-filter on" data-tab="posts" onclick="setProfileTab(this,'posts')">Posts</button>
+    <button class="feed-filter" data-tab="threads" onclick="setProfileTab(this,'threads')">Threads</button>
+  </div>
+  <div id="profileContent"></div>
+</div>
+
+<!-- ══ AUTH SHEET ══ -->
+<div class="cmt-sheet-ov" id="authSheetOv" onclick="if(event.target===this)closeAuthSheet()">
+  <div class="cmt-sheet">
+    <div class="cmt-handle"></div>
+    <div class="cmt-title">Sign in to post</div>
+    <div class="cmt-sub">Free. We use your real LinkedIn name and title — no screen names. Pro ($9.99) is a separate upgrade for tool features and isn't required to post.</div>
+    <button class="li-btn" onclick="signInWithLinkedIn()">
+      <svg viewBox="0 0 24 24" fill="#fff"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      Sign in with LinkedIn
+    </button>
+    <button class="cmt-cancel" onclick="closeAuthSheet()">Maybe later</button>
+    <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:10px;line-height:1.5">We only store your name, title, email and profile photo from LinkedIn. <a href="/privacy" target="_blank" style="color:var(--text3);text-decoration:underline">Privacy policy</a>.</div>
+  </div>
+</div>
+
+<!-- ══ FEED COMPOSE SHEET ══ -->
+<div class="cmt-sheet-ov" id="feedComposeOv" onclick="if(event.target===this)closeFeedCompose()">
+  <div class="cmt-sheet">
+    <div class="cmt-handle"></div>
+    <div class="cmt-title">Share a project</div>
+    <div class="cmt-sub">Photo, caption, specs you used. Posts to your profile and can be shared to LinkedIn.</div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Photo</div>
+      <label class="cmt-imgpick" id="fcImgPickLabel">
+        <img id="fcImgPreview" class="cmt-imgpick-preview" style="display:none">
+        <div id="fcImgPickPlaceholder" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="cmt-imgpick-lbl">Tap to add a photo</div>
+        </div>
+        <input type="file" id="fcImgInput" accept="image/*" style="display:none" onchange="onFeedImagePick(event)">
+      </label>
+    </div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Caption</div>
+      <textarea class="cmt-textarea" id="fcCaption" placeholder="What did you build? What specs did you use?" maxlength="1000"></textarea>
+    </div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Domain</div>
+      <select class="cmt-select" id="fcDomain">
+        <option value="3D Printing">3D Printing</option>
+        <option value="Machining">Machining</option>
+        <option value="Sealing">Sealing</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Injection Molding">Injection Molding</option>
+        <option value="Fastening">Fastening</option>
+      </select>
+    </div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Spec tags</div>
+      <input class="cmt-input" id="fcSpecs" placeholder="AS568-112, Viton, M3x0.5 — comma separated" maxlength="500">
+    </div>
+
+    <button class="cmt-submit" id="fcSubmit" onclick="submitFeedPost()">Post</button>
+    <button class="cmt-cancel" onclick="closeFeedCompose()">Cancel</button>
+  </div>
+</div>
+
+<!-- ══ FORUM COMPOSE SHEET ══ -->
+<div class="cmt-sheet-ov" id="forumComposeOv" onclick="if(event.target===this)closeForumCompose()">
+  <div class="cmt-sheet">
+    <div class="cmt-handle"></div>
+    <div class="cmt-title">New thread</div>
+    <div class="cmt-sub">Ask a question or start a discussion. Tag specs so others can find it.</div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Title</div>
+      <input class="cmt-input" id="ftTitle" placeholder="e.g. AS568-112 Viton gland for IP67 enclosure" maxlength="200">
+    </div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Body</div>
+      <textarea class="cmt-textarea" id="ftBody" placeholder="Context, constraints, what you've tried…" maxlength="4000"></textarea>
+    </div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Domain</div>
+      <select class="cmt-select" id="ftDomain">
+        <option value="3D Printing">3D Printing</option>
+        <option value="Machining">Machining</option>
+        <option value="Sealing">Sealing</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Injection Molding">Injection Molding</option>
+        <option value="Fastening">Fastening</option>
+      </select>
+    </div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Spec tags</div>
+      <input class="cmt-input" id="ftSpecs" placeholder="AS568-112, Viton, M3x0.5 — comma separated" maxlength="500">
+    </div>
+
+    <button class="cmt-submit" id="ftSubmit" onclick="submitThread()">Post thread</button>
+    <button class="cmt-cancel" onclick="closeForumCompose()">Cancel</button>
+  </div>
+</div>
+
+<!-- ══ PROFILE EDIT SHEET ══ -->
+<div class="cmt-sheet-ov" id="profileEditOv" onclick="if(event.target===this)closeProfileEdit()">
+  <div class="cmt-sheet">
+    <div class="cmt-handle"></div>
+    <div class="cmt-title">Edit profile</div>
+    <div class="cmt-sub">LinkedIn doesn't share job titles, so add yours here. Shown on your posts and profile.</div>
+
+    <div class="cmt-field">
+      <div class="cmt-label">Job title</div>
+      <input class="cmt-input" id="peTitle" placeholder="e.g. Mechanical Engineer, Product Designer" maxlength="80">
+    </div>
+
+    <button class="cmt-submit" id="peSubmit" onclick="saveProfileEdit()">Save</button>
+    <button class="cmt-cancel" onclick="closeProfileEdit()">Cancel</button>
+
+    <div style="margin-top:26px;padding-top:18px;border-top:1px solid var(--border)">
+      <div class="cmt-label" style="color:#B23A3A">Danger zone</div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.5;margin-bottom:10px">Permanently delete your profile, posts, threads, and replies. Cannot be undone.</div>
+      <button onclick="deleteAccount()" style="width:100%;padding:10px;background:transparent;color:#B23A3A;border:1px solid #B23A3A;border-radius:var(--r-sm);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer">Delete account</button>
+    </div>
+  </div>
+</div>
+
 </div><!-- /main -->
 
 <!-- BOTTOM NAV -->
@@ -2171,6 +2485,10 @@ input,textarea{caret-color:var(--accent)}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Supply</span></button>
   <button class="nb" id="nb-favorites" onclick="goPage('favorites',null,this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Saved</span></button>
+  <button class="nb" id="nb-feed" onclick="goPage('feed',null,this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Feed</span></button>
+  <button class="nb" id="nb-forum" onclick="goPage('forum',null,this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Forum</span></button>
 </div></nav>
 
 <!-- Quick Calc FAB -->
@@ -2263,6 +2581,11 @@ function devTapPro(){
 // ══════════════════════════════════════════════════════
 //  PRO TIER SYSTEM
 // ══════════════════════════════════════════════════════
+// isPro is the union of two sources:
+//   - localStorage.tt_pro (legacy anonymous Pro; works without an account)
+//   - users.pro_active (Stripe webhook → Supabase; syncs across devices)
+// loadUserProfile mirrors users.pro_active into localStorage when true so
+// the rest of the app can read a single flag.
 let isPro = localStorage.getItem('tt_pro') === '1';
 let _proJustActivated = false;
 (function(){
@@ -2272,6 +2595,9 @@ let _proJustActivated = false;
     isPro = true;
     _proJustActivated = true;
     history.replaceState({},'',location.pathname+location.hash);
+    // If signed in, re-fetch the user row once Supabase has processed the
+    // webhook, so pro_active (and stripe_customer_id) land in currentUser.
+    setTimeout(() => { if (typeof refreshCurrentUser === 'function') refreshCurrentUser(); }, 1500);
   }
 })();
 
@@ -2296,7 +2622,16 @@ function showProPitchStep() {
   document.getElementById('proStep3').classList.remove('active');
 }
 function showProPayStep() {
-  window.location.href = STRIPE_PAYMENT_LINK;
+  let url = STRIPE_PAYMENT_LINK;
+  // Bind the Stripe Checkout to the LinkedIn-signed-in account so the
+  // webhook can flip users.pro_active for this specific user.
+  if (currentUser) {
+    const params = new URLSearchParams();
+    params.set('client_reference_id', currentUser.id);
+    if (currentUser.email) params.set('prefilled_email', currentUser.email);
+    url += (url.includes('?') ? '&' : '?') + params.toString();
+  }
+  window.location.href = url;
 }
 function activatePro() {
   isPro = true;
@@ -2330,6 +2665,860 @@ function updateSizerProGate() {
   gate.classList.toggle('show', !freeParts.includes(type) && !isPro);
 }
 
+// ══════════════════════════════════════════════════════
+//  COMMUNITY (Feed + Forum) — read-only for now.
+//  Supabase REST via anon key. No auth yet.
+//  Config is fetched lazily from /api/config so rotation is
+//  a Vercel env-var change, no redeploy or code edit needed.
+// ══════════════════════════════════════════════════════
+let _configReady = null;
+function ensureConfig(){
+  if (_configReady) return _configReady;
+  if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+    _configReady = Promise.resolve();
+    return _configReady;
+  }
+  _configReady = fetch('/api/config', { cache: 'force-cache' })
+    .then(r => r.ok ? r.json() : {})
+    .then(c => {
+      if (c.supabaseUrl && !window.SUPABASE_URL) window.SUPABASE_URL = c.supabaseUrl;
+      if (c.supabaseAnonKey && !window.SUPABASE_ANON_KEY) window.SUPABASE_ANON_KEY = c.supabaseAnonKey;
+    })
+    .catch(() => {});
+  return _configReady;
+}
+
+async function sbSelect(table, params) {
+  await ensureConfig();
+  const url = window.SUPABASE_URL;
+  const key = window.SUPABASE_ANON_KEY;
+  if (!url || !key) return [];
+  const u = new URL('/rest/v1/' + table, url);
+  Object.entries(params || {}).forEach(([k, v]) => u.searchParams.set(k, v));
+  try {
+    const res = await fetch(u.toString(), {
+      headers: { apikey: key, Authorization: 'Bearer ' + key }
+    });
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (e) { return []; }
+}
+
+function escAttr(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function escText(s){return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function timeAgo(iso){if(!iso)return'';const s=(Date.now()-new Date(iso).getTime())/1000;if(s<60)return'now';if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';if(s<2592000)return Math.floor(s/86400)+'d';return new Date(iso).toLocaleDateString();}
+
+let feedDomain = '';
+let forumDomain = '';
+
+function setFeedFilter(btn, domain){
+  feedDomain = domain;
+  document.querySelectorAll('#feedFilters .feed-filter').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderFeed();
+}
+function setForumFilter(btn, domain){
+  forumDomain = domain;
+  document.querySelectorAll('#forumFilters .feed-filter').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderForum();
+}
+
+function feedCardHTML(p){
+  const a = p.author || {};
+  const name = a.name || 'A 10THOU engineer';
+  const title = a.title ? ' · ' + a.title : '';
+  const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
+  const imgClick = `onclick="goPost('${escAttr(p.id)}')"`;
+  const img = p.image_url ? `<img class="feed-img" src="${escAttr(p.image_url)}" alt="" loading="lazy" ${imgClick}>` : '';
+  const tags = Array.isArray(p.spec_tags) ? p.spec_tags : [];
+  const chips = tags.slice(0,6).map(t=>{
+    const label = typeof t === 'string' ? t : (t && (t.label || t.id)) || '';
+    return label ? `<span class="feed-chip">${escText(label)}</span>` : '';
+  }).join('');
+  const postUrl = location.origin + '/post/' + encodeURIComponent(p.id);
+  const authorClick = a.slug ? `onclick="goProfile('${escAttr(a.slug)}')"` : '';
+  return `<article class="feed-card">
+    ${img}
+    <div class="feed-body">
+      <div class="feed-author" ${authorClick}>
+        ${avatar}
+        <div class="feed-who">
+          <div class="feed-name">${escText(name)}${escText(title)}</div>
+          <div class="feed-title">${escText(p.domain || '')} · ${timeAgo(p.created_at)}</div>
+        </div>
+      </div>
+      ${p.caption ? `<div class="feed-caption" onclick="goPost('${escAttr(p.id)}')" style="cursor:pointer">${escText(p.caption)}</div>` : ''}
+      <div class="feed-meta">
+        ${p.domain ? `<span class="feed-domain">${escText(p.domain)}</span>` : ''}
+        ${chips}
+      </div>
+      <div class="feed-actions">
+        <button class="feed-actbtn" onclick="shareToLinkedIn('${escAttr(postUrl)}')">Share to LinkedIn</button>
+        <button class="feed-actbtn" onclick="copyPostLink('${escAttr(postUrl)}')">Copy link</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function forumItemHTML(t){
+  const a = t.author || {};
+  const name = a.name || 'A 10THOU engineer';
+  const title = a.title ? ' · ' + a.title : '';
+  const replyCount = t.reply_count != null ? t.reply_count : 0;
+  return `<div class="forum-item" onclick="goThread('${escAttr(t.id)}')">
+    <div class="forum-title">${escText(t.title || '(untitled)')}</div>
+    <div class="forum-who">${escText(name)}${escText(title)} · ${timeAgo(t.created_at)}</div>
+    <div class="forum-meta">
+      ${t.domain ? `<span class="feed-domain">${escText(t.domain)}</span>` : ''}
+      <span class="forum-replies">${replyCount} ${replyCount === 1 ? 'reply' : 'replies'}</span>
+    </div>
+  </div>`;
+}
+
+async function renderFeed(){
+  const container = document.getElementById('feedList');
+  if (!container) return;
+  container.innerHTML = '<div class="feed-loading">Loading…</div>';
+  const params = {
+    select: 'id,type,domain,caption,image_url,spec_tags,created_at,author:author_id(name,title,slug,photo_url)',
+    order: 'created_at.desc',
+    limit: '50'
+  };
+  if (feedDomain) params.domain = 'eq.' + feedDomain;
+  const posts = await sbSelect('posts', params);
+  if (!window.SUPABASE_URL) {
+    container.innerHTML = '<div class="feed-empty">Feed not configured yet. Set SUPABASE_URL + SUPABASE_ANON_KEY in Vercel env.</div>';
+    return;
+  }
+  if (!posts.length) {
+    container.innerHTML = '<div class="feed-empty">No posts yet. Be the first when posting opens.</div>';
+    return;
+  }
+  container.innerHTML = posts.map(feedCardHTML).join('');
+}
+
+async function renderForum(){
+  const container = document.getElementById('forumList');
+  if (!container) return;
+  container.innerHTML = '<div class="feed-loading">Loading…</div>';
+  const params = {
+    select: 'id,title,domain,created_at,author:author_id(name,title,slug)',
+    order: 'created_at.desc',
+    limit: '100'
+  };
+  if (forumDomain) params.domain = 'eq.' + forumDomain;
+  const threads = await sbSelect('threads', params);
+  if (!window.SUPABASE_URL) {
+    container.innerHTML = '<div class="feed-empty">Forum not configured yet. Set SUPABASE_URL + SUPABASE_ANON_KEY in Vercel env.</div>';
+    return;
+  }
+  if (!threads.length) {
+    container.innerHTML = '<div class="feed-empty">No threads yet. Be the first when posting opens.</div>';
+    return;
+  }
+  container.innerHTML = threads.map(forumItemHTML).join('');
+}
+
+function shareToLinkedIn(url){
+  const u = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
+  window.open(u, '_blank', 'noopener,noreferrer,width=600,height=640');
+}
+function copyPostLink(url){
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(()=>toast('Link copied'));
+  } else {
+    toast(url);
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  COMMUNITY AUTH (LinkedIn via Supabase OIDC)
+// ══════════════════════════════════════════════════════
+let _sbClient = null;
+let currentUser = null;  // row from public.users, or null when signed out
+let _fcImageFile = null;  // pending compose image
+
+async function getSb(){
+  if (_sbClient) return _sbClient;
+  await ensureConfig();
+  if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) return null;
+  const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+  _sbClient = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'pkce' }
+  });
+  return _sbClient;
+}
+
+async function initCommunityAuth(){
+  const sb = await getSb();
+  if (!sb) { updateAuthUI(); return; }
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) await loadUserProfile(session.user);
+  sb.auth.onAuthStateChange(async (_evt, sess) => {
+    if (sess) await loadUserProfile(sess.user);
+    else currentUser = null;
+    updateAuthUI();
+  });
+  updateAuthUI();
+}
+
+async function loadUserProfile(authUser){
+  const sb = await getSb();
+  if (!sb || !authUser) return;
+  const { data } = await sb.from('users').select('*').eq('id', authUser.id).maybeSingle();
+  currentUser = data || null;
+  // Reconcile Pro state: server truth (users.pro_active) wins over localStorage
+  // once a user signs in. If the server says Pro, mirror it into localStorage
+  // so the existing isPro-based gates light up immediately.
+  if (currentUser && currentUser.pro_active) {
+    if (!isPro) {
+      isPro = true;
+      localStorage.setItem('tt_pro', '1');
+      applyProState();
+    }
+  }
+}
+
+// Re-fetch currentUser from Supabase (used after Stripe redirect to pick up
+// pro_active once the webhook has processed).
+async function refreshCurrentUser(){
+  const sb = await getSb();
+  if (!sb) return;
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) await loadUserProfile(session.user);
+}
+
+function updateAuthUI(){
+  const btn = document.getElementById('authBtn');
+  if (!btn) return;
+  if (currentUser) {
+    const img = currentUser.photo_url ? `<img src="${escAttr(currentUser.photo_url)}" alt="">` : '';
+    btn.innerHTML = img || `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`;
+    btn.title = (currentUser.name || 'Signed in') + (currentUser.title ? ' · ' + currentUser.title : '');
+  } else {
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`;
+    btn.title = 'Sign in';
+  }
+}
+
+function handleAuthBtn(){
+  if (currentUser) {
+    if (confirm('Sign out?')) signOut();
+  } else {
+    openAuthSheet();
+  }
+}
+
+async function signInWithLinkedIn(){
+  const sb = await getSb();
+  if (!sb) { alert('Community not configured yet.'); return; }
+  await sb.auth.signInWithOAuth({
+    provider: 'linkedin_oidc',
+    options: { redirectTo: location.origin + location.pathname }
+  });
+}
+
+async function signOut(){
+  const sb = await getSb();
+  if (!sb) return;
+  await sb.auth.signOut();
+  currentUser = null;
+  updateAuthUI();
+  toast('Signed out');
+}
+
+function openAuthSheet(){
+  document.getElementById('authSheetOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAuthSheet(){
+  document.getElementById('authSheetOv').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─── FEED COMPOSE ────────────────────────────────────────────────────────────
+function openFeedCompose(){
+  if (!currentUser) { openAuthSheet(); return; }
+  document.getElementById('fcCaption').value = '';
+  document.getElementById('fcSpecs').value = '';
+  document.getElementById('fcImgPreview').style.display = 'none';
+  document.getElementById('fcImgPreview').src = '';
+  document.getElementById('fcImgPickPlaceholder').style.display = 'flex';
+  document.getElementById('fcImgInput').value = '';
+  _fcImageFile = null;
+  document.getElementById('feedComposeOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeFeedCompose(){
+  document.getElementById('feedComposeOv').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function onFeedImagePick(ev){
+  const file = ev.target.files && ev.target.files[0];
+  if (!file) return;
+  _fcImageFile = file;
+  const preview = document.getElementById('fcImgPreview');
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = 'block';
+  document.getElementById('fcImgPickPlaceholder').style.display = 'none';
+}
+
+// Resize to max 1080px long edge, JPEG 85% — keeps storage costs + feed
+// loading reasonable. Strips EXIF as a side effect of canvas re-encoding.
+async function resizeImage(file, maxEdge){
+  maxEdge = maxEdge || 1080;
+  const bmp = await createImageBitmap(file);
+  const scale = Math.min(1, maxEdge / Math.max(bmp.width, bmp.height));
+  const w = Math.round(bmp.width * scale);
+  const h = Math.round(bmp.height * scale);
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  canvas.getContext('2d').drawImage(bmp, 0, 0, w, h);
+  return await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.85));
+}
+
+function parseSpecs(raw){
+  return (raw || '').split(',').map(s => s.trim()).filter(Boolean).slice(0, 10).map(label => ({ label }));
+}
+
+async function submitFeedPost(){
+  if (!currentUser) { openAuthSheet(); return; }
+  const sb = await getSb();
+  if (!sb) return;
+  const btn = document.getElementById('fcSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Posting…';
+  try {
+    const caption = document.getElementById('fcCaption').value.trim();
+    const domain = document.getElementById('fcDomain').value;
+    const specs = parseSpecs(document.getElementById('fcSpecs').value);
+
+    let imageUrl = null;
+    if (_fcImageFile) {
+      const resized = await resizeImage(_fcImageFile);
+      const path = `${currentUser.id}/${Date.now()}.jpg`;
+      const { error: upErr } = await sb.storage.from('post-images').upload(path, resized, {
+        contentType: 'image/jpeg',
+        cacheControl: '31536000'
+      });
+      if (upErr) throw upErr;
+      const { data: pub } = sb.storage.from('post-images').getPublicUrl(path);
+      imageUrl = pub.publicUrl;
+    }
+
+    const { error } = await sb.from('posts').insert({
+      author_id: currentUser.id,
+      type: 'project',
+      domain, caption,
+      image_url: imageUrl,
+      spec_tags: specs
+    });
+    if (error) throw error;
+
+    closeFeedCompose();
+    toast('Posted');
+    renderFeed();
+  } catch (e) {
+    alert('Could not post: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Post';
+  }
+}
+
+// ─── FORUM COMPOSE ──────────────────────────────────────────────────────────
+function openForumCompose(){
+  if (!currentUser) { openAuthSheet(); return; }
+  document.getElementById('ftTitle').value = '';
+  document.getElementById('ftBody').value = '';
+  document.getElementById('ftSpecs').value = '';
+  document.getElementById('forumComposeOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeForumCompose(){
+  document.getElementById('forumComposeOv').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function submitThread(){
+  if (!currentUser) { openAuthSheet(); return; }
+  const sb = await getSb();
+  if (!sb) return;
+  const btn = document.getElementById('ftSubmit');
+  const title = document.getElementById('ftTitle').value.trim();
+  if (!title) { alert('Add a title'); return; }
+  btn.disabled = true;
+  btn.textContent = 'Posting…';
+  try {
+    const body = document.getElementById('ftBody').value.trim();
+    const domain = document.getElementById('ftDomain').value;
+    const specs = parseSpecs(document.getElementById('ftSpecs').value);
+    const { error } = await sb.from('threads').insert({
+      author_id: currentUser.id,
+      title, body, domain, spec_tags: specs
+    });
+    if (error) throw error;
+    closeForumCompose();
+    toast('Thread posted');
+    renderForum();
+  } catch (e) {
+    alert('Could not post: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Post thread';
+  }
+}
+
+// ─── THREAD DETAIL VIEW + REPLIES ───────────────────────────────────────────
+let currentThreadId = null;
+
+async function goThread(id, opts){
+  opts = opts || {};
+  if (!id) return;
+  currentThreadId = id;
+  if (opts.push !== false) {
+    if (!isInDetailView()) _preDetailView = getCurrentView() || 'forum';
+    history.pushState({ view: 'thread', id }, '', '/thread/' + encodeURIComponent(id));
+  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('page-thread').classList.add('on');
+  const partsNav = document.getElementById('partsSubNav');
+  if (partsNav) partsNav.style.display = 'none';
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  const nb = document.getElementById('nb-forum');
+  if (nb) nb.classList.add('on');
+  window.scrollTo(0, 0);
+  await renderThread(id);
+}
+
+function getCurrentView(){
+  const on = document.querySelector('.page.on');
+  if (!on) return null;
+  return (on.id || '').replace(/^page-/, '') || null;
+}
+
+function backFromThread(){ backFromDetail(); }
+
+async function renderThread(id){
+  const sb = await getSb();
+  const headEl = document.getElementById('threadHead');
+  const listEl = document.getElementById('threadReplyList');
+  const countEl = document.getElementById('threadReplyCount');
+  const composeEl = document.getElementById('threadReplyCompose');
+
+  headEl.innerHTML = '<div class="feed-loading">Loading…</div>';
+  listEl.innerHTML = '';
+  countEl.style.display = 'none';
+  composeEl.innerHTML = '';
+
+  // Prefer hydrated data from edge function for first paint on deep links
+  let thread = (window.__THREAD__ && window.__THREAD__.id === id) ? window.__THREAD__ : null;
+  if (!thread) {
+    const rows = await sbSelect('threads', {
+      select: 'id,title,body,domain,spec_tags,created_at,author:author_id(name,title,slug,photo_url)',
+      id: 'eq.' + id,
+      limit: '1'
+    });
+    thread = rows && rows[0];
+  }
+
+  if (!thread) {
+    headEl.innerHTML = '<div class="feed-empty">Thread not found.</div>';
+    return;
+  }
+
+  const a = thread.author || {};
+  const name = a.name || 'A 10THOU engineer';
+  const title = a.title ? ' · ' + a.title : '';
+  const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
+  const tags = Array.isArray(thread.spec_tags) ? thread.spec_tags : [];
+  const chips = tags.slice(0,6).map(t => {
+    const label = typeof t === 'string' ? t : (t && (t.label || t.id)) || '';
+    return label ? `<span class="feed-chip">${escText(label)}</span>` : '';
+  }).join('');
+  const authorClick = a.slug ? `onclick="goProfile('${escAttr(a.slug)}')"` : '';
+
+  headEl.innerHTML = `
+    <div class="thread-head">
+      <div class="thread-head-title">${escText(thread.title || '(untitled)')}</div>
+      <div class="thread-head-author" ${authorClick}>
+        ${avatar}
+        <div class="feed-who">
+          <div class="feed-name">${escText(name)}${escText(title)}</div>
+          <div class="feed-title">${escText(thread.domain || '')} · ${timeAgo(thread.created_at)}</div>
+        </div>
+      </div>
+      ${thread.body ? `<div class="thread-head-body">${escText(thread.body)}</div>` : ''}
+      <div class="thread-head-meta">
+        ${thread.domain ? `<span class="feed-domain">${escText(thread.domain)}</span>` : ''}
+        ${chips}
+      </div>
+    </div>
+  `;
+
+  const replies = await sbSelect('replies', {
+    select: 'id,body,created_at,author:author_id(name,title,slug,photo_url)',
+    thread_id: 'eq.' + id,
+    order: 'created_at.asc',
+    limit: '500'
+  });
+
+  countEl.style.display = 'block';
+  countEl.textContent = (replies.length === 1 ? '1 reply' : (replies.length + ' replies'));
+  listEl.innerHTML = replies.map(replyItemHTML).join('') || '<div class="feed-empty" style="padding:24px">No replies yet. Be the first.</div>';
+
+  renderReplyComposer();
+}
+
+function replyItemHTML(r){
+  const a = r.author || {};
+  const name = a.name || 'Engineer';
+  const title = a.title ? ' · ' + a.title : '';
+  const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
+  const authorClick = a.slug ? `onclick="goProfile('${escAttr(a.slug)}')" style="cursor:pointer"` : '';
+  return `<div class="reply-item">
+    <div class="reply-author" ${authorClick}>
+      ${avatar}
+      <div class="feed-who">
+        <div class="feed-name">${escText(name)}${escText(title)}</div>
+        <div class="feed-title">${timeAgo(r.created_at)}</div>
+      </div>
+    </div>
+    <div class="reply-body">${escText(r.body)}</div>
+  </div>`;
+}
+
+function renderReplyComposer(){
+  const el = document.getElementById('threadReplyCompose');
+  if (!el) return;
+  if (!currentUser) {
+    el.innerHTML = `<div class="feed-compose-hint"><b>Sign in with LinkedIn to reply.</b>
+      <div style="margin-top:8px"><button class="feed-compose-btn" style="max-width:240px" onclick="openAuthSheet()">Sign in</button></div></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="reply-compose">
+    <textarea id="trBody" placeholder="Write a reply…" maxlength="4000"></textarea>
+    <div class="reply-compose-row">
+      <button id="trSubmit" class="reply-compose-btn" onclick="submitReply()">Reply</button>
+    </div>
+  </div>`;
+}
+
+async function submitReply(){
+  if (!currentUser) { openAuthSheet(); return; }
+  if (!currentThreadId) return;
+  const sb = await getSb();
+  if (!sb) return;
+  const btn = document.getElementById('trSubmit');
+  const body = (document.getElementById('trBody').value || '').trim();
+  if (!body) return;
+  btn.disabled = true;
+  try {
+    const { error } = await sb.from('replies').insert({
+      thread_id: currentThreadId,
+      author_id: currentUser.id,
+      body
+    });
+    if (error) throw error;
+    await renderThread(currentThreadId);
+  } catch (e) {
+    alert('Could not reply: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ─── POST DETAIL VIEW ──────────────────────────────────────────────────────
+let currentPostId = null;
+
+async function goPost(id, opts){
+  opts = opts || {};
+  if (!id) return;
+  currentPostId = id;
+  if (opts.push !== false) {
+    if (!isInDetailView()) _preDetailView = getCurrentView() || 'feed';
+    history.pushState({ view: 'post', id }, '', '/post/' + encodeURIComponent(id));
+  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('page-post').classList.add('on');
+  const partsNav = document.getElementById('partsSubNav');
+  if (partsNav) partsNav.style.display = 'none';
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  const nb = document.getElementById('nb-feed');
+  if (nb) nb.classList.add('on');
+  window.scrollTo(0, 0);
+  await renderPost(id);
+}
+
+async function renderPost(id){
+  const container = document.getElementById('postDetail');
+  container.innerHTML = '<div class="feed-loading">Loading…</div>';
+
+  let post = (window.__POST__ && window.__POST__.id === id) ? window.__POST__ : null;
+  if (!post) {
+    const rows = await sbSelect('posts', {
+      select: 'id,type,domain,caption,image_url,spec_tags,created_at,author:author_id(name,title,slug,photo_url)',
+      id: 'eq.' + id,
+      limit: '1'
+    });
+    post = rows && rows[0];
+  }
+
+  if (!post) {
+    container.innerHTML = '<div class="feed-empty">Post not found.</div>';
+    return;
+  }
+
+  container.innerHTML = feedCardHTML(post);
+}
+
+// ─── PROFILE VIEW ──────────────────────────────────────────────────────────
+let currentProfileSlug = null;
+let profileTab = 'posts';
+
+async function goProfile(slug, opts){
+  opts = opts || {};
+  if (!slug) return;
+  currentProfileSlug = slug;
+  profileTab = 'posts';
+  if (opts.push !== false) {
+    if (!isInDetailView()) _preDetailView = getCurrentView() || 'feed';
+    history.pushState({ view: 'profile', slug }, '', '/u/' + encodeURIComponent(slug));
+  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('page-profile').classList.add('on');
+  const partsNav = document.getElementById('partsSubNav');
+  if (partsNav) partsNav.style.display = 'none';
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  window.scrollTo(0, 0);
+  await renderProfile(slug);
+}
+
+async function renderProfile(slug){
+  const headEl = document.getElementById('profileHead');
+  const tabsEl = document.getElementById('profileTabs');
+  const contentEl = document.getElementById('profileContent');
+  headEl.innerHTML = '<div class="feed-loading">Loading…</div>';
+  tabsEl.style.display = 'none';
+  contentEl.innerHTML = '';
+
+  let user = (window.__USER__ && window.__USER__.slug === slug) ? window.__USER__ : null;
+  if (!user) {
+    const rows = await sbSelect('users', {
+      select: 'id,name,title,photo_url,slug,linkedin_sub,auth_active',
+      slug: 'eq.' + slug,
+      limit: '1'
+    });
+    user = rows && rows[0];
+  }
+
+  if (!user) {
+    headEl.innerHTML = '<div class="feed-empty">Profile not found.</div>';
+    return;
+  }
+
+  const avatar = user.photo_url ? `<img class="profile-avatar" src="${escAttr(user.photo_url)}" alt="">` : `<div class="profile-avatar"></div>`;
+  const liBadge = user.linkedin_sub ? `<div class="profile-linkedin">
+    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
+    LinkedIn</div>` : '';
+  const isOwn = currentUser && currentUser.id === user.id;
+  const editBtn = isOwn
+    ? `<button class="feed-actbtn" style="align-self:flex-start;margin-left:auto;padding:6px 12px" onclick="openProfileEdit()">Edit</button>`
+    : '';
+  headEl.innerHTML = `<div class="profile-head">
+    ${avatar}
+    <div class="profile-who">
+      <div class="profile-name">${escText(user.name || 'Engineer')}</div>
+      ${user.title ? `<div class="profile-title">${escText(user.title)}</div>` : (isOwn ? '<div class="profile-title" style="color:var(--accent);cursor:pointer" onclick="openProfileEdit()">+ Add your title</div>' : '')}
+      ${liBadge}
+    </div>
+    ${editBtn}
+  </div>`;
+
+  currentProfileSlug = slug;
+  _profileUserId = user.id;
+  tabsEl.style.display = 'flex';
+  tabsEl.querySelectorAll('.feed-filter').forEach(b => b.classList.toggle('on', b.dataset.tab === profileTab));
+  await renderProfileContent();
+}
+
+function openProfileEdit(){
+  if (!currentUser) { openAuthSheet(); return; }
+  document.getElementById('peTitle').value = currentUser.title || '';
+  document.getElementById('profileEditOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeProfileEdit(){
+  document.getElementById('profileEditOv').classList.remove('open');
+  document.body.style.overflow = '';
+}
+async function saveProfileEdit(){
+  if (!currentUser) return;
+  const sb = await getSb();
+  if (!sb) return;
+  const btn = document.getElementById('peSubmit');
+  const title = document.getElementById('peTitle').value.trim().slice(0, 80);
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try {
+    const { error } = await sb.from('users').update({ title }).eq('id', currentUser.id);
+    if (error) throw error;
+    currentUser.title = title;
+    closeProfileEdit();
+    toast('Saved');
+    // Re-render profile if we're on it; refresh Feed/Forum/Thread so author
+    // rows pick up the new title.
+    if (currentProfileSlug) await renderProfile(currentProfileSlug);
+    if (currentThreadId && document.getElementById('page-thread')?.classList.contains('on')) await renderThread(currentThreadId);
+  } catch (e) {
+    alert('Could not save: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save';
+  }
+}
+
+async function deleteAccount(){
+  if (!currentUser) return;
+  const confirmText = prompt('This permanently deletes your profile, posts, threads, and replies. Cannot be undone.\n\nType DELETE to confirm:');
+  if (confirmText !== 'DELETE') return;
+
+  const sb = await getSb();
+  if (!sb) { alert('Community not configured.'); return; }
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { alert('Your session expired. Please sign in again.'); return; }
+
+  try {
+    const res = await fetch('/api/account/delete', {
+      method: 'DELETE',
+      headers: { Authorization: 'Bearer ' + session.access_token }
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error || ('HTTP ' + res.status));
+    }
+    // Local cleanup — wipe session + Pro flag on this device.
+    await sb.auth.signOut();
+    currentUser = null;
+    localStorage.removeItem('tt_pro');
+    isPro = false;
+    closeProfileEdit();
+    alert('Account deleted.');
+    location.href = '/';
+  } catch (e) {
+    alert('Could not delete: ' + (e.message || e));
+  }
+}
+
+let _profileUserId = null;
+
+async function setProfileTab(btn, tab){
+  profileTab = tab;
+  document.querySelectorAll('#profileTabs .feed-filter').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  await renderProfileContent();
+}
+
+async function renderProfileContent(){
+  const contentEl = document.getElementById('profileContent');
+  if (!_profileUserId) return;
+  contentEl.innerHTML = '<div class="feed-loading">Loading…</div>';
+
+  if (profileTab === 'posts') {
+    const posts = await sbSelect('posts', {
+      select: 'id,type,domain,caption,image_url,spec_tags,created_at,author:author_id(name,title,slug,photo_url)',
+      author_id: 'eq.' + _profileUserId,
+      order: 'created_at.desc',
+      limit: '100'
+    });
+    if (!posts.length) {
+      contentEl.innerHTML = '<div class="feed-empty">No posts yet.</div>';
+    } else {
+      contentEl.className = 'feed-list';
+      contentEl.innerHTML = posts.map(feedCardHTML).join('');
+    }
+  } else {
+    const threads = await sbSelect('threads', {
+      select: 'id,title,domain,created_at,author:author_id(name,title,slug)',
+      author_id: 'eq.' + _profileUserId,
+      order: 'created_at.desc',
+      limit: '100'
+    });
+    if (!threads.length) {
+      contentEl.innerHTML = '<div class="feed-empty">No threads yet.</div>';
+    } else {
+      contentEl.className = 'forum-list';
+      contentEl.innerHTML = threads.map(forumItemHTML).join('');
+    }
+  }
+}
+
+// ─── UNIFIED DETAIL-VIEW BACK NAV ───────────────────────────────────────────
+let _preDetailView = null;
+
+function isInDetailView(){
+  const v = getCurrentView();
+  return v === 'thread' || v === 'post' || v === 'profile';
+}
+
+function backFromDetail(){
+  if (history.state && history.state.view) { history.back(); return; }
+  const prev = _preDetailView || 'feed';
+  _preDetailView = null;
+  currentPostId = null;
+  currentProfileSlug = null;
+  currentThreadId = null;
+  goPage(prev);
+}
+
+// ─── ROUTING ────────────────────────────────────────────────────────────────
+function routeFromPath(){
+  let m;
+  if ((m = location.pathname.match(/^\/thread\/([^/]+)\/?$/))) {
+    goThread(decodeURIComponent(m[1]), { push: false }); return true;
+  }
+  if ((m = location.pathname.match(/^\/post\/([^/]+)\/?$/))) {
+    goPost(decodeURIComponent(m[1]), { push: false }); return true;
+  }
+  if ((m = location.pathname.match(/^\/u\/([^/]+)\/?$/))) {
+    goProfile(decodeURIComponent(m[1]), { push: false }); return true;
+  }
+  return false;
+}
+
+window.addEventListener('popstate', () => {
+  if (!routeFromPath()) {
+    const prev = _preDetailView || 'feed';
+    _preDetailView = null;
+    currentThreadId = null;
+    currentPostId = null;
+    currentProfileSlug = null;
+    goPage(prev);
+  }
+});
+
+// Re-render auth-sensitive surfaces when auth state changes.
+(function(){
+  const origUpdate = updateAuthUI;
+  updateAuthUI = function(){
+    origUpdate();
+    if (currentThreadId && document.getElementById('page-thread')?.classList.contains('on')) {
+      renderReplyComposer();
+    }
+    if (currentProfileSlug && document.getElementById('page-profile')?.classList.contains('on')) {
+      renderProfile(currentProfileSlug);
+    }
+  };
+})();
+
+// Kick off auth init on load (non-blocking; UI renders without it).
+// Also handle deep-links to /thread/[id] on first load.
+window.addEventListener('DOMContentLoaded', () => {
+  initCommunityAuth();
+  routeFromPath();
+});
 
 
 // ─── STANDOFFS ───────────────────────────────────────────────────────────────
@@ -2725,6 +3914,8 @@ function goPage(pg,chipEl,navEl,sizerBtn){
   if(PART_PAGES.includes(pg)){const nb=document.getElementById('nb-parts');if(nb)nb.classList.add('on');partsNav.style.display='flex';}
   if(pg==='sizer'){drawRulers();populateSizerSizes();}
   if(pg==='favorites')renderFav();
+  if(pg==='feed')renderFeed();
+  if(pg==='forum')renderForum();
 }
 
 // ─── FASTENERS ───────────────────────────────────────────────────────────────
