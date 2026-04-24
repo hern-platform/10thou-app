@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script src="/verticals/electrical/config.js"></script>
+<script src="/verticals/electrical/calculators/index.js" type="module"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>12TWO — The Pocket NEC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#C97B3C">
+<meta name="description" content="NEC 2026 reference, electrical calculators, and a verified community for licensed electricians.">
+<style>
+/* ─── TOKENS — dark default ────────────────────────────────────────────── */
+:root {
+  --bg:       #141414;
+  --bg2:      #1C1C1C;
+  --surface:  #222222;
+  --surface2: #2A2A2A;
+  --surface3: #323232;
+  --border:   rgba(255,255,255,0.08);
+  --border2:  rgba(255,255,255,0.16);
+  --text:     #F0EDE8;
+  --text2:    #B8B0A8;
+  --text3:    #7A7470;
+  --accent:   #C97B3C;
+  --accent-lt:#D98E52;
+  --accent-dim:rgba(201,123,60,0.12);
+  --accent-glow:rgba(201,123,60,0.22);
+  --accent-border:rgba(201,123,60,0.55);
+  --warm:     #F4C430;
+  --warm-dim: rgba(244,196,48,0.13);
+  --warm-border:rgba(244,196,48,0.55);
+  --danger:   #D64545;
+  --ok:       #4A8B5C;
+  --ok-dim:   rgba(74,139,92,0.13);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --r: 12px; --r-sm: 8px; --r-xs: 5px;
+  --ease: cubic-bezier(0.23,1,0.32,1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); }
+
+/* ─── LAYOUT ────────────────────────────────────────────────────────────── */
+#app { display: flex; flex-direction: column; height: 100dvh; max-width: 520px; margin: 0 auto; position: relative; }
+#topbar {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px 8px;
+  background: var(--bg); border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+#logo { font-family: var(--mono); font-weight: 500; font-size: 15px; letter-spacing: .04em; color: var(--accent); flex-shrink: 0; }
+#logo span { color: var(--text3); font-size: 11px; }
+#search-bar {
+  flex: 1; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 6px 13px; font-size: 13px; color: var(--text2);
+  font-family: var(--sans); outline: none; transition: border-color .15s;
+}
+#search-bar:focus { border-color: var(--accent-border); color: var(--text); }
+#search-bar::placeholder { color: var(--text3); }
+#auth-btn {
+  width: 32px; height: 32px; border-radius: 50%; background: var(--surface2);
+  border: 1px solid var(--border); cursor: pointer; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; transition: border-color .15s;
+}
+#auth-btn:hover { border-color: var(--accent-border); }
+#auth-btn svg { width: 16px; height: 16px; stroke: var(--text2); }
+
+/* scroll area */
+#content { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+.tab-panel { display: none; padding: 14px 14px 80px; }
+.tab-panel.active { display: block; }
+
+/* ─── BOTTOM NAV ─────────────────────────────────────────────────────────── */
+#bottomnav {
+  display: flex; border-top: 1px solid var(--border); background: var(--bg);
+  flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-tab {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  gap: 3px; padding: 8px 4px 6px; cursor: pointer; border: none;
+  background: none; color: var(--text3); font-family: var(--sans);
+  font-size: 9px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
+  transition: color .15s; -webkit-tap-highlight-color: transparent;
+}
+.nav-tab svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; transition: stroke .15s; }
+.nav-tab.active { color: var(--accent); }
+
+/* ─── CALC TAB ───────────────────────────────────────────────────────────── */
+.calc-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); margin-bottom: 12px; overflow: hidden;
+}
+.calc-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 14px; cursor: pointer; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.calc-header:hover { background: var(--surface2); }
+.calc-title-row { display: flex; flex-direction: column; gap: 2px; }
+.calc-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.calc-ref  { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+.calc-chevron { color: var(--text3); transition: transform .2s; }
+.calc-chevron.open { transform: rotate(180deg); }
+.calc-body { display: none; padding: 0 14px 14px; border-top: 1px solid var(--border); }
+.calc-body.open { display: block; }
+
+/* inputs */
+.field-row { display: flex; gap: 10px; margin-top: 12px; align-items: flex-end; }
+.field { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.field label { font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text3); }
+.field select, .field input[type=number] {
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--r-sm); padding: 8px 10px; font-size: 14px;
+  font-family: var(--mono); color: var(--text); outline: none; width: 100%;
+  transition: border-color .15s; -webkit-appearance: none; appearance: none;
+}
+.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237A7470' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
+.field select:focus, .field input[type=number]:focus { border-color: var(--accent-border); }
+.field input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.calc-btn {
+  margin-top: 12px; width: 100%; padding: 10px; background: var(--accent);
+  border: none; border-radius: var(--r-sm); color: #fff; font-family: var(--mono);
+  font-size: 13px; font-weight: 500; cursor: pointer; letter-spacing: .04em;
+  transition: background .15s; -webkit-tap-highlight-color: transparent;
+}
+.calc-btn:hover { background: var(--accent-lt); }
+
+/* results */
+.result-block {
+  margin-top: 12px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 12px; display: none;
+}
+.result-block.visible { display: block; }
+.result-value { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--accent); line-height: 1; }
+.result-unit  { font-family: var(--mono); font-size: 12px; color: var(--text3); margin-top: 3px; }
+.result-note  { font-size: 11px; color: var(--text2); margin-top: 8px; line-height: 1.5; }
+.result-pass  { color: var(--ok); font-weight: 600; }
+.result-fail  { color: var(--danger); font-weight: 600; }
+.result-error { color: var(--danger); font-size: 12px; }
+.result-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.result-cell  { background: var(--surface3); border-radius: var(--r-xs); padding: 8px 10px; }
+.result-cell-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+.result-cell-val   { font-family: var(--mono); font-size: 16px; color: var(--text); }
+
+/* conduit conductor rows */
+.cond-rows { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.cond-row  { display: flex; gap: 8px; align-items: center; }
+.cond-row .field { margin-top: 0; }
+.remove-btn { width: 28px; height: 28px; border-radius: 50%; background: none; border: 1px solid var(--border2); color: var(--text3); cursor: pointer; font-size: 16px; line-height: 1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 18px; }
+.remove-btn:hover { border-color: var(--danger); color: var(--danger); }
+.add-cond-btn { margin-top: 8px; background: none; border: 1px dashed var(--border2); color: var(--text3); border-radius: var(--r-sm); padding: 7px; width: 100%; cursor: pointer; font-size: 12px; font-family: var(--sans); transition: border-color .15s, color .15s; }
+.add-cond-btn:hover { border-color: var(--accent-border); color: var(--accent); }
+
+/* ─── FEED / FORUM placeholders ──────────────────────────────────────────── */
+.coming-soon {
+  text-align: center; padding: 60px 20px; color: var(--text3);
+}
+.coming-soon svg { width: 40px; height: 40px; stroke: var(--text3); margin-bottom: 16px; opacity: .5; }
+.coming-soon h3 { font-size: 15px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+.coming-soon p  { font-size: 13px; line-height: 1.6; }
+
+/* ─── AUTH MODAL ──────────────────────────────────────────────────────────── */
+#auth-modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 100;
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+#auth-modal.visible { opacity: 1; pointer-events: all; }
+#auth-sheet {
+  background: var(--surface); border-radius: var(--r) var(--r) 0 0;
+  padding: 20px 20px 40px; width: 100%; max-width: 520px;
+  transform: translateY(20px); transition: transform .25s var(--ease);
+}
+#auth-modal.visible #auth-sheet { transform: translateY(0); }
+.auth-title { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.auth-sub   { font-size: 13px; color: var(--text3); margin-bottom: 20px; line-height: 1.5; }
+.auth-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.auth-field label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text3); }
+.auth-field input {
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--r-sm); padding: 11px 12px; font-size: 15px;
+  font-family: var(--mono); color: var(--text); outline: none; transition: border-color .15s;
+}
+.auth-field input:focus { border-color: var(--accent-border); }
+.auth-field input::placeholder { color: var(--text3); }
+.auth-submit {
+  width: 100%; padding: 12px; background: var(--accent); border: none;
+  border-radius: var(--r-sm); color: #fff; font-family: var(--mono); font-size: 14px;
+  font-weight: 500; cursor: pointer; margin-top: 4px; letter-spacing: .04em;
+  transition: background .15s;
+}
+.auth-submit:hover { background: var(--accent-lt); }
+.auth-divider { display: flex; align-items: center; gap: 10px; margin: 14px 0; color: var(--text3); font-size: 11px; }
+.auth-divider::before, .auth-divider::after { content:''; flex:1; height:1px; background: var(--border); }
+.auth-close { position: absolute; top: 14px; right: 14px; background: none; border: none; color: var(--text3); cursor: pointer; font-size: 20px; line-height: 1; padding: 4px; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- TOP BAR -->
+  <div id="topbar">
+    <div id="logo">12TWO <span>/ NEC</span></div>
+    <input id="search-bar" type="search" placeholder="Search NEC articles, calcs…">
+    <button id="auth-btn" onclick="openAuth()" aria-label="Sign in">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </button>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content">
+
+    <!-- ── CALC TAB ── -->
+    <div id="tab-calc" class="tab-panel active">
+
+      <!-- 1. Wire Sizing -->
+      <div class="calc-card">
+        <div class="calc-header" onclick="toggleCalc('wire')">
+          <div class="calc-title-row">
+            <div class="calc-name">Wire Sizing</div>
+            <div class="calc-ref">NEC 310.16 — Table 310.16</div>
+          </div>
+          <svg class="calc-chevron" id="wire-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="calc-body" id="wire-body">
+          <div class="field-row">
+            <div class="field">
+              <label>Load (Amps)</label>
+              <input type="number" id="wire-amps" placeholder="20" min="0.1" step="0.5">
+            </div>
+            <div class="field">
+              <label>Terminal Temp</label>
+              <select id="wire-temp">
+                <option value="60">60°C</option>
+                <option value="75" selected>75°C</option>
+                <option value="90">90°C</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Ambient (°C)</label>
+              <input type="number" id="wire-ambient" value="30" min="10" max="80">
+            </div>
+          </div>
+          <button class="calc-btn" onclick="calcWire()">Calculate</button>
+          <div class="result-block" id="wire-result"></div>
+        </div>
+      </div>
+
+      <!-- 2. Conduit Fill -->
+      <div class="calc-card">
+        <div class="calc-header" onclick="toggleCalc('conduit')">
+          <div class="calc-title-row">
+            <div class="calc-name">Conduit Fill</div>
+            <div class="calc-ref">NEC Chapter 9 — Table 1 + Table 4</div>
+          </div>
+          <svg class="calc-chevron" id="conduit-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="calc-body" id="conduit-body">
+          <div id="cond-rows" class="cond-rows"></div>
+          <button class="add-cond-btn" onclick="addCondRow()">+ Add conductor</button>
+          <button class="calc-btn" onclick="calcConduit()" style="margin-top:14px">Calculate</button>
+          <div class="result-block" id="conduit-result"></div>
+        </div>
+      </div>
+
+      <!-- 3. Box Fill -->
+      <div class="calc-card">
+        <div class="calc-header" onclick="toggleCalc('box')">
+          <div class="calc-title-row">
+            <div class="calc-name">Box Fill</div>
+            <div class="calc-ref">NEC 314.16(B)</div>
+          </div>
+          <svg class="calc-chevron" id="box-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="calc-body" id="box-body">
+          <div class="field-row">
+            <div class="field">
+              <label>Conductors AWG</label>
+              <select id="box-awg">
+                <option value="14">14 AWG</option>
+                <option value="12" selected>12 AWG</option>
+                <option value="10">10 AWG</option>
+                <option value="8">8 AWG</option>
+                <option value="6">6 AWG</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Count</label>
+              <input type="number" id="box-count" value="3" min="0" step="1">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Devices (yokes)</label>
+              <input type="number" id="box-devices" value="1" min="0" step="1">
+            </div>
+            <div class="field">
+              <label>Grounds</label>
+              <input type="number" id="box-grounds" value="1" min="0" step="1">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field" style="flex-direction:row;align-items:center;gap:10px;margin-top:10px">
+              <input type="checkbox" id="box-clamps" style="width:18px;height:18px;accent-color:var(--accent)">
+              <label for="box-clamps" style="text-transform:none;font-size:13px;color:var(--text2)">Internal cable clamps</label>
+            </div>
+          </div>
+          <button class="calc-btn" onclick="calcBox()">Calculate</button>
+          <div class="result-block" id="box-result"></div>
+        </div>
+      </div>
+
+      <!-- 4. Voltage Drop -->
+      <div class="calc-card">
+        <div class="calc-header" onclick="toggleCalc('vdrop')">
+          <div class="calc-title-row">
+            <div class="calc-name">Voltage Drop</div>
+            <div class="calc-ref">NEC 210.19(A) — 3% guideline</div>
+          </div>
+          <svg class="calc-chevron" id="vdrop-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="calc-body" id="vdrop-body">
+          <div class="field-row">
+            <div class="field">
+              <label>Wire AWG</label>
+              <select id="vd-awg">
+                <option value="14">14</option>
+                <option value="12" selected>12</option>
+                <option value="10">10</option>
+                <option value="8">8</option>
+                <option value="6">6</option>
+                <option value="4">4</option>
+                <option value="2">2</option>
+                <option value="1/0">1/0</option>
+                <option value="2/0">2/0</option>
+                <option value="3/0">3/0</option>
+                <option value="4/0">4/0</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Length (ft)</label>
+              <input type="number" id="vd-length" placeholder="100" min="1">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Load (Amps)</label>
+              <input type="number" id="vd-amps" placeholder="20" min="0.1" step="0.5">
+            </div>
+            <div class="field">
+              <label>Voltage</label>
+              <select id="vd-voltage">
+                <option value="120" selected>120V</option>
+                <option value="208">208V</option>
+                <option value="240">240V</option>
+                <option value="277">277V</option>
+                <option value="480">480V</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Phase</label>
+              <select id="vd-phase">
+                <option value="1" selected>1Ø</option>
+                <option value="3">3Ø</option>
+              </select>
+            </div>
+          </div>
+          <button class="calc-btn" onclick="calcVdrop()">Calculate</button>
+          <div class="result-block" id="vdrop-result"></div>
+        </div>
+      </div>
+
+    </div><!-- /tab-calc -->
+
+    <!-- ── FEED TAB ── -->
+    <div id="tab-feed" class="tab-panel">
+      <div class="coming-soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <h3>Feed coming soon</h3>
+        <p>Photos, installs, and panel shots from verified electricians.<br>License verification launching with beta.</p>
+      </div>
+    </div>
+
+    <!-- ── FORUM TAB ── -->
+    <div id="tab-forum" class="tab-panel">
+      <div class="coming-soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <h3>Forum coming soon</h3>
+        <p>Code interpretation, troubleshooting, and apprenticeship channels — for licensed electricians only.</p>
+      </div>
+    </div>
+
+    <!-- ── REF TAB ── -->
+    <div id="tab-ref" class="tab-panel">
+      <div class="coming-soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <h3>NEC 2026 Reference</h3>
+        <p>Full article browser with the 2026 restructure (Article 220 → 120, etc.) coming in beta.</p>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- BOTTOM NAV -->
+  <nav id="bottomnav">
+    <button class="nav-tab active" onclick="switchTab('calc',this)" aria-label="Calculators">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
+      Calc
+    </button>
+    <button class="nav-tab" onclick="switchTab('feed',this)" aria-label="Feed">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      Feed
+    </button>
+    <button class="nav-tab" onclick="switchTab('forum',this)" aria-label="Forum">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Forum
+    </button>
+    <button class="nav-tab" onclick="switchTab('ref',this)" aria-label="NEC Reference">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Ref
+    </button>
+  </nav>
+
+</div><!-- /app -->
+
+<!-- AUTH MODAL -->
+<div id="auth-modal" onclick="closeAuthOutside(event)">
+  <div id="auth-sheet" style="position:relative">
+    <button class="auth-close" onclick="closeAuth()">×</button>
+    <div class="auth-title">Verify your license</div>
+    <div class="auth-sub">12TWO verifies identity through your state electrician license — no social login required.</div>
+    <div class="auth-field">
+      <label>State</label>
+      <input type="text" id="auth-state" placeholder="e.g. CA, TX, FL…" maxlength="2">
+    </div>
+    <div class="auth-field">
+      <label>License Number</label>
+      <input type="text" id="auth-license" placeholder="e.g. C-10 #123456">
+    </div>
+    <button class="auth-submit">Verify License</button>
+    <div class="auth-divider">beta</div>
+    <p style="font-size:12px;color:var(--text3);text-align:center;line-height:1.5">License verification against state board APIs launches with beta. Calculators are free — no account needed.</p>
+  </div>
+</div>
+
+<script>
+// ── Tab switching ────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Calc accordion ───────────────────────────────────────────────────────────
+function toggleCalc(id) {
+  const body = document.getElementById(id + '-body');
+  const chev = document.getElementById(id + '-chev');
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+
+// ── Auth modal ───────────────────────────────────────────────────────────────
+function openAuth()  { document.getElementById('auth-modal').classList.add('visible'); }
+function closeAuth() { document.getElementById('auth-modal').classList.remove('visible'); }
+function closeAuthOutside(e) { if (e.target === document.getElementById('auth-modal')) closeAuth(); }
+
+// ── NEC calculator access (loaded as module, available via window.NEC) ────────
+// Retry loop because module scripts execute after inline scripts
+let _necReady = false;
+function getNEC() { return window.NEC || null; }
+
+// ── 1. Wire Sizing ────────────────────────────────────────────────────────────
+function calcWire() {
+  const N = getNEC(); if (!N) return alert('Calculator loading…');
+  const amps    = parseFloat(document.getElementById('wire-amps').value);
+  const temp    = document.getElementById('wire-temp').value;
+  const ambient = parseFloat(document.getElementById('wire-ambient').value) || 30;
+  const res     = document.getElementById('wire-result');
+
+  if (!amps) { showError(res, 'Enter load amps.'); return; }
+
+  const r = N.wireSize(amps, temp, ambient);
+  res.classList.add('visible');
+  if (r.error) { showError(res, r.error); return; }
+
+  res.innerHTML = `
+    <div class="result-value">${r.awg} AWG</div>
+    <div class="result-unit">Minimum conductor size · copper · ${temp}°C terminals</div>
+    <div class="result-grid">
+      <div class="result-cell"><div class="result-cell-label">Ampacity</div><div class="result-cell-val">${r.ampacity}A</div></div>
+      <div class="result-cell"><div class="result-cell-label">Ambient</div><div class="result-cell-val">${ambient}°C</div></div>
+    </div>
+    ${r.note ? `<div class="result-note">${r.note}</div>` : ''}
+    <div class="result-note" style="margin-top:8px;color:var(--text3)">Apply 125% rule for continuous loads before entering amps (NEC 210.20).</div>`;
+}
+
+// ── 2. Conduit Fill ───────────────────────────────────────────────────────────
+const AWG_OPTS = ['14','12','10','8','6','4','3','2','1','1/0','2/0','3/0','4/0','250','300','350','400','500'];
+let condRows = [];
+
+function addCondRow(awg='12', count=1) {
+  const id = Date.now();
+  condRows.push(id);
+  const opts = AWG_OPTS.map(a => `<option value="${a}"${a===awg?' selected':''}>${a} AWG</option>`).join('');
+  const row = document.createElement('div');
+  row.className = 'cond-row'; row.id = 'cr-' + id;
+  row.innerHTML = `
+    <div class="field"><label>AWG</label><select id="awg-${id}">${opts}</select></div>
+    <div class="field"><label>Count</label><input type="number" id="cnt-${id}" value="${count}" min="1" step="1" style="width:72px"></div>
+    <button class="remove-btn" onclick="removeCondRow(${id})">×</button>`;
+  document.getElementById('cond-rows').appendChild(row);
+}
+
+function removeCondRow(id) {
+  condRows = condRows.filter(r => r !== id);
+  document.getElementById('cr-' + id)?.remove();
+}
+
+function calcConduit() {
+  const N = getNEC(); if (!N) return alert('Calculator loading…');
+  const conductors = condRows.map(id => ({
+    awg:   document.getElementById('awg-' + id)?.value,
+    count: parseInt(document.getElementById('cnt-' + id)?.value) || 1,
+  })).filter(c => c.awg);
+
+  const res = document.getElementById('conduit-result');
+  if (!conductors.length) { showError(res, 'Add at least one conductor.'); return; }
+
+  const r = N.conduitFill(conductors);
+  res.classList.add('visible');
+  if (r.error) { showError(res, r.error); return; }
+
+  res.innerHTML = `
+    <div class="result-value">${r.size}"</div>
+    <div class="result-unit">Minimum EMT trade size</div>
+    <div class="result-grid">
+      <div class="result-cell"><div class="result-cell-label">Fill area</div><div class="result-cell-val">${r.fillArea} in²</div></div>
+      <div class="result-cell"><div class="result-cell-label">Fill %</div><div class="result-cell-val">${r.fillPct}%</div></div>
+      <div class="result-cell"><div class="result-cell-label">Max allowed</div><div class="result-cell-val">${r.maxAllowed} in²</div></div>
+      <div class="result-cell"><div class="result-cell-label">Rule</div><div class="result-cell-val" style="font-size:12px">${r.rule}</div></div>
+    </div>`;
+}
+
+// ── 3. Box Fill ───────────────────────────────────────────────────────────────
+function calcBox() {
+  const N = getNEC(); if (!N) return alert('Calculator loading…');
+  const awg     = document.getElementById('box-awg').value;
+  const count   = parseInt(document.getElementById('box-count').value) || 0;
+  const devices = parseInt(document.getElementById('box-devices').value) || 0;
+  const grounds = parseInt(document.getElementById('box-grounds').value) || 0;
+  const clamps  = document.getElementById('box-clamps').checked;
+  const res     = document.getElementById('box-result');
+
+  const r = N.boxFill({ conductors: count ? [{ awg, count }] : [], devices, hasClamps: clamps, groundCount: grounds });
+  res.classList.add('visible');
+  if (r.error) { showError(res, r.error); return; }
+
+  res.innerHTML = `
+    <div class="result-value">${r.cubicInches} in³</div>
+    <div class="result-unit">Minimum box volume required</div>
+    <div class="result-grid">
+      <div class="result-cell"><div class="result-cell-label">Conductors</div><div class="result-cell-val">${r.breakdown.conductors} in³</div></div>
+      <div class="result-cell"><div class="result-cell-label">Devices</div><div class="result-cell-val">${r.breakdown.devices} in³</div></div>
+      <div class="result-cell"><div class="result-cell-label">Clamps</div><div class="result-cell-val">${r.breakdown.clamps} in³</div></div>
+      <div class="result-cell"><div class="result-cell-label">Grounds</div><div class="result-cell-val">${r.breakdown.grounds} in³</div></div>
+    </div>
+    <div class="result-note">Common 4×4×1½" box = 21 in³. Deep 4×4×2⅛" = 30.3 in³.</div>`;
+}
+
+// ── 4. Voltage Drop ───────────────────────────────────────────────────────────
+function calcVdrop() {
+  const N = getNEC(); if (!N) return alert('Calculator loading…');
+  const awg    = document.getElementById('vd-awg').value;
+  const length = parseFloat(document.getElementById('vd-length').value);
+  const amps   = parseFloat(document.getElementById('vd-amps').value);
+  const volt   = parseFloat(document.getElementById('vd-voltage').value);
+  const phase  = document.getElementById('vd-phase').value;
+  const res    = document.getElementById('vdrop-result');
+
+  if (!length || !amps) { showError(res, 'Enter length and amps.'); return; }
+
+  const r = N.voltageDrop(awg, length, amps, volt, phase);
+  res.classList.add('visible');
+  if (r.error) { showError(res, r.error); return; }
+
+  const passClass = r.pass ? 'result-pass' : 'result-fail';
+  const passText  = r.pass ? '✓ Pass' : '✗ Exceeds 3%';
+
+  res.innerHTML = `
+    <div class="result-value" style="color:${r.pass ? 'var(--ok)' : 'var(--danger)'}">${r.dropPct}%</div>
+    <div class="result-unit">Voltage drop · <span class="${passClass}">${passText}</span></div>
+    <div class="result-grid">
+      <div class="result-cell"><div class="result-cell-label">Drop</div><div class="result-cell-val">${r.dropVolts}V</div></div>
+      <div class="result-cell"><div class="result-cell-label">End voltage</div><div class="result-cell-val">${r.endVolts}V</div></div>
+    </div>
+    <div class="result-note">${r.guideline}.</div>`;
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function showError(el, msg) {
+  el.classList.add('visible');
+  el.innerHTML = `<div class="result-error">⚠ ${msg}</div>`;
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+addCondRow('12', 3);  // default conduit row
+</script>
+</body>
+</html>
