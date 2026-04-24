@@ -417,6 +417,26 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;heigh
 .forum-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .forum-replies{font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.06em}
 
+/* THREAD DETAIL */
+.thread-back{display:flex;align-items:center;margin-bottom:10px}
+.thread-back-btn{background:transparent;border:none;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--accent);cursor:pointer;padding:4px 0;display:inline-flex;align-items:center;gap:4px}
+.thread-head{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;box-shadow:var(--shadow-sm);margin-bottom:12px}
+.thread-head-title{font-size:16px;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:8px}
+.thread-head-author{display:flex;align-items:center;gap:9px;margin-bottom:10px;cursor:pointer}
+.thread-head-body{font-size:13px;color:var(--text2);line-height:1.6;margin-top:10px;margin-bottom:10px;white-space:pre-wrap;word-break:break-word}
+.thread-head-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:10px}
+.reply-count-hdr{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin:14px 4px 8px;font-weight:700}
+.reply-list{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.reply-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;box-shadow:var(--shadow-sm)}
+.reply-author{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.reply-body{font-size:13px;color:var(--text2);line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.reply-compose{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;box-shadow:var(--shadow-sm);margin-bottom:16px}
+.reply-compose textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;font-family:var(--sans);font-size:13px;color:var(--text);outline:none;box-sizing:border-box;min-height:70px;resize:vertical;line-height:1.5}
+.reply-compose textarea:focus{border-color:var(--accent-border);background:var(--surface)}
+.reply-compose-row{display:flex;justify-content:flex-end;margin-top:8px}
+.reply-compose-btn{padding:8px 18px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.reply-compose-btn:disabled{opacity:.5;cursor:not-allowed}
+
 /* AUTH + COMPOSE SHEETS (reuses .pro-modal-ov pattern) */
 .cmt-sheet-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(12px);z-index:500;align-items:flex-end;justify-content:center;padding:0}
 .cmt-sheet-ov.open{display:flex}
@@ -2285,6 +2305,17 @@ input,textarea{caret-color:var(--accent)}
   </div>
 </div>
 
+<!-- ══ THREAD DETAIL ══ -->
+<div class="page" id="page-thread">
+  <div class="thread-back">
+    <button class="thread-back-btn" onclick="backFromThread()">← Forum</button>
+  </div>
+  <div id="threadHead"><div class="feed-loading">Loading…</div></div>
+  <div id="threadReplyCount" class="reply-count-hdr" style="display:none"></div>
+  <div id="threadReplyList" class="reply-list"></div>
+  <div id="threadReplyCompose"></div>
+</div>
+
 <!-- ══ AUTH SHEET ══ -->
 <div class="cmt-sheet-ov" id="authSheetOv" onclick="if(event.target===this)closeAuthSheet()">
   <div class="cmt-sheet">
@@ -2663,7 +2694,7 @@ function forumItemHTML(t){
   const name = a.name || 'A 10THOU engineer';
   const title = a.title ? ' · ' + a.title : '';
   const replyCount = t.reply_count != null ? t.reply_count : 0;
-  return `<div class="forum-item" onclick="location.href='${escAttr(location.origin + '/thread/' + encodeURIComponent(t.id))}'">
+  return `<div class="forum-item" onclick="goThread('${escAttr(t.id)}')">
     <div class="forum-title">${escText(t.title || '(untitled)')}</div>
     <div class="forum-who">${escText(name)}${escText(title)} · ${timeAgo(t.created_at)}</div>
     <div class="forum-meta">
@@ -2949,8 +2980,206 @@ async function submitThread(){
   }
 }
 
-// Kick off auth init on load (non-blocking; UI renders without it)
-window.addEventListener('DOMContentLoaded', () => { initCommunityAuth(); });
+// ─── THREAD DETAIL VIEW + REPLIES ───────────────────────────────────────────
+let currentThreadId = null;
+let _preThreadView = 'forum';
+
+async function goThread(id, opts){
+  opts = opts || {};
+  if (!id) return;
+  currentThreadId = id;
+  if (opts.push !== false) {
+    _preThreadView = getCurrentView() || 'forum';
+    history.pushState({ view: 'thread', id }, '', '/thread/' + encodeURIComponent(id));
+  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('page-thread').classList.add('on');
+  const partsNav = document.getElementById('partsSubNav');
+  if (partsNav) partsNav.style.display = 'none';
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  const nb = document.getElementById('nb-forum');
+  if (nb) nb.classList.add('on');
+  window.scrollTo(0, 0);
+  await renderThread(id);
+}
+
+function getCurrentView(){
+  const on = document.querySelector('.page.on');
+  if (!on) return null;
+  return (on.id || '').replace(/^page-/, '') || null;
+}
+
+function backFromThread(){
+  // If we pushed state, go back — browser replays popstate which we handle.
+  // Otherwise fall back to Forum.
+  if (history.state && history.state.view === 'thread') {
+    history.back();
+  } else {
+    currentThreadId = null;
+    goPage('forum');
+  }
+}
+
+async function renderThread(id){
+  const sb = await getSb();
+  const headEl = document.getElementById('threadHead');
+  const listEl = document.getElementById('threadReplyList');
+  const countEl = document.getElementById('threadReplyCount');
+  const composeEl = document.getElementById('threadReplyCompose');
+
+  headEl.innerHTML = '<div class="feed-loading">Loading…</div>';
+  listEl.innerHTML = '';
+  countEl.style.display = 'none';
+  composeEl.innerHTML = '';
+
+  // Prefer hydrated data from edge function for first paint on deep links
+  let thread = (window.__THREAD__ && window.__THREAD__.id === id) ? window.__THREAD__ : null;
+  if (!thread) {
+    const rows = await sbSelect('threads', {
+      select: 'id,title,body,domain,spec_tags,created_at,author:author_id(name,title,slug,photo_url)',
+      id: 'eq.' + id,
+      limit: '1'
+    });
+    thread = rows && rows[0];
+  }
+
+  if (!thread) {
+    headEl.innerHTML = '<div class="feed-empty">Thread not found.</div>';
+    return;
+  }
+
+  const a = thread.author || {};
+  const name = a.name || 'A 10THOU engineer';
+  const title = a.title ? ' · ' + a.title : '';
+  const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
+  const tags = Array.isArray(thread.spec_tags) ? thread.spec_tags : [];
+  const chips = tags.slice(0,6).map(t => {
+    const label = typeof t === 'string' ? t : (t && (t.label || t.id)) || '';
+    return label ? `<span class="feed-chip">${escText(label)}</span>` : '';
+  }).join('');
+  const profileUrl = a.slug ? '/u/' + encodeURIComponent(a.slug) : '';
+  const authorClick = profileUrl ? `onclick="location.href='${escAttr(profileUrl)}'"` : '';
+
+  headEl.innerHTML = `
+    <div class="thread-head">
+      <div class="thread-head-title">${escText(thread.title || '(untitled)')}</div>
+      <div class="thread-head-author" ${authorClick}>
+        ${avatar}
+        <div class="feed-who">
+          <div class="feed-name">${escText(name)}${escText(title)}</div>
+          <div class="feed-title">${escText(thread.domain || '')} · ${timeAgo(thread.created_at)}</div>
+        </div>
+      </div>
+      ${thread.body ? `<div class="thread-head-body">${escText(thread.body)}</div>` : ''}
+      <div class="thread-head-meta">
+        ${thread.domain ? `<span class="feed-domain">${escText(thread.domain)}</span>` : ''}
+        ${chips}
+      </div>
+    </div>
+  `;
+
+  const replies = await sbSelect('replies', {
+    select: 'id,body,created_at,author:author_id(name,title,slug,photo_url)',
+    thread_id: 'eq.' + id,
+    order: 'created_at.asc',
+    limit: '500'
+  });
+
+  countEl.style.display = 'block';
+  countEl.textContent = (replies.length === 1 ? '1 reply' : (replies.length + ' replies'));
+  listEl.innerHTML = replies.map(replyItemHTML).join('') || '<div class="feed-empty" style="padding:24px">No replies yet. Be the first.</div>';
+
+  renderReplyComposer();
+}
+
+function replyItemHTML(r){
+  const a = r.author || {};
+  const name = a.name || 'Engineer';
+  const title = a.title ? ' · ' + a.title : '';
+  const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
+  return `<div class="reply-item">
+    <div class="reply-author">
+      ${avatar}
+      <div class="feed-who">
+        <div class="feed-name">${escText(name)}${escText(title)}</div>
+        <div class="feed-title">${timeAgo(r.created_at)}</div>
+      </div>
+    </div>
+    <div class="reply-body">${escText(r.body)}</div>
+  </div>`;
+}
+
+function renderReplyComposer(){
+  const el = document.getElementById('threadReplyCompose');
+  if (!el) return;
+  if (!currentUser) {
+    el.innerHTML = `<div class="feed-compose-hint"><b>Sign in with LinkedIn to reply.</b>
+      <div style="margin-top:8px"><button class="feed-compose-btn" style="max-width:240px" onclick="openAuthSheet()">Sign in</button></div></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="reply-compose">
+    <textarea id="trBody" placeholder="Write a reply…" maxlength="4000"></textarea>
+    <div class="reply-compose-row">
+      <button id="trSubmit" class="reply-compose-btn" onclick="submitReply()">Reply</button>
+    </div>
+  </div>`;
+}
+
+async function submitReply(){
+  if (!currentUser) { openAuthSheet(); return; }
+  if (!currentThreadId) return;
+  const sb = await getSb();
+  if (!sb) return;
+  const btn = document.getElementById('trSubmit');
+  const body = (document.getElementById('trBody').value || '').trim();
+  if (!body) return;
+  btn.disabled = true;
+  try {
+    const { error } = await sb.from('replies').insert({
+      thread_id: currentThreadId,
+      author_id: currentUser.id,
+      body
+    });
+    if (error) throw error;
+    await renderThread(currentThreadId);
+  } catch (e) {
+    alert('Could not reply: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ─── INITIAL ROUTING ────────────────────────────────────────────────────────
+function routeFromPath(){
+  const m = location.pathname.match(/^\/thread\/([^/]+)\/?$/);
+  if (m) { goThread(decodeURIComponent(m[1]), { push: false }); return true; }
+  return false;
+}
+
+window.addEventListener('popstate', () => {
+  if (!routeFromPath()) {
+    currentThreadId = null;
+    goPage(_preThreadView || 'forum');
+  }
+});
+
+// Re-render reply composer when auth state changes while viewing a thread.
+(function(){
+  const origUpdate = updateAuthUI;
+  updateAuthUI = function(){
+    origUpdate();
+    if (currentThreadId && document.getElementById('page-thread')?.classList.contains('on')) {
+      renderReplyComposer();
+    }
+  };
+})();
+
+// Kick off auth init on load (non-blocking; UI renders without it).
+// Also handle deep-links to /thread/[id] on first load.
+window.addEventListener('DOMContentLoaded', () => {
+  initCommunityAuth();
+  routeFromPath();
+});
 
 
 // ─── STANDOFFS ───────────────────────────────────────────────────────────────
