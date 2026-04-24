@@ -437,6 +437,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;heigh
 .reply-compose-btn{padding:8px 18px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
 .reply-compose-btn:disabled{opacity:.5;cursor:not-allowed}
 
+/* PROFILE */
+.profile-head{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 14px;box-shadow:var(--shadow-sm);margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--surface3);flex-shrink:0;object-fit:cover}
+.profile-who{min-width:0;flex:1}
+.profile-name{font-size:16px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:4px}
+.profile-title{font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--text3);text-transform:uppercase;line-height:1.3}
+.profile-linkedin{display:inline-flex;align-items:center;gap:4px;background:#0A66C2;color:#fff;font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:2px 8px;border-radius:100px;margin-top:6px;font-weight:700;text-transform:uppercase}
+.profile-linkedin svg{width:10px;height:10px;fill:#fff}
+.profile-tabs{display:flex;gap:6px;margin-bottom:12px}
+.profile-tabs .feed-filter{flex:1}
+
 /* AUTH + COMPOSE SHEETS (reuses .pro-modal-ov pattern) */
 .cmt-sheet-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(12px);z-index:500;align-items:flex-end;justify-content:center;padding:0}
 .cmt-sheet-ov.open{display:flex}
@@ -2316,6 +2327,27 @@ input,textarea{caret-color:var(--accent)}
   <div id="threadReplyCompose"></div>
 </div>
 
+<!-- ══ POST DETAIL ══ -->
+<div class="page" id="page-post">
+  <div class="thread-back">
+    <button class="thread-back-btn" onclick="backFromDetail()">← Back</button>
+  </div>
+  <div id="postDetail"><div class="feed-loading">Loading…</div></div>
+</div>
+
+<!-- ══ PROFILE ══ -->
+<div class="page" id="page-profile">
+  <div class="thread-back">
+    <button class="thread-back-btn" onclick="backFromDetail()">← Back</button>
+  </div>
+  <div id="profileHead"><div class="feed-loading">Loading…</div></div>
+  <div class="profile-tabs" id="profileTabs" style="display:none">
+    <button class="feed-filter on" data-tab="posts" onclick="setProfileTab(this,'posts')">Posts</button>
+    <button class="feed-filter" data-tab="threads" onclick="setProfileTab(this,'threads')">Threads</button>
+  </div>
+  <div id="profileContent"></div>
+</div>
+
 <!-- ══ AUTH SHEET ══ -->
 <div class="cmt-sheet-ov" id="authSheetOv" onclick="if(event.target===this)closeAuthSheet()">
   <div class="cmt-sheet">
@@ -2657,15 +2689,15 @@ function feedCardHTML(p){
   const name = a.name || 'A 10THOU engineer';
   const title = a.title ? ' · ' + a.title : '';
   const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
-  const img = p.image_url ? `<img class="feed-img" src="${escAttr(p.image_url)}" alt="" loading="lazy">` : '';
+  const imgClick = `onclick="goPost('${escAttr(p.id)}')"`;
+  const img = p.image_url ? `<img class="feed-img" src="${escAttr(p.image_url)}" alt="" loading="lazy" ${imgClick}>` : '';
   const tags = Array.isArray(p.spec_tags) ? p.spec_tags : [];
   const chips = tags.slice(0,6).map(t=>{
     const label = typeof t === 'string' ? t : (t && (t.label || t.id)) || '';
     return label ? `<span class="feed-chip">${escText(label)}</span>` : '';
   }).join('');
   const postUrl = location.origin + '/post/' + encodeURIComponent(p.id);
-  const profileUrl = a.slug ? location.origin + '/u/' + encodeURIComponent(a.slug) : '';
-  const authorClick = profileUrl ? `onclick="location.href='${escAttr(profileUrl)}'"` : '';
+  const authorClick = a.slug ? `onclick="goProfile('${escAttr(a.slug)}')"` : '';
   return `<article class="feed-card">
     ${img}
     <div class="feed-body">
@@ -2676,7 +2708,7 @@ function feedCardHTML(p){
           <div class="feed-title">${escText(p.domain || '')} · ${timeAgo(p.created_at)}</div>
         </div>
       </div>
-      ${p.caption ? `<div class="feed-caption">${escText(p.caption)}</div>` : ''}
+      ${p.caption ? `<div class="feed-caption" onclick="goPost('${escAttr(p.id)}')" style="cursor:pointer">${escText(p.caption)}</div>` : ''}
       <div class="feed-meta">
         ${p.domain ? `<span class="feed-domain">${escText(p.domain)}</span>` : ''}
         ${chips}
@@ -2982,14 +3014,13 @@ async function submitThread(){
 
 // ─── THREAD DETAIL VIEW + REPLIES ───────────────────────────────────────────
 let currentThreadId = null;
-let _preThreadView = 'forum';
 
 async function goThread(id, opts){
   opts = opts || {};
   if (!id) return;
   currentThreadId = id;
   if (opts.push !== false) {
-    _preThreadView = getCurrentView() || 'forum';
+    if (!isInDetailView()) _preDetailView = getCurrentView() || 'forum';
     history.pushState({ view: 'thread', id }, '', '/thread/' + encodeURIComponent(id));
   }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
@@ -3009,16 +3040,7 @@ function getCurrentView(){
   return (on.id || '').replace(/^page-/, '') || null;
 }
 
-function backFromThread(){
-  // If we pushed state, go back — browser replays popstate which we handle.
-  // Otherwise fall back to Forum.
-  if (history.state && history.state.view === 'thread') {
-    history.back();
-  } else {
-    currentThreadId = null;
-    goPage('forum');
-  }
-}
+function backFromThread(){ backFromDetail(); }
 
 async function renderThread(id){
   const sb = await getSb();
@@ -3057,8 +3079,7 @@ async function renderThread(id){
     const label = typeof t === 'string' ? t : (t && (t.label || t.id)) || '';
     return label ? `<span class="feed-chip">${escText(label)}</span>` : '';
   }).join('');
-  const profileUrl = a.slug ? '/u/' + encodeURIComponent(a.slug) : '';
-  const authorClick = profileUrl ? `onclick="location.href='${escAttr(profileUrl)}'"` : '';
+  const authorClick = a.slug ? `onclick="goProfile('${escAttr(a.slug)}')"` : '';
 
   headEl.innerHTML = `
     <div class="thread-head">
@@ -3097,8 +3118,9 @@ function replyItemHTML(r){
   const name = a.name || 'Engineer';
   const title = a.title ? ' · ' + a.title : '';
   const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
+  const authorClick = a.slug ? `onclick="goProfile('${escAttr(a.slug)}')" style="cursor:pointer"` : '';
   return `<div class="reply-item">
-    <div class="reply-author">
+    <div class="reply-author" ${authorClick}>
       ${avatar}
       <div class="feed-who">
         <div class="feed-name">${escText(name)}${escText(title)}</div>
@@ -3149,17 +3171,199 @@ async function submitReply(){
   }
 }
 
-// ─── INITIAL ROUTING ────────────────────────────────────────────────────────
+// ─── POST DETAIL VIEW ──────────────────────────────────────────────────────
+let currentPostId = null;
+
+async function goPost(id, opts){
+  opts = opts || {};
+  if (!id) return;
+  currentPostId = id;
+  if (opts.push !== false) {
+    if (!isInDetailView()) _preDetailView = getCurrentView() || 'feed';
+    history.pushState({ view: 'post', id }, '', '/post/' + encodeURIComponent(id));
+  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('page-post').classList.add('on');
+  const partsNav = document.getElementById('partsSubNav');
+  if (partsNav) partsNav.style.display = 'none';
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  const nb = document.getElementById('nb-feed');
+  if (nb) nb.classList.add('on');
+  window.scrollTo(0, 0);
+  await renderPost(id);
+}
+
+async function renderPost(id){
+  const container = document.getElementById('postDetail');
+  container.innerHTML = '<div class="feed-loading">Loading…</div>';
+
+  let post = (window.__POST__ && window.__POST__.id === id) ? window.__POST__ : null;
+  if (!post) {
+    const rows = await sbSelect('posts', {
+      select: 'id,type,domain,caption,image_url,spec_tags,created_at,author:author_id(name,title,slug,photo_url)',
+      id: 'eq.' + id,
+      limit: '1'
+    });
+    post = rows && rows[0];
+  }
+
+  if (!post) {
+    container.innerHTML = '<div class="feed-empty">Post not found.</div>';
+    return;
+  }
+
+  container.innerHTML = feedCardHTML(post);
+}
+
+// ─── PROFILE VIEW ──────────────────────────────────────────────────────────
+let currentProfileSlug = null;
+let profileTab = 'posts';
+
+async function goProfile(slug, opts){
+  opts = opts || {};
+  if (!slug) return;
+  currentProfileSlug = slug;
+  profileTab = 'posts';
+  if (opts.push !== false) {
+    if (!isInDetailView()) _preDetailView = getCurrentView() || 'feed';
+    history.pushState({ view: 'profile', slug }, '', '/u/' + encodeURIComponent(slug));
+  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('page-profile').classList.add('on');
+  const partsNav = document.getElementById('partsSubNav');
+  if (partsNav) partsNav.style.display = 'none';
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  window.scrollTo(0, 0);
+  await renderProfile(slug);
+}
+
+async function renderProfile(slug){
+  const headEl = document.getElementById('profileHead');
+  const tabsEl = document.getElementById('profileTabs');
+  const contentEl = document.getElementById('profileContent');
+  headEl.innerHTML = '<div class="feed-loading">Loading…</div>';
+  tabsEl.style.display = 'none';
+  contentEl.innerHTML = '';
+
+  let user = (window.__USER__ && window.__USER__.slug === slug) ? window.__USER__ : null;
+  if (!user) {
+    const rows = await sbSelect('users', {
+      select: 'id,name,title,photo_url,slug,linkedin_sub,auth_active',
+      slug: 'eq.' + slug,
+      limit: '1'
+    });
+    user = rows && rows[0];
+  }
+
+  if (!user) {
+    headEl.innerHTML = '<div class="feed-empty">Profile not found.</div>';
+    return;
+  }
+
+  const avatar = user.photo_url ? `<img class="profile-avatar" src="${escAttr(user.photo_url)}" alt="">` : `<div class="profile-avatar"></div>`;
+  const liBadge = user.linkedin_sub ? `<div class="profile-linkedin">
+    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
+    LinkedIn</div>` : '';
+  headEl.innerHTML = `<div class="profile-head">
+    ${avatar}
+    <div class="profile-who">
+      <div class="profile-name">${escText(user.name || 'Engineer')}</div>
+      ${user.title ? `<div class="profile-title">${escText(user.title)}</div>` : ''}
+      ${liBadge}
+    </div>
+  </div>`;
+
+  currentProfileSlug = slug;
+  _profileUserId = user.id;
+  tabsEl.style.display = 'flex';
+  tabsEl.querySelectorAll('.feed-filter').forEach(b => b.classList.toggle('on', b.dataset.tab === profileTab));
+  await renderProfileContent();
+}
+
+let _profileUserId = null;
+
+async function setProfileTab(btn, tab){
+  profileTab = tab;
+  document.querySelectorAll('#profileTabs .feed-filter').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  await renderProfileContent();
+}
+
+async function renderProfileContent(){
+  const contentEl = document.getElementById('profileContent');
+  if (!_profileUserId) return;
+  contentEl.innerHTML = '<div class="feed-loading">Loading…</div>';
+
+  if (profileTab === 'posts') {
+    const posts = await sbSelect('posts', {
+      select: 'id,type,domain,caption,image_url,spec_tags,created_at,author:author_id(name,title,slug,photo_url)',
+      author_id: 'eq.' + _profileUserId,
+      order: 'created_at.desc',
+      limit: '100'
+    });
+    if (!posts.length) {
+      contentEl.innerHTML = '<div class="feed-empty">No posts yet.</div>';
+    } else {
+      contentEl.className = 'feed-list';
+      contentEl.innerHTML = posts.map(feedCardHTML).join('');
+    }
+  } else {
+    const threads = await sbSelect('threads', {
+      select: 'id,title,domain,created_at,author:author_id(name,title,slug)',
+      author_id: 'eq.' + _profileUserId,
+      order: 'created_at.desc',
+      limit: '100'
+    });
+    if (!threads.length) {
+      contentEl.innerHTML = '<div class="feed-empty">No threads yet.</div>';
+    } else {
+      contentEl.className = 'forum-list';
+      contentEl.innerHTML = threads.map(forumItemHTML).join('');
+    }
+  }
+}
+
+// ─── UNIFIED DETAIL-VIEW BACK NAV ───────────────────────────────────────────
+let _preDetailView = null;
+
+function isInDetailView(){
+  const v = getCurrentView();
+  return v === 'thread' || v === 'post' || v === 'profile';
+}
+
+function backFromDetail(){
+  if (history.state && history.state.view) { history.back(); return; }
+  const prev = _preDetailView || 'feed';
+  _preDetailView = null;
+  currentPostId = null;
+  currentProfileSlug = null;
+  currentThreadId = null;
+  goPage(prev);
+}
+
+// ─── ROUTING ────────────────────────────────────────────────────────────────
 function routeFromPath(){
-  const m = location.pathname.match(/^\/thread\/([^/]+)\/?$/);
-  if (m) { goThread(decodeURIComponent(m[1]), { push: false }); return true; }
+  let m;
+  if ((m = location.pathname.match(/^\/thread\/([^/]+)\/?$/))) {
+    goThread(decodeURIComponent(m[1]), { push: false }); return true;
+  }
+  if ((m = location.pathname.match(/^\/post\/([^/]+)\/?$/))) {
+    goPost(decodeURIComponent(m[1]), { push: false }); return true;
+  }
+  if ((m = location.pathname.match(/^\/u\/([^/]+)\/?$/))) {
+    goProfile(decodeURIComponent(m[1]), { push: false }); return true;
+  }
   return false;
 }
 
 window.addEventListener('popstate', () => {
   if (!routeFromPath()) {
+    const prev = _preDetailView || 'feed';
+    _preDetailView = null;
     currentThreadId = null;
-    goPage(_preThreadView || 'forum');
+    currentPostId = null;
+    currentProfileSlug = null;
+    goPage(prev);
   }
 });
 
