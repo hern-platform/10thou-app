@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- Franchise vertical config — loads window.VERTICAL_CONFIG before any app script runs.
+     Swap this path to point at /verticals/electrical/config.js for 12TWO, etc. -->
+<script src="/verticals/hardware/config.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>10THOU — Hardware Reference</title>
 <link rel="manifest" href="manifest.json">
@@ -2279,15 +2282,8 @@ input,textarea{caret-color:var(--accent)}
 <!-- ══ FEED (community prototype — not in prod) ══ -->
 <div class="page" id="page-feed">
   <div class="sec-hd"><div class="sec-t">Feed</div><div class="sec-tag">Community</div></div>
-  <div class="feed-filters" id="feedFilters">
-    <button class="feed-filter on" data-domain="" onclick="setFeedFilter(this,'')">All</button>
-    <button class="feed-filter" data-domain="3D Printing" onclick="setFeedFilter(this,'3D Printing')">3D Printing</button>
-    <button class="feed-filter" data-domain="Machining" onclick="setFeedFilter(this,'Machining')">Machining</button>
-    <button class="feed-filter" data-domain="Sealing" onclick="setFeedFilter(this,'Sealing')">Sealing</button>
-    <button class="feed-filter" data-domain="Electronics" onclick="setFeedFilter(this,'Electronics')">Electronics</button>
-    <button class="feed-filter" data-domain="Injection Molding" onclick="setFeedFilter(this,'Injection Molding')">Injection Molding</button>
-    <button class="feed-filter" data-domain="Fastening" onclick="setFeedFilter(this,'Fastening')">Fastening</button>
-  </div>
+  <!-- Feed filter pills — populated by initVertical() from VERTICAL_CONFIG.feedTags.specialties -->
+  <div class="feed-filters" id="feedFilters"></div>
   <div class="feed-compose-row">
     <button class="feed-compose-btn" onclick="openFeedCompose()">+ Share a project</button>
   </div>
@@ -2299,15 +2295,8 @@ input,textarea{caret-color:var(--accent)}
 <!-- ══ FORUM (community prototype — not in prod) ══ -->
 <div class="page" id="page-forum">
   <div class="sec-hd"><div class="sec-t">Forum</div><div class="sec-tag">Community</div></div>
-  <div class="feed-filters" id="forumFilters">
-    <button class="feed-filter on" data-domain="" onclick="setForumFilter(this,'')">All</button>
-    <button class="feed-filter" data-domain="3D Printing" onclick="setForumFilter(this,'3D Printing')">3D Printing</button>
-    <button class="feed-filter" data-domain="Machining" onclick="setForumFilter(this,'Machining')">Machining</button>
-    <button class="feed-filter" data-domain="Sealing" onclick="setForumFilter(this,'Sealing')">Sealing</button>
-    <button class="feed-filter" data-domain="Electronics" onclick="setForumFilter(this,'Electronics')">Electronics</button>
-    <button class="feed-filter" data-domain="Injection Molding" onclick="setForumFilter(this,'Injection Molding')">Injection Molding</button>
-    <button class="feed-filter" data-domain="Fastening" onclick="setForumFilter(this,'Fastening')">Fastening</button>
-  </div>
+  <!-- Forum filter pills — populated by initVertical() from VERTICAL_CONFIG.forumChannels -->
+  <div class="feed-filters" id="forumFilters"></div>
   <div class="feed-compose-row">
     <button class="feed-compose-btn" onclick="openForumCompose()">+ New thread</button>
   </div>
@@ -2389,14 +2378,8 @@ input,textarea{caret-color:var(--accent)}
 
     <div class="cmt-field">
       <div class="cmt-label">Domain</div>
-      <select class="cmt-select" id="fcDomain">
-        <option value="3D Printing">3D Printing</option>
-        <option value="Machining">Machining</option>
-        <option value="Sealing">Sealing</option>
-        <option value="Electronics">Electronics</option>
-        <option value="Injection Molding">Injection Molding</option>
-        <option value="Fastening">Fastening</option>
-      </select>
+      <!-- Options populated by initVertical() from VERTICAL_CONFIG.feedTags.specialties -->
+      <select class="cmt-select" id="fcDomain"></select>
     </div>
 
     <div class="cmt-field">
@@ -2428,14 +2411,8 @@ input,textarea{caret-color:var(--accent)}
 
     <div class="cmt-field">
       <div class="cmt-label">Domain</div>
-      <select class="cmt-select" id="ftDomain">
-        <option value="3D Printing">3D Printing</option>
-        <option value="Machining">Machining</option>
-        <option value="Sealing">Sealing</option>
-        <option value="Electronics">Electronics</option>
-        <option value="Injection Molding">Injection Molding</option>
-        <option value="Fastening">Fastening</option>
-      </select>
+      <!-- Options populated by initVertical() from VERTICAL_CONFIG.forumChannels -->
+      <select class="cmt-select" id="ftDomain"></select>
     </div>
 
     <div class="cmt-field">
@@ -2565,6 +2542,92 @@ input,textarea{caret-color:var(--accent)}
 <script>
 'use strict';
 
+// ══════════════════════════════════════════════════════
+//  FRANCHISE VERTICAL INIT
+//  Reads window.VERTICAL_CONFIG (loaded by /verticals/*/config.js in <head>)
+//  and wires it into the DOM: app name, brand colors, filter pills, domain
+//  selects. Core logic never references a vertical name directly.
+// ══════════════════════════════════════════════════════
+function initVertical() {
+  const vc = window.VERTICAL_CONFIG;
+  if (!vc) return;
+
+  // App name in header wordmark
+  const wmEl = document.getElementById('wmName');
+  if (wmEl) wmEl.textContent = vc.name;
+
+  // Page title
+  document.title = vc.name + ' \u2014 ' + vc.tagline;
+
+  // theme-color meta (browser chrome tint)
+  const tcMeta = document.querySelector('meta[name="theme-color"]');
+  if (tcMeta) tcMeta.content = vc.brand.themeColor;
+
+  // Inject brand CSS custom property overrides so vertical colors apply
+  // without modifying the shared :root block.
+  const styleEl = document.createElement('style');
+  styleEl.id = 'vertical-brand';
+  styleEl.textContent = [
+    ':root {',
+    '  --accent:' + vc.brand.accent + ';',
+    '  --accent-lt:' + vc.brand.accentLt + ';',
+    '  --accent-dim:' + vc.brand.accentDim + ';',
+    '  --accent-glow:' + vc.brand.accentGlow + ';',
+    '  --accent-border:' + vc.brand.accentBorder + ';',
+    '  --warm:' + vc.brand.warm + ';',
+    '  --warm-dim:' + vc.brand.warmDim + ';',
+    '  --warm-border:' + vc.brand.warmBorder + ';',
+    '}',
+    '[data-theme="dark"] {',
+    '  --accent:' + (vc.brand.accentDark || vc.brand.accent) + ';',
+    '  --accent-lt:' + (vc.brand.accentLtDark || vc.brand.accentLt) + ';',
+    '  --accent-dim:' + (vc.brand.accentDimDark || vc.brand.accentDim) + ';',
+    '  --accent-glow:' + (vc.brand.accentGlowDark || vc.brand.accentGlow) + ';',
+    '  --accent-border:' + (vc.brand.accentBorderDark || vc.brand.accentBorder) + ';',
+    '  --warm:' + (vc.brand.warmDark || vc.brand.warm) + ';',
+    '  --warm-dim:' + (vc.brand.warmDimDark || vc.brand.warmDim) + ';',
+    '  --warm-border:' + (vc.brand.warmBorderDark || vc.brand.warmBorder) + ';',
+    '}',
+  ].join('\n');
+  document.head.appendChild(styleEl);
+
+  // Feed filter pills
+  const feedFilters = document.getElementById('feedFilters');
+  if (feedFilters) {
+    const specialties = (vc.feedTags && vc.feedTags.specialties) || [];
+    feedFilters.innerHTML =
+      '<button class="feed-filter on" data-domain="" onclick="setFeedFilter(this,\'\')">All</button>' +
+      specialties.map(s =>
+        '<button class="feed-filter" data-domain="' + s + '" onclick="setFeedFilter(this,\'' + s.replace(/'/g,"\\'") + '\')">' + s + '</button>'
+      ).join('');
+  }
+
+  // Forum filter pills
+  const forumFilters = document.getElementById('forumFilters');
+  if (forumFilters) {
+    const channels = vc.forumChannels || [];
+    forumFilters.innerHTML =
+      '<button class="feed-filter on" data-domain="" onclick="setForumFilter(this,\'\')">All</button>' +
+      channels.map(c =>
+        '<button class="feed-filter" data-domain="' + c + '" onclick="setForumFilter(this,\'' + c.replace(/'/g,"\\'") + '\')">' + c + '</button>'
+      ).join('');
+  }
+
+  // Feed compose domain select
+  const fcDomain = document.getElementById('fcDomain');
+  if (fcDomain) {
+    const opts = (vc.feedTags && vc.feedTags.specialties) || [];
+    fcDomain.innerHTML = opts.map(o => '<option value="' + o + '">' + o + '</option>').join('');
+  }
+
+  // Forum compose domain select
+  const ftDomain = document.getElementById('ftDomain');
+  if (ftDomain) {
+    const opts = vc.forumChannels || [];
+    ftDomain.innerHTML = opts.map(o => '<option value="' + o + '">' + o + '</option>').join('');
+  }
+}
+
 
 // DEV UNLOCK — triple-tap logo to toggle Pro (remove in production)
 let _devTaps=0,_devTimer=null;
@@ -2604,7 +2667,9 @@ let _proJustActivated = false;
 // Paste your Stripe Payment Link URL here.
 // In Stripe dashboard → Payment Links → After payment → set Confirmation page
 // to "Don't show confirmation page" and redirect to: https://YOUR_APP_URL?pro_success=1
-const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/6oU00dcOQg6TgDTfW45Rm00';
+// Stripe link sourced from vertical config so each app uses its own product.
+const STRIPE_PAYMENT_LINK = (window.VERTICAL_CONFIG && window.VERTICAL_CONFIG.stripePaymentLink)
+  || 'https://buy.stripe.com/6oU00dcOQg6TgDTfW45Rm00';
 
 function openProModal(src) {
   showProPitchStep();
@@ -2726,7 +2791,7 @@ function setForumFilter(btn, domain){
 
 function feedCardHTML(p){
   const a = p.author || {};
-  const name = a.name || 'A 10THOU engineer';
+  const name = a.name || 'A ' + ((window.VERTICAL_CONFIG && window.VERTICAL_CONFIG.name) || '10THOU') + ' member';
   const title = a.title ? ' · ' + a.title : '';
   const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
   const imgClick = `onclick="goPost('${escAttr(p.id)}')"`;
@@ -2763,7 +2828,7 @@ function feedCardHTML(p){
 
 function forumItemHTML(t){
   const a = t.author || {};
-  const name = a.name || 'A 10THOU engineer';
+  const name = a.name || 'A ' + ((window.VERTICAL_CONFIG && window.VERTICAL_CONFIG.name) || '10THOU') + ' member';
   const title = a.title ? ' · ' + a.title : '';
   const replyCount = t.reply_count != null ? t.reply_count : 0;
   return `<div class="forum-item" onclick="goThread('${escAttr(t.id)}')">
@@ -3130,7 +3195,7 @@ async function renderThread(id){
   }
 
   const a = thread.author || {};
-  const name = a.name || 'A 10THOU engineer';
+  const name = a.name || 'A ' + ((window.VERTICAL_CONFIG && window.VERTICAL_CONFIG.name) || '10THOU') + ' member';
   const title = a.title ? ' · ' + a.title : '';
   const avatar = a.photo_url ? `<img class="feed-avatar" src="${escAttr(a.photo_url)}" alt="">` : `<div class="feed-avatar"></div>`;
   const tags = Array.isArray(thread.spec_tags) ? thread.spec_tags : [];
@@ -3633,7 +3698,7 @@ let calcBuf='',calcPrev='',calcOp='',calcJustEq=false;
 
 const sc=parseFloat(localStorage.getItem('tt_cal')||'0');
 if(sc>0)calPPMM=sc;
-theme=localStorage.getItem('tt_theme')||'light';
+theme=localStorage.getItem('tt_theme')||(window.VERTICAL_CONFIG&&window.VERTICAL_CONFIG.brand.defaultTheme)||'light';
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const FM={
@@ -6089,11 +6154,13 @@ function sendContact(){
   const msg=document.getElementById('contactMsg').value.trim();
   if(!msg)return;
   const btn=document.querySelector('#contactModal .send-btn');
-  const subject=encodeURIComponent('10THOU Feedback');
+  const _appName=(window.VERTICAL_CONFIG&&window.VERTICAL_CONFIG.name)||'10THOU';
+  const _contactEmail=(window.VERTICAL_CONFIG&&window.VERTICAL_CONFIG.contactEmail)||'info@10thou.com';
+  const subject=encodeURIComponent(_appName+' Feedback');
   const body=encodeURIComponent(msg);
   // Open mailto in new tab so app stays open
   const a=document.createElement('a');
-  a.href='mailto:info@10thou.com?subject='+subject+'&body='+body;
+  a.href='mailto:'+_contactEmail+'?subject='+subject+'&body='+body;
   a.target='_blank';a.rel='noopener';
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   if(btn){btn.textContent='Sent ✓';btn.style.background='var(--ok)';}
@@ -6175,6 +6242,7 @@ function copyText(t){if(!t||t==='—')return;if(navigator.clipboard){navigator.c
 function toast(msg){}
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
+initVertical();   // apply franchise vertical config to DOM before anything renders
 applyTheme();
 applyProState();
 if(_proJustActivated){

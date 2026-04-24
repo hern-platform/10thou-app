@@ -4,6 +4,6 @@
     { "source": "/u/:slug", "destination": "/api/u/:slug" },
     { "source": "/thread/:id", "destination": "/api/thread/:id" },
     { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|verticals/|core/|apps/).*)", "destination": "/index.html" }
   ]
 }
