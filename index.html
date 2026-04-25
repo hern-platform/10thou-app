@@ -1833,6 +1833,55 @@ input,textarea{caret-color:var(--accent)}
     </div>
   </div>
 
+
+  <!-- True Position -->
+  <div class="calc-card calc-card-closed">
+    <div class="calc-title" onclick="toggleCalc('truepos',this)" data-calc="truepos">True Position (GD&amp;T)</div>
+    <div class="calc-body" data-calc="truepos">
+      <div class="calc-inputs">
+        <div class="calc-row"><div class="calc-lbl">X deviation</div><input class="calc-inp" id="tpX" type="number" step="any" placeholder="0.12"><div class="calc-unit">mm</div></div>
+        <div class="calc-row"><div class="calc-lbl">Y deviation</div><input class="calc-inp" id="tpY" type="number" step="any" placeholder="0.08"><div class="calc-unit">mm</div></div>
+        <div class="calc-row"><div class="calc-lbl">Tol (print) ⌀</div><input class="calc-inp" id="tpTol" type="number" step="any" placeholder="0.3"><div class="calc-unit">mm</div></div>
+        <div class="calc-row"><div class="calc-lbl">MMC bonus ⌀</div><input class="calc-inp" id="tpMMC" type="number" step="any" placeholder="0.05"><div class="calc-unit">mm (0 if none)</div></div>
+      </div>
+      <div class="calc-btn-row"><button class="calc-btn" onclick="calcTruePos()">Calculate</button></div>
+      <div class="calc-result" id="cTPResult">
+        <div class="cr-label">Actual Position ⌀</div>
+        <div><span class="cr-val" id="cTPVal" onclick="copyText(this.textContent);showCalcCopied('cTPResult')" title="Tap to copy" style="cursor:pointer">—</span><span class="cr-unit">mm</span></div>
+        <div class="cr-note" id="cTPNote"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plastic Shrinkage & Draft -->
+  <div class="calc-card calc-card-closed">
+    <div class="calc-title" onclick="toggleCalc('shrink',this)" data-calc="shrink">Plastic Shrinkage &amp; Draft</div>
+    <div class="calc-body" data-calc="shrink">
+      <div class="calc-inputs">
+        <div class="calc-row"><div class="calc-lbl">Material</div><div class="calc-sel-w"><select class="calc-sel" id="shrMat" onchange="updateShrinkDefaults()">
+          <option value="0.5,1.5,1,1">ABS</option>
+          <option value="0.4,0.7,0.5,1">PC / PC-ABS</option>
+          <option value="1.5,2.5,1,1.5">PP Homopolymer</option>
+          <option value="0.6,1.4,1,1.5">Nylon PA6 (dry)</option>
+          <option value="0.8,1.5,1,1.5">Nylon PA66 (dry)</option>
+          <option value="1.8,2.5,1.5,2">POM / Delrin</option>
+          <option value="0.3,0.5,0.5,1">PEEK</option>
+          <option value="0.4,0.7,0.5,1">PETG</option>
+          <option value="0.2,0.6,0.5,1">Acrylic PMMA</option>
+        </select></div></div>
+        <div class="calc-row"><div class="calc-lbl">Nominal dim.</div><input class="calc-inp" id="shrDim" type="number" step="any" placeholder="100"><div class="calc-unit">mm</div></div>
+        <div class="calc-row"><div class="calc-lbl">Wall thickness</div><input class="calc-inp" id="shrWall" type="number" step="any" placeholder="2.5"><div class="calc-unit">mm</div></div>
+        <div class="calc-row"><div class="calc-lbl">Texture depth</div><input class="calc-inp" id="shrTex" type="number" step="any" placeholder="0" min="0"><div class="calc-unit">µm (0 = none)</div></div>
+      </div>
+      <div class="calc-btn-row"><button class="calc-btn" onclick="calcShrink()">Calculate</button></div>
+      <div class="calc-result" id="cShrResult">
+        <div class="cr-label">Mold dimension</div>
+        <div><span class="cr-val" id="cShrMold" onclick="copyText(this.textContent);showCalcCopied('cShrResult')" title="Tap to copy" style="cursor:pointer">—</span><span class="cr-unit">mm</span></div>
+        <div class="cr-note" id="cShrNote"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Beam Deflection -->
   <div class="calc-card calc-card-closed">
     <div class="calc-title" onclick="toggleCalc('beam',this)" data-calc="beam">Beam Deflection</div>
@@ -1992,12 +2041,178 @@ input,textarea{caret-color:var(--accent)}
   <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>HRC</strong> Rockwell C (hard metals) · <strong>HRB</strong> Rockwell B (soft metals) · <strong>HV</strong> Vickers · <strong>HB</strong> Brinell<br>Rule of thumb: UTS (MPa) ≈ HV × 3.3 for steel. Conversions are approximate — use ASTM E140 for precision.</div>
   </div></div>
 
-    
+  <!-- ── Material Selection Matrix ── -->
+  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" stroke-linecap="round"/></svg></div><div><div class="ref-title">Material Selection</div><div class="ref-sub">Metals · Plastics · Availability</div></div></div><div class="ref-chev">▾</div></div>
+  <div class="ref-body">
+    <div class="subtabs" id="matTabBar"><button class="stab on" onclick="showMatTab('metals',this)">Metals</button><button class="stab" onclick="showMatTab('plastics',this)">Plastics</button></div>
+    <div id="matMetals">
+    <table class="rt"><thead><tr><th>Material</th><th>UTS MPa</th><th>E GPa</th><th>Density g/cc</th><th>Machine</th><th>Stock</th><th>Cost</th></tr></thead><tbody>
+      <tr><td class="ac">6061-T6 Al</td><td>310</td><td>69</td><td>2.7</td><td>⭐⭐⭐⭐</td><td class="wm">✓ Stock</td><td>$</td></tr>
+      <tr><td class="ac">7075-T6 Al</td><td>572</td><td>72</td><td>2.81</td><td>⭐⭐⭐⭐</td><td class="wm">✓ Stock</td><td>$$</td></tr>
+      <tr><td class="ac">MIC-6 Al plate</td><td>228</td><td>69</td><td>2.69</td><td>⭐⭐⭐⭐⭐</td><td class="wm">✓ Stock</td><td>$$$</td></tr>
+      <tr><td class="ac">1018 Steel</td><td>440</td><td>200</td><td>7.87</td><td>⭐⭐⭐</td><td class="wm">✓ Stock</td><td>$</td></tr>
+      <tr><td class="ac">4140 Steel HT</td><td>1020</td><td>200</td><td>7.85</td><td>⭐⭐⭐</td><td class="wm">✓ Stock</td><td>$$</td></tr>
+      <tr><td class="ac">303 Stainless</td><td>620</td><td>193</td><td>8.0</td><td>⭐⭐⭐⭐</td><td class="wm">✓ Stock</td><td>$$</td></tr>
+      <tr><td class="ac">316L Stainless</td><td>580</td><td>193</td><td>8.0</td><td>⭐⭐⭐</td><td class="wm">✓ Stock</td><td>$$$</td></tr>
+      <tr><td class="ac">Grade 5 Ti</td><td>1000</td><td>114</td><td>4.43</td><td>⭐⭐</td><td>⚠ Custom</td><td>$$$$</td></tr>
+      <tr><td class="ac">C360 Brass</td><td>385</td><td>97</td><td>8.5</td><td>⭐⭐⭐⭐⭐</td><td class="wm">✓ Stock</td><td>$$</td></tr>
+      <tr><td class="ac">C110 Copper</td><td>220</td><td>117</td><td>8.9</td><td>⭐⭐⭐</td><td class="wm">✓ Stock</td><td>$$$</td></tr>
+    </tbody></table>
+    <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>Machine rating:</strong> 5 stars = free-machining. <strong>Stock</strong> = available cut-to-size from McMaster-Carr, Metals Depot. <strong>Cost:</strong> $ = &lt;$5/lb · $$ = $5–20 · $$$ = $20–60 · $$$$ = $60+</div>
+    </div>
+    <div id="matPlastics" style="display:none">
+    <table class="rt"><thead><tr><th>Material</th><th>UTS MPa</th><th>Tg °C</th><th>UL94</th><th>FDA</th><th>Shrink %</th><th>Stock</th></tr></thead><tbody>
+      <tr><td class="ac">ABS</td><td>40–50</td><td>105</td><td>V-0 (FR grade)</td><td>—</td><td>0.4–0.7</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">PC (Lexan)</td><td>55–75</td><td>147</td><td>V-0</td><td>—</td><td>0.5–0.7</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">PC/ABS</td><td>55–65</td><td>120</td><td>V-0</td><td>—</td><td>0.4–0.7</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">PP (Homo)</td><td>30–40</td><td>165</td><td>HB</td><td>✓</td><td>1.5–2.5</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">HDPE</td><td>22–31</td><td>120</td><td>HB</td><td>✓</td><td>1.5–3.0</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">Nylon PA6</td><td>70–85</td><td>220</td><td>V-2</td><td>—</td><td>0.6–1.4</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">Nylon PA66</td><td>80–90</td><td>255</td><td>V-0 (GF30)</td><td>—</td><td>0.8–1.5</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">POM (Delrin)</td><td>60–70</td><td>175</td><td>HB</td><td>✓</td><td>1.8–2.5</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">PEEK</td><td>100</td><td>343</td><td>V-0</td><td>✓</td><td>0.3–0.5</td><td>⚠ Custom</td></tr>
+      <tr><td class="ac">PETG</td><td>50–55</td><td>80</td><td>HB</td><td>✓</td><td>0.4–0.7</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">Acrylic (PMMA)</td><td>65–75</td><td>100</td><td>HB</td><td>—</td><td>0.2–0.6</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">PVC rigid</td><td>40–60</td><td>80</td><td>V-0</td><td>—</td><td>0.2–0.6</td><td class="wm">✓ Stock</td></tr>
+      <tr><td class="ac">UHMWPE</td><td>20–40</td><td>80</td><td>HB</td><td>✓</td><td>3.0–5.0</td><td class="wm">✓ Stock</td></tr>
+    </tbody></table>
+    <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>UL94</strong>: V-0 = flame self-extinguish &lt;10s · HB = slow-burning. <strong>FDA</strong>: ✓ = food-contact grades available. Shrinkage varies with wall thickness, gate, and fill direction.</div>
+    </div>
+  </div></div>
 
-    
+  <!-- ── Thermal Management ── -->
+  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v10M12 22a4 4 0 100-8 4 4 0 000 8z" stroke-linecap="round"/><path d="M8 6h-1a2 2 0 00-2 2v1M16 6h1a2 2 0 012 2v1" stroke-linecap="round"/></svg></div><div><div class="ref-title">Thermal Management</div><div class="ref-sub">Heatsink · TIM · Derating</div></div></div><div class="ref-chev">▾</div></div>
+  <div class="ref-body">
+    <table class="rt"><thead><tr><th>Concept</th><th>Formula / Rule</th><th>Typical values</th></tr></thead><tbody>
+      <tr><td>Thermal resistance</td><td>Rθ = ΔT / P (°C/W)</td><td>Lower = better</td></tr>
+      <tr><td>Junction temp</td><td>Tj = Ta + P × (Rθja)</td><td>Tj &lt; Tjmax − 15°C margin</td></tr>
+      <tr><td>Heatsink sizing</td><td>Rθsa = (Tjmax−Ta)/P − Rθjc − Rθcs</td><td>Budget 10°C for PCB spreading</td></tr>
+      <tr><td>Natural convection</td><td>~10–25 W at Rθ 2–5 °C/W</td><td>Fin area ≥ 50 cm² / watt</td></tr>
+      <tr><td>Forced air</td><td>~1–3 °C/W with 1–3 m/s airflow</td><td>Fan CFM = 2× free-air CFM</td></tr>
+    </tbody></table>
+    <div style="padding:4px 10px 0;font-size:11px;font-weight:600;color:var(--text2)">TIM (Thermal Interface Materials)</div>
+    <table class="rt"><thead><tr><th>TIM Type</th><th>k W/m·K</th><th>Bondline µm</th><th>Best For</th></tr></thead><tbody>
+      <tr><td class="ac">Thermal paste (AS5)</td><td>8.5</td><td>50–100</td><td>CPU/heatsink, re-workable</td></tr>
+      <tr><td class="ac">Phase-change pad</td><td>3–6</td><td>50–150</td><td>Production-friendly, no pump-out</td></tr>
+      <tr><td class="ac">Thermal pad (GP3000)</td><td>3.0</td><td>500–2000</td><td>PCB-to-chassis, forgiving surfaces</td></tr>
+      <tr><td class="ac">Graphite sheet</td><td>700 in-plane</td><td>25–100</td><td>Spreading only, very thin</td></tr>
+      <tr><td class="ac">Indium foil</td><td>82</td><td>100–250</td><td>Ultra-high-power, permanent</td></tr>
+    </tbody></table>
+    <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>Derating rule:</strong> Every 10°C rise above 25°C halves electrolytic capacitor life. Target Tj ≤ Tjmax − 20°C for 10-year product life. Always run a thermal test at max ambient before EVT sign-off.</div>
+  </div></div>
+
+  <!-- ── Galvanic Corrosion & Finishing ── -->
+  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22c-4-4-8-8-8-13a8 8 0 0116 0c0 5-4 9-8 13z" stroke-linecap="round"/></svg></div><div><div class="ref-title">Galvanic &amp; Finishing</div><div class="ref-sub">Corrosion · Anodize · Plate</div></div></div><div class="ref-chev">▾</div></div>
+  <div class="ref-body">
+    <div style="padding:4px 10px 0;font-size:11px;font-weight:600;color:var(--text2)">Galvanic Series (most noble → least noble)</div>
+    <table class="rt"><thead><tr><th>Metal</th><th>Potential V</th><th>Notes</th></tr></thead><tbody>
+      <tr><td class="ac">Gold / Platinum</td><td>+1.2 to +1.5</td><td>Most noble — cathode in any pair</td></tr>
+      <tr><td class="ac">316 Stainless (passive)</td><td>+0.0 to +0.2</td><td>Passive film critical</td></tr>
+      <tr><td class="ac">304 Stainless (passive)</td><td>−0.05 to +0.1</td><td>—</td></tr>
+      <tr><td class="ac">Copper / Brass</td><td>−0.2 to −0.4</td><td>OK vs. steel; not vs. Al in wet</td></tr>
+      <tr><td class="ac">Tin / Lead</td><td>−0.3 to −0.5</td><td>—</td></tr>
+      <tr><td class="ac">Steel (carbon)</td><td>−0.5 to −0.7</td><td>Use anti-seize or isolator vs. Al</td></tr>
+      <tr><td class="ac">6061 Aluminium</td><td>−0.7 to −0.8</td><td>Anodize for protection</td></tr>
+      <tr><td class="ac">Zinc / Galv. steel</td><td>−0.9 to −1.1</td><td>Sacrificial anode for steel</td></tr>
+      <tr><td class="ac">Magnesium</td><td>−1.6 to −1.8</td><td>Least noble</td></tr>
+    </tbody></table>
+    <div style="padding:4px 10px 2px;font-size:10px;color:var(--text2);border-top:1px solid var(--border)">Pairs &gt;0.5V difference in wet conditions will corrode. Use isolating washers, Duralac, or Tef-Gel between dissimilar metals.</div>
+    <div style="padding:4px 10px 0;font-size:11px;font-weight:600;color:var(--text2)">Surface Treatments</div>
+    <table class="rt"><thead><tr><th>Treatment</th><th>Material</th><th>Thickness µm</th><th>Corrosion hrs (ASTM B117)</th></tr></thead><tbody>
+      <tr><td class="ac">Type II Anodize</td><td>Al alloys</td><td>5–25</td><td>336–500</td></tr>
+      <tr><td class="ac">Type III Hard Anodize</td><td>Al alloys</td><td>25–75</td><td>1000+</td></tr>
+      <tr><td class="ac">Zinc plate (yellow chrom.)</td><td>Steel</td><td>8–12</td><td>200–500</td></tr>
+      <tr><td class="ac">Electroless Ni</td><td>Steel / Al</td><td>5–25</td><td>500–1000</td></tr>
+      <tr><td class="ac">Powder coat</td><td>Steel / Al</td><td>50–100</td><td>500–2000</td></tr>
+      <tr><td class="ac">Black oxide</td><td>Steel</td><td>1–2</td><td>72 (oil-sealed)</td></tr>
+      <tr><td class="ac">Passivate (SS)</td><td>Stainless</td><td>—</td><td>Restores passive film</td></tr>
+    </tbody></table>
+  </div></div>
+
+  <!-- ── Product Certifications ── -->
+  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ref-title">Product Certifications</div><div class="ref-sub">CE · FCC · UL · FDA · RoHS</div></div></div><div class="ref-chev">▾</div></div>
+  <div class="ref-body"><table class="rt"><thead><tr><th>Mark</th><th>Region</th><th>Covers</th><th>Timeline</th><th>Rough Cost</th></tr></thead><tbody>
+    <tr><td class="ac">CE</td><td>EU / EEA</td><td>Safety, EMC, RoHS. Self-declare or NB depending on directive.</td><td>2–6 months</td><td>$5k–$30k</td></tr>
+    <tr><td class="ac">FCC Part 15</td><td>USA</td><td>Unintentional EMC emitters (most electronics). SDoC or TCB.</td><td>4–10 weeks</td><td>$3k–$15k</td></tr>
+    <tr><td class="ac">FCC ID</td><td>USA</td><td>Intentional radiators (Wi-Fi, BT, LTE). TCB required.</td><td>6–14 weeks</td><td>$8k–$40k</td></tr>
+    <tr><td class="ac">IC (ISED)</td><td>Canada</td><td>Same lab as FCC in most cases. Add ~$2k to FCC cost.</td><td>6–12 weeks</td><td>$2k–$5k add-on</td></tr>
+    <tr><td class="ac">UL Listed</td><td>USA/Global</td><td>Safety for US market; wide retail acceptance. Annual audit.</td><td>3–9 months</td><td>$10k–$50k</td></tr>
+    <tr><td class="ac">FDA Class I</td><td>USA</td><td>Low-risk medical devices. 510(k) exempt, registration required.</td><td>1–3 months</td><td>$2k–$10k</td></tr>
+    <tr><td class="ac">FDA Class II</td><td>USA</td><td>Moderate-risk. 510(k) clearance required.</td><td>6–24 months</td><td>$50k–$300k</td></tr>
+    <tr><td class="ac">RoHS 3</td><td>EU</td><td>Restricts Pb, Hg, Cd, Cr6+, PBDE, BBP, DEHP, DBP, DIBP.</td><td>Built into CE</td><td>Testing ~$2k</td></tr>
+    <tr><td class="ac">REACH</td><td>EU</td><td>Chemical substances in products. SVHCs must be communicated.</td><td>Ongoing</td><td>$1k–$5k/yr</td></tr>
+    <tr><td class="ac">UKCA</td><td>UK</td><td>Post-Brexit CE equivalent. Mandatory Jan 2025+.</td><td>2–6 months</td><td>Similar to CE</td></tr>
+    <tr><td class="ac">PSE (Japan)</td><td>Japan</td><td>Electrical appliances. Diamond mark (specified) / circle (non-specified).</td><td>1–6 months</td><td>$5k–$25k</td></tr>
+  </tbody></table>
+  <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>Tip:</strong> If using a module with pre-certified radio (ESP32, Nordic nRF, u-blox), you inherit that certification — confirm with the module vendor. Always get a pre-compliance EMC scan before formal testing to avoid re-test costs.</div>
+  </div></div>
+
     </div>
   </div>
 
+</div>
+
+
+<!-- ══ TUESDAY TEARDOWN ══ -->
+<div class="page" id="page-teardown">
+  <div class="sec-hd"><div class="sec-t">Tuesday Teardown</div><div class="sec-tag">Weekly DFM · Annotated</div></div>
+
+  <div style="padding:0 16px 16px">
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px">
+      <div style="padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:3px">This Week · Issue #001</div>
+          <div style="font-size:16px;font-weight:700;color:var(--text)">Logitech MX Master 3 Scroll Wheel</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px">Electromagnetic MagSpeed mechanism · 5 parts · Zero friction bearings</div>
+        </div>
+      </div>
+      <div style="padding:0 16px 14px">
+        <div style="background:var(--bg2);border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">DFM Annotation #1 — Rotor Hub</div>
+          <div style="font-size:12px;color:var(--text);line-height:1.6">Insert-molded brass hub into PP rotor body. <strong>Why:</strong> Eliminates separate assembly step. Boss OD is exactly 2× insert OD — textbook rule. Draft on spokes is 1.5° despite thin walls, showing the mold opens axially not radially. Clever parting line placement avoids any side-action cost.</div>
+        </div>
+        <div style="background:var(--bg2);border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">DFM Annotation #2 — Electromagnetic Brake</div>
+          <div style="font-size:12px;color:var(--text);line-height:1.6">Copper coil is wound on a bobbin, not bare — allows automated winding and eliminates manual insulation. The bobbin snaps onto the frame with a single clip: zero fasteners, zero tools. Designed for sub-30-second robotic assembly. This is what Design for Assembly (DFA) looks like in production.</div>
+        </div>
+        <div style="background:var(--bg2);border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">DFM Annotation #3 — Housing Snap</div>
+          <div style="font-size:12px;color:var(--text);line-height:1.6">The main housing uses a 4-point cantilever snap strategy — no screws visible externally. Each snap has a 30° lead-in angle and 90° retention angle (not 45°) making it a near-permanent snap by intent. Wall thickness behind snaps is 1.8mm vs 2.4mm nominal — slightly thinner to increase flex without compromising OA rigidity. Controlled by rib support 3mm back from the snap face.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--mono);color:var(--accent)">Injection Molding</div>
+          <div style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--mono);color:var(--accent)">Insert Molding</div>
+          <div style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--mono);color:var(--accent)">DFA</div>
+          <div style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--mono);color:var(--accent)">Snap Fits</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px">
+      <div style="padding:14px 16px 10px">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:3px">Previous · Issue #000</div>
+        <div style="font-size:16px;font-weight:700;color:var(--text)">Apple AirTag — 4 parts, 1 screw</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px">CR2032 holder · Waterproofing · Twist-lock shell</div>
+      </div>
+      <div style="padding:0 16px 14px">
+        <div style="background:var(--bg2);border-radius:8px;padding:12px;margin-bottom:8px">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">Key DFM Insight</div>
+          <div style="font-size:12px;color:var(--text);line-height:1.6">The twist-lock lid eliminates all external fasteners. IP67 is achieved with a single molded silicone gasket that compresses axially — no groove machining, no secondary assembly. The entire product assembles in one rotational motion. At &gt;30M units, even 0.5 seconds of assembly time saved = $4M+ annually at $0.25/labor-minute. This is what scale-optimized DFM looks like.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--mono);color:var(--accent)">IP67 Sealing</div>
+          <div style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--mono);color:var(--accent)">DFA</div>
+          <div style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--mono);color:var(--accent)">Scale Optimization</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--bg2);border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center">
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px">Submit a Teardown</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px">Disassemble something interesting. Annotate the DFM decisions — good and bad. We publish the best ones every Tuesday with full credit.</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--accent)">teardown@10thou.app</div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ SUPPLIERS ══ -->
@@ -2263,7 +2478,8 @@ function devTapPro(){
 // ══════════════════════════════════════════════════════
 //  PRO TIER SYSTEM
 // ══════════════════════════════════════════════════════
-let isPro = localStorage.getItem('tt_pro') === '1';
+const DEV_MODE = false; // set to true to bypass all Pro gates during development
+let isPro = DEV_MODE || localStorage.getItem('tt_pro') === '1';
 let _proJustActivated = false;
 (function(){
   const p = new URLSearchParams(location.search);
@@ -5078,6 +5294,55 @@ document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement.t
 </div>
 
 <script>
+
+// ─── TRUE POSITION ────────────────────────────────────────────────────────────
+function calcTruePos(){
+  const x=+document.getElementById('tpX').value||0;
+  const y=+document.getElementById('tpY').value||0;
+  const tol=+document.getElementById('tpTol').value||0;
+  const mmc=+document.getElementById('tpMMC').value||0;
+  const pos=2*Math.sqrt(x*x+y*y);
+  const allowed=tol+mmc;
+  document.getElementById('cTPVal').textContent=pos.toFixed(4);
+  const ok=pos<=allowed;
+  document.getElementById('cTPNote').textContent=ok
+    ?`✓ PASS — within ⌀${allowed.toFixed(3)} mm allowed zone`
+    :`✗ FAIL — exceeds ⌀${allowed.toFixed(3)} mm by ${(pos-allowed).toFixed(4)} mm`;
+  document.getElementById('cTPNote').style.color=ok?'var(--accent)':'#e53';
+  document.getElementById('cTPResult').classList.add('show');
+}
+
+// ─── SHRINKAGE & DRAFT ────────────────────────────────────────────────────────
+function updateShrinkDefaults(){}
+function calcShrink(){
+  const sel=document.getElementById('shrMat');
+  const vals=sel.value.split(',').map(Number); // [shrMin,shrMax,draftBase,draftTex]
+  const shrMin=vals[0],shrMax=vals[1],draftBase=vals[2],draftTex=vals[3];
+  const dim=+document.getElementById('shrDim').value||0;
+  const wall=+document.getElementById('shrWall').value||0;
+  const tex=+document.getElementById('shrTex').value||0;
+  if(!dim){return;}
+  const shrAvg=(shrMin+shrMax)/2/100;
+  const moldDim=(dim/(1-shrAvg));
+  const extraDraft=tex>0?(tex/25)*draftTex:0;
+  const totalDraft=(draftBase+extraDraft).toFixed(1);
+  const wallOk=wall>=1.5&&wall<=3.5;
+  document.getElementById('cShrMold').textContent=moldDim.toFixed(3);
+  let note=`Shrink ${shrMin}–${shrMax}% · Mold range ${(dim/(1-shrMax/100)).toFixed(3)}–${(dim/(1-shrMin/100)).toFixed(3)} mm`;
+  note+=` · Min draft ${totalDraft}°`;
+  if(!wallOk&&wall>0)note+=` · ⚠ Wall ${wall}mm outside 1.5–3.5mm ideal`;
+  document.getElementById('cShrNote').textContent=note;
+  document.getElementById('cShrResult').classList.add('show');
+}
+
+// ─── MATERIAL TAB SWITCHER ────────────────────────────────────────────────────
+function showMatTab(tab,btn){
+  document.getElementById('matMetals').style.display=tab==='metals'?'block':'none';
+  document.getElementById('matPlastics').style.display=tab==='plastics'?'block':'none';
+  document.querySelectorAll('#matTabBar .stab').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+}
+
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
     navigator.serviceWorker.register('sw.js')
