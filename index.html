@@ -453,6 +453,62 @@ input,textarea{caret-color:var(--accent)}
 .sizer-gate-btn{padding:13px 24px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em;margin-top:4px;transition:opacity .15s;width:100%}
 .sizer-gate-btn:active{opacity:.8}
 
+/* ── REF PICKER (V12_4) ── */
+.ref-picker-row{display:flex;gap:10px;padding:0 16px 14px;flex-shrink:0}
+.ref-picker-col{flex:1;min-width:0}
+.ref-picker-lbl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.ref-picker-sel{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-sm);padding:9px 28px 9px 10px;font-family:var(--sans);font-size:12px;color:var(--text);cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236A6560' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;background-size:13px;box-shadow:var(--shadow-sm);transition:border-color .13s}
+.ref-picker-sel:focus{outline:none;border-color:var(--accent-border)}
+.rcp-area{padding:0 16px 80px}
+.rcp{display:none;animation:rcpFade .15s ease}
+.rcp.active{display:block}
+@keyframes rcpFade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.rcp-head{margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:baseline;gap:8px;justify-content:space-between}
+.rcp-title{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.rcp-sub{font-size:10px;color:var(--text3)}
+.rcp-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;color:var(--text3);text-align:center;gap:10px}
+.rcp-empty svg{opacity:.25;width:36px;height:36px}
+.rcp-empty-t{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text3)}
+.rcp-empty-s{font-size:11px;line-height:1.6;max-width:220px}
+
+/* ── COMMUNITY PAGE (Feed + Forum) ── */
+.comm-tabs{display:flex;gap:0;padding:0 16px 14px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.comm-tab{flex:1;padding:9px 12px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--border);background:var(--surface);color:var(--text3);cursor:pointer;transition:all .13s}
+.comm-tab:first-child{border-radius:var(--r-sm) 0 0 var(--r-sm);border-right:none}
+.comm-tab:last-child{border-radius:0 var(--r-sm) var(--r-sm) 0}
+.comm-tab.on{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-border)}
+.comm-body{display:none;padding:0 16px 80px}
+.comm-body.on{display:block}
+.comm-coming{text-align:center;padding:40px 20px}
+.comm-coming svg{width:40px;height:40px;stroke:var(--text3);opacity:.35;margin-bottom:12px}
+.comm-coming-t{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:6px}
+.comm-coming-s{font-size:11px;color:var(--text3);line-height:1.6;max-width:240px;margin:0 auto}
+.comm-post-cta{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.comm-avatar{width:36px;height:36px;border-radius:50%;background:var(--surface3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.comm-input-fake{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:50px;padding:9px 14px;font-size:12px;color:var(--text3);cursor:pointer}
+.comm-feed-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:10px}
+.comm-feed-meta{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.comm-feed-avatar{width:28px;height:28px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0}
+.comm-feed-name{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--text);letter-spacing:.03em}
+.comm-feed-time{font-size:10px;color:var(--text3);margin-left:auto}
+.comm-feed-body{font-size:12px;color:var(--text);line-height:1.6;margin-bottom:8px}
+.comm-feed-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.comm-feed-tag{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.04em;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border);border-radius:4px;padding:2px 6px;text-transform:uppercase}
+.comm-feed-actions{display:flex;gap:12px;border-top:1px solid var(--border);padding-top:8px}
+.comm-feed-btn{font-family:var(--mono);font-size:10px;color:var(--text3);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;padding:0;transition:color .13s}
+.comm-feed-btn:hover{color:var(--accent)}
+.comm-feed-btn svg{width:13px;height:13px}
+.forum-thread{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:background .13s}
+.forum-thread:hover{background:var(--surface2)}
+.forum-thread-cat{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.forum-thread-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.4}
+.forum-thread-meta{font-size:10px;color:var(--text3);display:flex;gap:8px;align-items:center}
+.forum-thread-meta span{display:flex;align-items:center;gap:3px}
+.forum-thread-meta svg{width:11px;height:11px}
+.forum-new-btn{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;cursor:pointer;margin-bottom:14px;transition:opacity .15s}
+.forum-new-btn:active{opacity:.8}
+.bn-inner{display:flex;justify-content:space-around;align-items:stretch;gap:0}
+
 </style>
 </head>
 <body>
@@ -1677,15 +1733,72 @@ input,textarea{caret-color:var(--accent)}
 <div class="page" id="page-reference">
   <div class="sec-hd"><div class="sec-t">Reference</div><div class="sec-tag">Calculators · Standards · DFM</div></div>
 
-  <div class="calc-card calc-section">
-    <div class="calc-title open" onclick="toggleTopSection(this)">Calculators</div>
-    <div class="calc-body open">
-      <div style="padding:8px 0 0">
+  <div class="ref-picker-row">
+    <div class="ref-picker-col">
+      <div class="ref-picker-lbl">Calculators</div>
+      <select class="ref-picker-sel" id="calcPicker" onchange="showRefContent('calc',this.value)">
+        <option value="">— Select —</option>
+        <optgroup label="Conversion &amp; GD&amp;T">
+          <option value="unit-conv">Unit Converter</option>
+          <option value="truepos">True Position</option>
+        </optgroup>
+        <optgroup label="Structural">
+          <option value="stack">Tolerance Stack-up</option>
+          <option value="pressfit">Press Fit</option>
+          <option value="beam">Beam Deflection</option>
+        </optgroup>
+        <optgroup label="Mechanical">
+          <option value="spring">Spring Rate</option>
+          <option value="bearing">Bearing L10 Life</option>
+          <option value="torque">Fastener Torque</option>
+        </optgroup>
+        <optgroup label="Manufacturing">
+          <option value="bend">Sheet Metal Bend</option>
+          <option value="shrink">Plastic Shrinkage</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="ref-picker-col">
+      <div class="ref-picker-lbl">Standards <span class="pro-pill" style="pointer-events:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="9" height="9" style="display:inline-block;vertical-align:middle;margin-right:2px;margin-bottom:1px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>PRO</span></div>
+      <select class="ref-picker-sel" id="stdPicker" onchange="showRefContent('std',this.value)">
+        <option value="">— Select —</option>
+        <optgroup label="GD&amp;T &amp; Fits">
+          <option value="gdts">GD&amp;T Symbols</option>
+          <option value="fits">Fits &amp; Tolerances</option>
+        </optgroup>
+        <optgroup label="Manufacturing">
+          <option value="imdm">Injection Molding DFM</option>
+          <option value="mold">Mold Surface Finish</option>
+          <option value="mfg">Manufacturing Methods</option>
+          <option value="ra">Surface Finish Ra</option>
+          <option value="threads">Thread Standards</option>
+        </optgroup>
+        <optgroup label="Materials">
+          <option value="fdm">3D Filaments</option>
+          <option value="matsel">Material Selection</option>
+          <option value="hard">Hardness Conversion</option>
+          <option value="thermal">Thermal Management</option>
+          <option value="galvanic">Galvanic &amp; Finishing</option>
+          <option value="shore">Durometer / Shore</option>
+        </optgroup>
+        <optgroup label="Environment">
+          <option value="ip">IP Ratings</option>
+          <option value="certs">Certifications</option>
+        </optgroup>
+      </select>
+    </div>
+  </div>
+
+  <div class="rcp-area">
+    <div id="refEmpty" class="rcp-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke-linecap="round"/></svg>
+      <div class="rcp-empty-t">Select a topic above</div>
+      <div class="rcp-empty-s">Choose a calculator or reference — content appears here.</div>
+    </div>
 
   <!-- Unit Converter -->
-  <div class="calc-card">
-    <div class="calc-title open" onclick="toggleCalc('unit-conv',this)" data-calc="unit-conv">Unit Converter</div>
-    <div class="calc-body open" data-calc="unit-conv">
+  <div id="rcp-unit-conv" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Unit Converter</div><div class="rcp-sub">Length · Torque · Temp · Pressure</div></div>
       <div class="calc-inputs">
         <div class="calc-row"><div class="calc-lbl">Value</div><input class="calc-inp" id="ucVal" type="number" step="any" placeholder="Enter value"></div>
         <div class="calc-row"><div class="calc-lbl">From</div><div class="calc-sel-w"><select class="calc-sel" id="ucFrom" onchange="pairUC()"><option value="mm">mm</option><option value="in">in</option><option value="nm">N·m</option><option value="lbfin">lbf·in</option><option value="c">°C</option><option value="f">°F</option><option value="mpa">MPa</option><option value="psi">psi</option></select></div></div>
@@ -1696,13 +1809,11 @@ input,textarea{caret-color:var(--accent)}
         <div class="cr-label">Result</div>
         <div><span class="cr-val" id="cConvVal" onclick="copyText(this.textContent);showCalcCopied('cConvResult')" title="Tap to copy" style="cursor:pointer">—</span><span class="cr-unit" id="cConvUnit"></span></div>
       </div>
-    </div>
   </div>
 
   <!-- Tolerance Stack-up -->
-  <div class="calc-card calc-card-closed">
-    <div class="calc-title" onclick="toggleCalc('stack',this)" data-calc="stack">Tolerance Stack-up</div>
-    <div class="calc-body" data-calc="stack">
+  <div id="rcp-stack" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Tolerance Stack-up</div><div class="rcp-sub">Worst case · RSS method</div></div>
       <div class="calc-inputs">
         <div class="calc-row"><div class="calc-lbl">Part 1 nominal</div><input class="calc-inp" id="stk1" type="number" step="0.01" placeholder="25.0"><div class="calc-unit">mm</div></div>
         <div class="calc-row"><div class="calc-lbl">Part 1 tol ±</div><input class="calc-inp" id="stk1t" type="number" step="0.001" placeholder="0.1"><div class="calc-unit">mm</div></div>
@@ -1717,13 +1828,11 @@ input,textarea{caret-color:var(--accent)}
         <div><span class="cr-val" id="cStackNom" onclick="copyText(this.textContent);showCalcCopied('cStackResult')" title="Tap to copy" style="cursor:pointer">—</span><span class="cr-unit">mm</span></div>
         <div class="cr-note">Worst case ±<span id="cStackWC">—</span> mm · RSS ±<span id="cStackRSS">—</span> mm</div>
       </div>
-    </div>
   </div>
 
   <!-- Press Fit -->
-  <div class="calc-card calc-card-closed">
-    <div class="calc-title" onclick="toggleCalc('pressfit',this)" data-calc="pressfit">Press Fit</div>
-    <div class="calc-body" data-calc="pressfit">
+  <div id="rcp-pressfit" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Press Fit</div><div class="rcp-sub">Interference · Contact pressure · Force</div></div>
       <div class="calc-inputs">
         <div class="calc-row"><div class="calc-lbl">Shaft Ø d</div><input class="calc-inp" id="pfD" type="number" step="any" placeholder="20"><div class="calc-unit">mm</div></div>
         <div class="calc-row"><div class="calc-lbl">Interference δ</div><input class="calc-inp" id="pfDelta" type="number" step="any" placeholder="0.025"><div class="calc-unit">mm</div></div>
@@ -1738,13 +1847,11 @@ input,textarea{caret-color:var(--accent)}
         <div><span class="cr-val" id="cPFPress" onclick="copyText(this.textContent);showCalcCopied('cPFResult')" title="Tap to copy" style="cursor:pointer">—</span><span class="cr-unit">MPa</span></div>
         <div class="cr-note">Assembly force: <span id="cPFForce" onclick="copyText(this.textContent)" style="cursor:pointer;color:var(--accent);font-family:var(--mono)">—</span> kN · Holding torque: <span id="cPFTorque" onclick="copyText(this.textContent)" style="cursor:pointer;color:var(--accent);font-family:var(--mono)">—</span> N·m</div>
       </div>
-    </div>
   </div>
 
   <!-- Sheet Metal Bend -->
-  <div class="calc-card calc-card-closed">
-    <div class="calc-title" onclick="toggleCalc('bend',this)" data-calc="bend">Sheet Metal Bend</div>
-    <div class="calc-body" data-calc="bend">
+  <div id="rcp-bend" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Sheet Metal Bend</div><div class="rcp-sub">Bend allowance · K-factor · Setback</div></div>
       <div class="calc-inputs">
         <div class="calc-row"><div class="calc-lbl">Thickness</div><input class="calc-inp" id="bmT" type="number" step="0.01" placeholder="1.5"><div class="calc-unit">mm</div></div>
         <div class="calc-row"><div class="calc-lbl">Bend angle</div><input class="calc-inp" id="bmA" type="number" step="1" placeholder="90"><div class="calc-unit">°</div></div>
@@ -1757,13 +1864,11 @@ input,textarea{caret-color:var(--accent)}
         <div><span class="cr-val" id="cBendBA" onclick="copyText(this.textContent);showCalcCopied('cBendResult')" title="Tap to copy" style="cursor:pointer">—</span><span class="cr-unit">mm</span></div>
         <div class="cr-note">Setback: <span id="cBendSB" onclick="copyText(this.textContent)" style="cursor:pointer;color:var(--accent);font-family:var(--mono)">—</span> mm · Flat length = L1 + L2 + BA</div>
       </div>
-    </div>
   </div>
 
   <!-- Spring Rate -->
-  <div class="calc-card calc-card-closed">
-    <div class="calc-title" onclick="toggleCalc('spring',this)" data-calc="spring">Spring Rate</div>
-    <div class="calc-body" data-calc="spring">
+  <div id="rcp-spring" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Spring Rate</div><div class="rcp-sub">Coil spring · Wahl factor · Index</div></div>
       <div class="calc-inputs">
         <div class="calc-row"><div class="calc-lbl">Wire Ø d</div><input class="calc-inp" id="spD" type="number" step="any" placeholder="1.2"><div class="calc-unit">mm</div></div>
         <div class="calc-row"><div class="calc-lbl">Mean coil Ø D</div><input class="calc-inp" id="spDm" type="number" step="any" placeholder="12"><div class="calc-unit">mm</div></div>
@@ -1776,13 +1881,11 @@ input,textarea{caret-color:var(--accent)}
         <div><span class="cr-val" id="cSpringK" onclick="copyText(this.textContent);showCalcCopied('cSpringResult')" title="Tap to copy" style="cursor:pointer">—</span><span class="cr-unit">N/mm</span></div>
         <div class="cr-note">Index C=<span id="cSpringC">—</span> · Wahl Kw=<span id="cSpringKw">—</span> · <span id="cSpringIdx">—</span></div>
       </div>
-    </div>
   </div>
 
   <!-- Bearing L10 Life -->
-  <div class="calc-card calc-card-closed">
-    <div class="calc-title" onclick="toggleCalc('bearing',this)" data-calc="bearing">Bearing L10 Life</div>
-    <div class="calc-body" data-calc="bearing">
+  <div id="rcp-bearing" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Bearing L10 Life</div><div class="rcp-sub">ISO 281 · Dynamic load · Hours</div></div>
       <div class="calc-inputs">
         <div class="calc-row"><div class="calc-lbl">Dynamic C</div><input class="calc-inp" id="blC" type="number" step="1" placeholder="9550"><div class="calc-unit">N</div></div>
         <div class="calc-row"><div class="calc-lbl">Applied P</div><input class="calc-inp" id="blP" type="number" step="1" placeholder="1000"><div class="calc-unit">N</div></div>
@@ -1798,9 +1901,8 @@ input,textarea{caret-color:var(--accent)}
   </div>
 
   <!-- Fastener Torque -->
-  <div class="calc-card calc-card-closed">
-    <div class="calc-title" onclick="toggleCalc('torque',this)" data-calc="torque">Fastener Torque</div>
-    <div class="calc-body" data-calc="torque">
+  <div id="rcp-torque" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Fastener Torque</div><div class="rcp-sub">Metric · Imperial · K-factor</div></div>
       <div class="calc-inputs">
         <div class="calc-row">
           <div class="calc-lbl">System</div>
@@ -1835,9 +1937,8 @@ input,textarea{caret-color:var(--accent)}
 
 
   <!-- True Position -->
-  <div class="calc-card calc-card-closed">
-    <div class="calc-title" onclick="toggleCalc('truepos',this)" data-calc="truepos">True Position (GD&amp;T)</div>
-    <div class="calc-body" data-calc="truepos">
+  <div id="rcp-truepos" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">True Position (GD&amp;T)</div><div class="rcp-sub">ASME Y14.5 · MMC bonus</div></div>
       <div class="calc-inputs">
         <div class="calc-row"><div class="calc-lbl">X deviation</div><input class="calc-inp" id="tpX" type="number" step="any" placeholder="0.12"><div class="calc-unit">mm</div></div>
         <div class="calc-row"><div class="calc-lbl">Y deviation</div><input class="calc-inp" id="tpY" type="number" step="any" placeholder="0.08"><div class="calc-unit">mm</div></div>
@@ -1854,9 +1955,8 @@ input,textarea{caret-color:var(--accent)}
   </div>
 
   <!-- Plastic Shrinkage & Draft -->
-  <div class="calc-card calc-card-closed">
-    <div class="calc-title" onclick="toggleCalc('shrink',this)" data-calc="shrink">Plastic Shrinkage &amp; Draft</div>
-    <div class="calc-body" data-calc="shrink">
+  <div id="rcp-shrink" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Plastic Shrinkage &amp; Draft</div><div class="rcp-sub">Mold dim · Draft angle · Texture</div></div>
       <div class="calc-inputs">
         <div class="calc-row"><div class="calc-lbl">Material</div><div class="calc-sel-w"><select class="calc-sel" id="shrMat" onchange="updateShrinkDefaults()">
           <option value="0.5,1.5,1,1">ABS</option>
@@ -1883,9 +1983,8 @@ input,textarea{caret-color:var(--accent)}
   </div>
 
   <!-- Beam Deflection -->
-  <div class="calc-card calc-card-closed">
-    <div class="calc-title" onclick="toggleCalc('beam',this)" data-calc="beam">Beam Deflection</div>
-    <div class="calc-body" data-calc="beam">
+  <div id="rcp-beam" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Beam Deflection</div><div class="rcp-sub">Simply supported · Cantilever · UDL</div></div>
       <div class="calc-inputs">
         <div class="calc-row"><div class="calc-lbl">Load F</div><input class="calc-inp" id="bdF" type="number" step="any" placeholder="100"><div class="calc-unit">N</div></div>
         <div class="calc-row"><div class="calc-lbl">Span L</div><input class="calc-inp" id="bdL" type="number" step="any" placeholder="200"><div class="calc-unit">mm</div></div>
@@ -1902,14 +2001,10 @@ input,textarea{caret-color:var(--accent)}
     </div>
   </div>
 
-      </div>
-    </div>
-  </div>
-  <div class="calc-card calc-section">
-    <div class="calc-title" onclick="toggleTopSection(this)"><span>Standards &amp; Reference<span class="pro-pill" style="pointer-events:none;margin-left:4px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="9" height="9" style="display:inline-block;vertical-align:middle;margin-right:2px;margin-bottom:1px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>PRO</span></span></div>
-    <div class="calc-body">
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8" stroke-linecap="round"/></svg></div><div><div class="ref-title">GD&amp;T Symbols</div><div class="ref-sub">ASME Y14.5 · ISO 1101</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Symbol</th><th>Char</th><th>Type</th><th>Controls</th></tr></thead><tbody>
+  <!-- ── STANDARDS ── -->
+  <div id="rcp-gdts" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">GD&amp;T Symbols</div><div class="rcp-sub">ASME Y14.5 · ISO 1101</div></div>
+    <table class="rt"><thead><tr><th>Symbol</th><th>Char</th><th>Type</th><th>Controls</th></tr></thead><tbody>
     <tr><td class="ac">Flatness</td><td class="sym">⏥</td><td>Form</td><td>How flat a surface is. No datum needed.</td></tr>
     <tr><td class="ac">Straightness</td><td class="sym">⏤</td><td>Form</td><td>How straight a line element or axis is.</td></tr>
     <tr><td class="ac">Circularity</td><td class="sym">○</td><td>Form</td><td>Roundness of a cross-section. No datum.</td></tr>
@@ -1926,10 +2021,11 @@ input,textarea{caret-color:var(--accent)}
     <tr><td class="ac">Profile of Surface</td><td class="sym">⌓</td><td>Profile</td><td>3D surface tolerance. Most powerful callout.</td></tr>
   </tbody></table>
   <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>Feature Control Frame order:</strong> Symbol | Tolerance | Material Condition (M/L/S) | Datum(s)<br><strong>MMC ⓜ</strong> = maximum material condition · <strong>LMC ⓛ</strong> = least material · <strong>RFS</strong> = regardless of size (default)</div>
-  </div></div>
+  </div>
 
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4" stroke-linecap="round"/></svg></div><div><div class="ref-title">Fits &amp; Tolerances</div><div class="ref-sub">ISO 286 · mm &amp; inch</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Fit</th><th>ISO</th><th>Gap mm</th><th>Gap in</th><th>Use</th></tr></thead><tbody>
+  <div id="rcp-fits" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Fits &amp; Tolerances</div><div class="rcp-sub">ISO 286 · mm &amp; inch</div></div>
+    <table class="rt"><thead><tr><th>Fit</th><th>ISO</th><th>Gap mm</th><th>Gap in</th><th>Use</th></tr></thead><tbody>
     <tr><td class="wm">Loose</td><td>H11/c11</td><td>+0.06→+0.33</td><td>+.002→+.013</td><td>Agricultural</td></tr>
     <tr><td class="wm">Easy Run</td><td>H9/d9</td><td>+0.02→+0.10</td><td>+.001→+.004</td><td>Sleeve bearings</td></tr>
     <tr><td class="wm">Close Run</td><td>H8/f7</td><td>+0.01→+0.05</td><td>+.0004→+.002</td><td>Gearbox shafts</td></tr>
@@ -1938,16 +2034,21 @@ input,textarea{caret-color:var(--accent)}
     <tr><td class="ac">Loc. Trans.</td><td>H7/k6</td><td>−.006→+.019</td><td>−.0002→+.0008</td><td>Light press</td></tr>
     <tr><td class="ac">Drive</td><td>H7/p6</td><td>−.01→−.042</td><td>−.0004→−.002</td><td>Dowel pins</td></tr>
     <tr><td class="ac">Force</td><td>H7/s6</td><td>−.02→−.059</td><td>−.0008→−.002</td><td>Gear hubs</td></tr>
-  </tbody></table></div></div>
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 3v18M2 9h6M2 15h6" stroke-linecap="round"/></svg></div><div><div class="ref-title">Injection Molding DFM</div><div class="ref-sub">Wall · Rib · Draft · Boss</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Feature</th><th>Rule</th><th>Range</th></tr></thead><tbody>
+  </tbody></table>
+  </div>
+
+  <div id="rcp-imdm" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Injection Molding DFM</div><div class="rcp-sub">Wall · Rib · Draft · Boss</div></div>
+    <table class="rt"><thead><tr><th>Feature</th><th>Rule</th><th>Range</th></tr></thead><tbody>
     <tr><td>Wall</td><td>Uniform</td><td>1.5–3.0 mm</td></tr><tr><td>Draft</td><td>Min 1°/side</td><td>1–3° (+1°/0.025mm texture)</td></tr>
     <tr><td>Rib thickness</td><td>50–70% wall</td><td>0.75–2.0 mm</td></tr><tr><td>Rib height</td><td>Max 3× wall</td><td>≤9mm at 3mm</td></tr>
     <tr><td>Corner radii</td><td>Min 0.5mm</td><td>25–75% wall</td></tr><tr><td>Boss OD</td><td>2× insert OD</td><td>Per supplier</td></tr>
     <tr><td>Undercuts</td><td>Avoid or side actions</td><td>Adds tooling cost</td></tr>
-  </tbody></table></div></div>
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div><div class="ref-title">Mold Surface Finish</div><div class="ref-sub">SPI · VDI · Mold-Tech</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body">
+  </tbody></table>
+  </div>
+
+  <div id="rcp-mold" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Mold Surface Finish</div><div class="rcp-sub">SPI · VDI · Mold-Tech</div></div>
     <div class="subtabs"><button class="stab on" onclick="showMold('spi',this)">SPI</button><button class="stab" onclick="showMold('vdi',this)">VDI</button><button class="stab" onclick="showMold('mt',this)">Mold-Tech</button></div>
     <div id="mSPI"><table class="rt"><thead><tr><th>Class</th><th>Ra µm</th><th>Draft</th><th>Appearance</th></tr></thead><tbody>
       <tr><td class="ac">A-1</td><td>0.012</td><td>0.5°</td><td>Mirror-bright, optics</td></tr><tr><td class="ac">A-2</td><td>0.025</td><td>0.5°</td><td>Near-mirror, clear parts</td></tr>
@@ -1967,46 +2068,63 @@ input,textarea{caret-color:var(--accent)}
       <tr><td class="ac">MT-12000</td><td>20</td><td>+1°</td><td>Fine geometric</td></tr><tr><td class="ac">MT-12010</td><td>30</td><td>+1.5°</td><td>Medium geometric</td></tr>
       <tr><td class="wm">Rule</td><td>—</td><td>+1° per 25µm</td><td>Always add draft for texture</td></tr>
     </tbody></table></div>
-  </div></div>
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L8 8H4l4 4-2 6 6-4 6 4-2-6 4-4h-4z" stroke-linecap="round"/></svg></div><div><div class="ref-title">3D Filaments</div><div class="ref-sub">FDM Print Params</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Material</th><th>Nozzle °C</th><th>Bed °C</th><th>MPa</th><th>Notes</th></tr></thead><tbody>
+  </div>
+
+  <div id="rcp-fdm" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">3D Filaments</div><div class="rcp-sub">FDM Print Params</div></div>
+    <table class="rt"><thead><tr><th>Material</th><th>Nozzle °C</th><th>Bed °C</th><th>MPa</th><th>Notes</th></tr></thead><tbody>
     <tr><td class="ac">PLA</td><td>190–220</td><td>0–60</td><td>50–60</td><td>Easy, UV-sensitive</td></tr><tr><td class="ac">PETG</td><td>230–250</td><td>70–85</td><td>50–55</td><td>Chemical resistant</td></tr>
     <tr><td class="ac">ABS</td><td>230–260</td><td>100–110</td><td>40–50</td><td>Needs enclosure</td></tr><tr><td class="ac">ASA</td><td>240–260</td><td>90–110</td><td>45–55</td><td>UV-resistant ABS</td></tr>
     <tr><td class="ac">TPU 95A</td><td>220–240</td><td>30–60</td><td>25–35</td><td>Flex, print slow</td></tr><tr><td class="ac">Nylon PA6</td><td>250–280</td><td>70–90</td><td>70–85</td><td>Dry filament required</td></tr>
     <tr><td class="ac">PC</td><td>280–320</td><td>110–130</td><td>55–70</td><td>Heat resist Tg 147°C</td></tr><tr><td class="ac">PEEK</td><td>380–420</td><td>120–160</td><td>100+</td><td>High-end printer req.</td></tr>
-  </tbody></table></div></div>
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12H3M12 3l9 9-9 9" stroke-linecap="round"/></svg></div><div><div class="ref-title">Durometer / Shore</div><div class="ref-sub">ASTM D2240</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Shore</th><th>Feel</th><th>Materials</th></tr></thead><tbody>
+  </tbody></table>
+  </div>
+
+  <div id="rcp-shore" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Durometer / Shore</div><div class="rcp-sub">ASTM D2240</div></div>
+    <table class="rt"><thead><tr><th>Shore</th><th>Feel</th><th>Materials</th></tr></thead><tbody>
     <tr><td class="ac">A 10–30</td><td>Gel</td><td>Gel pads, foam rubber</td></tr><tr><td class="ac">A 40–60</td><td>Rubber band</td><td>Soft O-rings, grips</td></tr>
     <tr><td class="ac">A 60–80</td><td>Tyre tread</td><td>70A nitrile O-rings</td></tr><tr><td class="ac">A 80–95</td><td>Eraser</td><td>Rollers, drive belts</td></tr>
     <tr><td class="ac">D 30–50</td><td>Semi-rigid</td><td>Soft PP, flex nylon</td></tr><tr><td class="ac">D 55–75</td><td>Plastic pen</td><td>ABS, PC, Nylon, PETG</td></tr>
     <tr><td class="ac">D 80–90</td><td>Acrylic</td><td>POM (Delrin), PEEK</td></tr>
-  </tbody></table></div></div>
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg></div><div><div class="ref-title">IP Ratings</div><div class="ref-sub">IEC 60529</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Rating</th><th>Solid</th><th>Liquid</th><th>Use</th></tr></thead><tbody>
+  </tbody></table>
+  </div>
+
+  <div id="rcp-ip" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">IP Ratings</div><div class="rcp-sub">IEC 60529</div></div>
+    <table class="rt"><thead><tr><th>Rating</th><th>Solid</th><th>Liquid</th><th>Use</th></tr></thead><tbody>
     <tr><td class="ac">IP20</td><td>Finger-proof</td><td>None</td><td>Indoor electronics</td></tr><tr><td class="ac">IP44</td><td>1mm object</td><td>Splash any dir.</td><td>Garden tools</td></tr>
     <tr><td class="ac">IP54</td><td>Dust-resist.</td><td>Splash</td><td>Outdoor IoT</td></tr><tr><td class="ac">IP55</td><td>Dust-resist.</td><td>Jets 12.5 L/min</td><td>Industrial</td></tr>
     <tr><td class="ac">IP65</td><td>Dust-tight</td><td>Low jets</td><td>Cameras, sensors</td></tr><tr><td class="ac">IP66</td><td>Dust-tight</td><td>Powerful jets</td><td>Marine, wash-down</td></tr>
     <tr><td class="ac">IP67</td><td>Dust-tight</td><td>1m/30 min</td><td>Wearables, phones</td></tr><tr><td class="ac">IP68</td><td>Dust-tight</td><td>Cont. submersion</td><td>Dive computers</td></tr>
     <tr><td class="ac">IP69K</td><td>Dust-tight</td><td>Steam 80°C</td><td>Food/pharma</td></tr>
-  </tbody></table></div></div>
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10z"/><path d="M4.93 4.93l14.14 14.14" stroke-linecap="round"/></svg></div><div><div class="ref-title">Thread Standards</div><div class="ref-sub">ISO · UNC · UNF · BSP · NPT</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Standard</th><th>Angle</th><th>Pitch Example</th><th>Application</th></tr></thead><tbody>
+  </tbody></table>
+  </div>
+
+  <div id="rcp-threads" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Thread Standards</div><div class="rcp-sub">ISO · UNC · UNF · BSP · NPT</div></div>
+    <table class="rt"><thead><tr><th>Standard</th><th>Angle</th><th>Pitch Example</th><th>Application</th></tr></thead><tbody>
     <tr><td class="ac">ISO Metric</td><td>60°</td><td>M3=0.5mm</td><td>General worldwide</td></tr><tr><td class="ac">MF Fine</td><td>60°</td><td>M3=0.35mm</td><td>Vibration-resistant</td></tr>
     <tr><td>UNC</td><td>60°</td><td>¼-20</td><td>US general purpose</td></tr><tr><td>UNF</td><td>60°</td><td>¼-28</td><td>US fine, aerospace</td></tr>
     <tr><td>BSP G/R</td><td>55° Whitworth</td><td>Per pipe size</td><td>UK/EU plumbing</td></tr>
     <tr><td>NPT</td><td>60° taper</td><td>Per pipe size</td><td>US self-sealing pipe</td></tr>
     <tr><td>ACME</td><td>29°</td><td>Coarse</td><td>Lead screws, vices</td></tr>
-  </tbody></table></div></div>
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3 7h7-5.5l2 7L12 16l-5.5 4 2-7L3 9h7z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ref-title">Manufacturing Methods</div><div class="ref-sub">Process · Volume · Tolerance</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Process</th><th>Volume</th><th>Tolerance</th><th>Lead Time</th></tr></thead><tbody>
+  </tbody></table>
+  </div>
+
+  <div id="rcp-mfg" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Manufacturing Methods</div><div class="rcp-sub">Process · Volume · Tolerance</div></div>
+    <table class="rt"><thead><tr><th>Process</th><th>Volume</th><th>Tolerance</th><th>Lead Time</th></tr></thead><tbody>
     <tr><td>FDM</td><td>1–50</td><td>±0.2–0.5mm</td><td>Hours–days</td></tr><tr><td>SLA</td><td>1–100</td><td>±0.05–0.15mm</td><td>Hours–days</td></tr>
     <tr><td>SLS/MJF</td><td>1–1,000</td><td>±0.1–0.3mm</td><td>2–5 days</td></tr><tr><td>CNC Mill</td><td>1–10k</td><td>±0.01–0.05mm</td><td>3–10 days</td></tr>
     <tr><td>CNC Turn</td><td>1–50k</td><td>±0.005–0.025mm</td><td>3–10 days</td></tr><tr><td>Sheet Metal</td><td>1–100k</td><td>±0.1–0.3mm</td><td>3–7 days</td></tr>
     <tr><td>Inj. Molding</td><td>1k–1M+</td><td>±0.05–0.1mm</td><td>4–12 wks</td></tr><tr><td>Die Casting</td><td>5k–1M+</td><td>±0.1–0.3mm</td><td>6–16 wks</td></tr>
-  </tbody></table></div></div>
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round"/></svg></div><div><div class="ref-title">Surface Finish Ra</div><div class="ref-sub">ISO 1302 · µm &amp; µin</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Ra µm</th><th>Ra µin</th><th>Process</th><th>Typical Use</th></tr></thead><tbody>
+  </tbody></table>
+  </div>
+
+  <div id="rcp-ra" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Surface Finish Ra</div><div class="rcp-sub">ISO 1302 · µm &amp; µin</div></div>
+    <table class="rt"><thead><tr><th>Ra µm</th><th>Ra µin</th><th>Process</th><th>Typical Use</th></tr></thead><tbody>
     <tr><td class="ac">0.025</td><td>1</td><td>Superfinish / lapping</td><td>Gauge surfaces, optical flats</td></tr>
     <tr><td class="ac">0.05</td><td>2</td><td>Cylindrical grind</td><td>Precision bearing seats, sealing surfaces</td></tr>
     <tr><td class="ac">0.1</td><td>4</td><td>Fine grind / hone</td><td>Hydraulic cylinder bores, piston pins</td></tr>
@@ -2019,10 +2137,11 @@ input,textarea{caret-color:var(--accent)}
     <tr><td class="ac">12.5</td><td>500</td><td>Saw / casting</td><td>Sand casting, forging, rough weld</td></tr>
   </tbody></table>
   <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>Ra</strong> = arithmetic mean roughness · <strong>Rz</strong> ≈ 4–7× Ra · Call out as <strong>N grades</strong>: N5=0.4µm, N6=0.8µm, N7=1.6µm, N8=3.2µm<br>O-ring groove: 0.4–0.8µm Ra on bore, 0.8–1.6µm on groove sides. Anything smoother can trap hydraulic film.</div>
-  </div></div>
+  </div>
 
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M2 12h20" stroke-linecap="round"/></svg></div><div><div class="ref-title">Hardness Conversion</div><div class="ref-sub">HRC · HRB · HV · HB · UTS</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>HRC</th><th>HV</th><th>HB</th><th>HRB</th><th>UTS MPa</th><th>Material Example</th></tr></thead><tbody>
+  <div id="rcp-hard" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Hardness Conversion</div><div class="rcp-sub">HRC · HRB · HV · HB · UTS</div></div>
+    <table class="rt"><thead><tr><th>HRC</th><th>HV</th><th>HB</th><th>HRB</th><th>UTS MPa</th><th>Material Example</th></tr></thead><tbody>
     <tr><td class="ac">68</td><td>940</td><td>—</td><td>—</td><td>—</td><td>Max hardened tool steel</td></tr>
     <tr><td class="ac">65</td><td>832</td><td>—</td><td>—</td><td>—</td><td>HSS cutting tools</td></tr>
     <tr><td class="ac">60</td><td>697</td><td>—</td><td>—</td><td>—</td><td>File, Grade 12.9 bolt</td></tr>
@@ -2039,11 +2158,11 @@ input,textarea{caret-color:var(--accent)}
     <tr><td class="ac">—</td><td>80</td><td>76</td><td>41</td><td>~260</td><td>Annealed aluminium</td></tr>
   </tbody></table>
   <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>HRC</strong> Rockwell C (hard metals) · <strong>HRB</strong> Rockwell B (soft metals) · <strong>HV</strong> Vickers · <strong>HB</strong> Brinell<br>Rule of thumb: UTS (MPa) ≈ HV × 3.3 for steel. Conversions are approximate — use ASTM E140 for precision.</div>
-  </div></div>
+  </div>
 
   <!-- ── Material Selection Matrix ── -->
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" stroke-linecap="round"/></svg></div><div><div class="ref-title">Material Selection</div><div class="ref-sub">Metals · Plastics · Availability</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body">
+  <div id="rcp-matsel" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Material Selection</div><div class="rcp-sub">Metals · Plastics · Availability</div></div>
     <div class="subtabs" id="matTabBar"><button class="stab on" onclick="showMatTab('metals',this)">Metals</button><button class="stab" onclick="showMatTab('plastics',this)">Plastics</button></div>
     <div id="matMetals">
     <table class="rt"><thead><tr><th>Material</th><th>UTS MPa</th><th>E GPa</th><th>Density g/cc</th><th>Machine</th><th>Stock</th><th>Cost</th></tr></thead><tbody>
@@ -2078,11 +2197,11 @@ input,textarea{caret-color:var(--accent)}
     </tbody></table>
     <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>UL94</strong>: V-0 = flame self-extinguish &lt;10s · HB = slow-burning. <strong>FDA</strong>: ✓ = food-contact grades available. Shrinkage varies with wall thickness, gate, and fill direction.</div>
     </div>
-  </div></div>
+  </div>
 
   <!-- ── Thermal Management ── -->
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v10M12 22a4 4 0 100-8 4 4 0 000 8z" stroke-linecap="round"/><path d="M8 6h-1a2 2 0 00-2 2v1M16 6h1a2 2 0 012 2v1" stroke-linecap="round"/></svg></div><div><div class="ref-title">Thermal Management</div><div class="ref-sub">Heatsink · TIM · Derating</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body">
+  <div id="rcp-thermal" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Thermal Management</div><div class="rcp-sub">Heatsink · TIM · Derating</div></div>
     <table class="rt"><thead><tr><th>Concept</th><th>Formula / Rule</th><th>Typical values</th></tr></thead><tbody>
       <tr><td>Thermal resistance</td><td>Rθ = ΔT / P (°C/W)</td><td>Lower = better</td></tr>
       <tr><td>Junction temp</td><td>Tj = Ta + P × (Rθja)</td><td>Tj &lt; Tjmax − 15°C margin</td></tr>
@@ -2099,11 +2218,11 @@ input,textarea{caret-color:var(--accent)}
       <tr><td class="ac">Indium foil</td><td>82</td><td>100–250</td><td>Ultra-high-power, permanent</td></tr>
     </tbody></table>
     <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>Derating rule:</strong> Every 10°C rise above 25°C halves electrolytic capacitor life. Target Tj ≤ Tjmax − 20°C for 10-year product life. Always run a thermal test at max ambient before EVT sign-off.</div>
-  </div></div>
+  </div>
 
   <!-- ── Galvanic Corrosion & Finishing ── -->
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22c-4-4-8-8-8-13a8 8 0 0116 0c0 5-4 9-8 13z" stroke-linecap="round"/></svg></div><div><div class="ref-title">Galvanic &amp; Finishing</div><div class="ref-sub">Corrosion · Anodize · Plate</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body">
+  <div id="rcp-galvanic" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Galvanic &amp; Finishing</div><div class="rcp-sub">Corrosion · Anodize · Plate</div></div>
     <div style="padding:4px 10px 0;font-size:11px;font-weight:600;color:var(--text2)">Galvanic Series (most noble → least noble)</div>
     <table class="rt"><thead><tr><th>Metal</th><th>Potential V</th><th>Notes</th></tr></thead><tbody>
       <tr><td class="ac">Gold / Platinum</td><td>+1.2 to +1.5</td><td>Most noble — cathode in any pair</td></tr>
@@ -2127,11 +2246,12 @@ input,textarea{caret-color:var(--accent)}
       <tr><td class="ac">Black oxide</td><td>Steel</td><td>1–2</td><td>72 (oil-sealed)</td></tr>
       <tr><td class="ac">Passivate (SS)</td><td>Stainless</td><td>—</td><td>Restores passive film</td></tr>
     </tbody></table>
-  </div></div>
+  </div>
 
   <!-- ── Product Certifications ── -->
-  <div class="ref-sec"><div class="ref-hd" onclick="toggleRef(this)"><div class="ref-hd-l"><div class="ref-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="ref-title">Product Certifications</div><div class="ref-sub">CE · FCC · UL · FDA · RoHS</div></div></div><div class="ref-chev">▾</div></div>
-  <div class="ref-body"><table class="rt"><thead><tr><th>Mark</th><th>Region</th><th>Covers</th><th>Timeline</th><th>Rough Cost</th></tr></thead><tbody>
+  <div id="rcp-certs" class="rcp">
+    <div class="rcp-head"><div class="rcp-title">Product Certifications</div><div class="rcp-sub">CE · FCC · UL · FDA · RoHS</div></div>
+    <table class="rt"><thead><tr><th>Mark</th><th>Region</th><th>Covers</th><th>Timeline</th><th>Rough Cost</th></tr></thead><tbody>
     <tr><td class="ac">CE</td><td>EU / EEA</td><td>Safety, EMC, RoHS. Self-declare or NB depending on directive.</td><td>2–6 months</td><td>$5k–$30k</td></tr>
     <tr><td class="ac">FCC Part 15</td><td>USA</td><td>Unintentional EMC emitters (most electronics). SDoC or TCB.</td><td>4–10 weeks</td><td>$3k–$15k</td></tr>
     <tr><td class="ac">FCC ID</td><td>USA</td><td>Intentional radiators (Wi-Fi, BT, LTE). TCB required.</td><td>6–14 weeks</td><td>$8k–$40k</td></tr>
@@ -2145,12 +2265,10 @@ input,textarea{caret-color:var(--accent)}
     <tr><td class="ac">PSE (Japan)</td><td>Japan</td><td>Electrical appliances. Diamond mark (specified) / circle (non-specified).</td><td>1–6 months</td><td>$5k–$25k</td></tr>
   </tbody></table>
   <div style="padding:8px 10px;font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border)"><strong>Tip:</strong> If using a module with pre-certified radio (ESP32, Nordic nRF, u-blox), you inherit that certification — confirm with the module vendor. Always get a pre-compliance EMC scan before formal testing to avoid re-test costs.</div>
-  </div></div>
-
-    </div>
   </div>
 
-</div>
+  </div><!-- /rcp-area -->
+</div><!-- /page-reference -->
 
 
 <!-- ══ TUESDAY TEARDOWN ══ -->
@@ -2211,6 +2329,98 @@ input,textarea{caret-color:var(--accent)}
       <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px">Submit a Teardown</div>
       <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px">Disassemble something interesting. Annotate the DFM decisions — good and bad. We publish the best ones every Tuesday with full credit.</div>
       <div style="font-family:var(--mono);font-size:11px;color:var(--accent)">teardown@10thou.app</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ COMMUNITY ══ -->
+<div class="page" id="page-community">
+  <div class="sec-hd"><div class="sec-t">Community</div><div class="sec-tag">Feed · Forum · Teardown</div></div>
+
+  <div class="comm-tabs">
+    <button class="comm-tab on" id="ctab-feed" onclick="setCommTab('feed',this)">Feed</button>
+    <button class="comm-tab" id="ctab-forum" onclick="setCommTab('forum',this)">Forum</button>
+  </div>
+
+  <!-- ── FEED TAB ── -->
+  <div id="commFeed" class="comm-body on">
+    <div class="comm-post-cta">
+      <div class="comm-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="comm-input-fake">Share a build, question, or find…</div>
+    </div>
+
+    <!-- Featured: Teardown -->
+    <div class="comm-feed-card">
+      <div class="comm-feed-meta">
+        <div class="comm-feed-avatar">10T</div>
+        <div class="comm-feed-name">10THOU Staff</div>
+        <div class="comm-feed-time">Issue #001</div>
+      </div>
+      <div class="comm-feed-body"><strong>Tuesday Teardown:</strong> Logitech MX Master 3 Scroll Wheel — Insert-molded brass hub, electromagnetic brake, 4-point cantilever snap. 5 parts, zero friction bearings. Full DFM annotations inside.</div>
+      <div class="comm-feed-tags">
+        <div class="comm-feed-tag">Teardown</div>
+        <div class="comm-feed-tag">Injection Molding</div>
+        <div class="comm-feed-tag">DFA</div>
+        <div class="comm-feed-tag">Snap Fits</div>
+      </div>
+      <div class="comm-feed-actions">
+        <button class="comm-feed-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 47</button>
+        <button class="comm-feed-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 12</button>
+        <button class="comm-feed-btn" onclick="goPage('teardown',null,null)">Read →</button>
+      </div>
+    </div>
+
+    <div class="comm-coming">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <div class="comm-coming-t">Community posts coming soon</div>
+      <div class="comm-coming-s">Sign in with LinkedIn to share builds, ask questions, and connect with other hardware engineers.</div>
+    </div>
+  </div>
+
+  <!-- ── FORUM TAB ── -->
+  <div id="commForum" class="comm-body">
+    <button class="forum-new-btn" onclick="toast('Sign in to post — coming soon')">+ New Thread</button>
+
+    <div class="forum-thread">
+      <div class="forum-thread-cat">DFM · Injection Molding</div>
+      <div class="forum-thread-title">Best draft angle for textured PC/ABS housing — hand feel vs. ejection tradeoff?</div>
+      <div class="forum-thread-meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 8 replies</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 2h ago</span>
+      </div>
+    </div>
+
+    <div class="forum-thread">
+      <div class="forum-thread-cat">Fasteners · Torque</div>
+      <div class="forum-thread-title">Thread-forming screws in glass-filled nylon — torque spec and boss design?</div>
+      <div class="forum-thread-meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 14 replies</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1d ago</span>
+      </div>
+    </div>
+
+    <div class="forum-thread">
+      <div class="forum-thread-cat">Materials · Selection</div>
+      <div class="forum-thread-title">6061 vs 7075 for a structural bracket — where does the weight saving actually matter?</div>
+      <div class="forum-thread-meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 22 replies</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 3d ago</span>
+      </div>
+    </div>
+
+    <div class="forum-thread">
+      <div class="forum-thread-cat">GD&amp;T · Tolerancing</div>
+      <div class="forum-thread-title">Profile of a surface vs position callout on a curved mating interface?</div>
+      <div class="forum-thread-meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 6 replies</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 5d ago</span>
+      </div>
+    </div>
+
+    <div class="comm-coming">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div class="comm-coming-t">Full forum launching soon</div>
+      <div class="comm-coming-s">LinkedIn-verified engineers only. No spam, no noise — just real hardware questions.</div>
     </div>
   </div>
 </div>
@@ -2382,6 +2592,8 @@ input,textarea{caret-color:var(--accent)}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4"/></svg><span>Parts</span></button>
   <button class="nb" id="nb-reference" onclick="goPage('reference',null,this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Ref</span></button>
+  <button class="nb" id="nb-community" onclick="goPage('community',null,this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Comm</span></button>
   <button class="nb" id="nb-suppliers" onclick="goPage('suppliers',null,this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Supply</span></button>
   <button class="nb" id="nb-favorites" onclick="goPage('favorites',null,this)">
@@ -2941,6 +3153,30 @@ function goPage(pg,chipEl,navEl,sizerBtn){
   if(PART_PAGES.includes(pg)){const nb=document.getElementById('nb-parts');if(nb)nb.classList.add('on');partsNav.style.display='flex';}
   if(pg==='sizer'){drawRulers();populateSizerSizes();}
   if(pg==='favorites')renderFav();
+}
+function showRefContent(type, val) {
+  if(type==='std' && val && !isPro){
+    document.getElementById('stdPicker').value='';
+    openProModal('ref_gate');
+    return;
+  }
+  if(type==='calc') document.getElementById('stdPicker').value='';
+  if(type==='std') document.getElementById('calcPicker').value='';
+  document.querySelectorAll('#page-reference .rcp').forEach(el=>el.classList.remove('active'));
+  const empty=document.getElementById('refEmpty');
+  if(val){
+    const el=document.getElementById('rcp-'+val);
+    if(el)el.classList.add('active');
+    if(empty)empty.style.display='none';
+  } else {
+    if(empty)empty.style.display='';
+  }
+}
+function setCommTab(tab, btn) {
+  document.querySelectorAll('.comm-tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.comm-body').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('comm'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('on');
 }
 
 // ─── FASTENERS ───────────────────────────────────────────────────────────────
