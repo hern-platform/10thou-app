@@ -2478,7 +2478,7 @@ function devTapPro(){
 // ══════════════════════════════════════════════════════
 //  PRO TIER SYSTEM
 // ══════════════════════════════════════════════════════
-const DEV_MODE = false; // set to true to bypass all Pro gates during development
+const DEV_MODE = true; // set to true to bypass all Pro gates during development
 let isPro = DEV_MODE || localStorage.getItem('tt_pro') === '1';
 let _proJustActivated = false;
 (function(){
